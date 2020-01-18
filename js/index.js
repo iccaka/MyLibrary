@@ -1,5 +1,12 @@
 $(document).ready(()=>{
 
+    $("#navigationPageHome").click(showIndexPage);
+    $("#navigationPageSignIn").click(showSignInPage);
+    $("#navigationPageRegister").click(showRegisterPage);
+    $("#navigationPageAbout").click(showAboutPage);
+    $("#indexPageSignInButton").click(signIn);
+    $("#indexPageRegisterButton").click(register);
+
     if(doesContainCookies()){
         showSignInPage();
     }
@@ -7,31 +14,65 @@ $(document).ready(()=>{
         showIndexPage();
     }
 
-    $("#buttonSignIn").click(signIn);
-    $("#buttonRegister").click(register);
+    function doesContainCookies() {
+        if(Cookies.get("name") === undefined || Cookies.get("password") === undefined){
+            return false;
+        }
 
-});
-
-function doesContainCookies() {
-    if(Cookies.get("name") === undefined || Cookies.get("password") === undefined){
-        return false;
+        return true;
     }
 
-    return true;
-}
+    function hideAllPages(){
+        $("#indexPage").hide();
+        $("#signInPage").hide();
+        $("#registerPage").hide();
+        $("#aboutPage").hide();
+    }
 
-function showSignInPage() {
-    // TODO show the sign in page so the user can sign in using the stored cookies
-}
+    function showAllNavigationPages(){
+        $("#navigationPageHome").show();
+        $("#navigationPageSignIn").show();
+        $("#navigationPageRegister").show();
+        $("#navigationPageAbout").show();
+    }
 
-function showIndexPage(){
-    // TODO show the index page(the main one), as if the user is in this website for the first time
-}
+    function showIndexPage(){
+        hideAllPages();
+        $("#indexPage").show();
 
-function register(){
-    // TODO write the logic which controls the user's register process into the library
-}
+        showAllNavigationPages();
+        $("#navigationPageHome").hide();
+    }
 
-function signIn(){
-    // TODO write the logic which controls the user's sign in process into the library
-}
+    function showSignInPage() {
+        hideAllPages();
+        $("#signInPage").show();
+
+        showAllNavigationPages();
+        $("#navigationPageSignIn").hide();
+    }
+
+    function showRegisterPage(){
+        hideAllPages();
+        $("#registerPage").show();
+
+        showAllNavigationPages();
+        $("#navigationPageRegister").hide();
+    }
+
+    function showAboutPage(){
+        hideAllPages();
+        $("#aboutPage").show();
+
+        showAllNavigationPages();
+        $("#navigationPageAbout").hide();
+    }
+
+    function register(){
+        showRegisterPage();
+    }
+
+    function signIn(){
+        showSignInPage();
+    }
+});

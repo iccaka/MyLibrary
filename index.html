@@ -9,7 +9,37 @@
     <script src="js/index.js"></script>
 </head>
 <body>
-    <h1 id="indexHeading">My Library</h1>
-    <h3 id="indexDescription">Welcome to my library! Since you are not signed in, <u id="buttonSignIn" class="underlinedText">sign in</u> into an existing account, or <u id="buttonRegister" class="underlinedText">register</u> yourself.</h3>
+    <div id="headingPage">
+        <h1 id="headingPageHeading">My Library</h1>
+        <hr>
+    </div>
+    <div id="navigationPage">
+        <div id="navigationPageHome">Home</div>
+        <div id="navigationPageSignIn">Sign in</div>
+        <div id="navigationPageRegister">Register</div>
+        <div id="navigationPageAbout">About</div>
+    </div>
+    <div id="contentPage">
+        <div id="indexPage">
+            <h3 id="indexPageDescription">Welcome! Since you are not signed in, <u id="indexPageSignInButton" class="underlinedText">sign in</u> into an existing account, or <u id="indexPageRegisterButton" class="underlinedText">register</u> yourself.</h3>
+        </div>
+        <div id="signInPage">
+            <input id="signInPageUsername" type="text" value="Username/Email...">
+            <input id="signInPagePassword" type="text" value="Password...">
+            <button id="signInPageButton">Sign In</button>
+        </div>
+        <div id="registerPage">
+            <input id="registerPageFirstName" type="text" value="First Name...">
+            <input id="registerPageLastName" type="text" value="Last Name...">
+            <input id="registerPageUsername" type="text" value="Username...">
+            <input id="registerPageEmail" type="text" value="Email...">
+            <input id="registerPagePassword" type="text" value="Password...">
+            <input id="registerPageRepeatPassword" type="text" value="Repeat Password...">
+            <button id="registerPageButton">Register</button>
+        </div>
+        <div id="aboutPage">
+            <h3>About Page</h3>
+        </div>
+    </div>
 </body>
 </html>

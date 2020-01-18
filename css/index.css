@@ -1,5 +1,22 @@
-#indexDescription{
-    visibility: hidden;
+body{
+    background-color: beige;
+}
+#headingPage{
+    color: #3b7fed;
+    text-align: center;
+}
+#navigationPage{
+    color: #3b7fed;
+    cursor: pointer;
+    float: left;
+    text-decoration: underline;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+#contentPage{
+    border: 1px solid;
+    overflow: hidden;
+    text-align: center;
 }
 .underlinedText{
     color: #3b7fed;
