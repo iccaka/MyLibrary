@@ -1,0 +1,8 @@
+#indexDescription{
+    visibility: hidden;
+}
+.underlinedText{
+    color: #3b7fed;
+    text-decoration: underline;
+    cursor: pointer;
+}
