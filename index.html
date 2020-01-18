@@ -9,37 +9,40 @@
     <script src="js/index.js"></script>
 </head>
 <body>
-    <div id="headingPage">
-        <h1 id="headingPageHeading">My Library</h1>
-        <hr>
+<div id="headingPage">
+    <h1 id="headingPageHeading">My Library</h1>
+    <hr>
+</div>
+<div id="navigationPage">
+    <div id="navigationPageHome" class="navigationPageElements">Home</div>
+    <div id="navigationPageSignIn" class="navigationPageElements">Sign in</div>
+    <div id="navigationPageRegister" class="navigationPageElements">Register</div>
+    <div id="navigationPageAbout" class="navigationPageElements">About</div>
+</div>
+<div id="contentPage">
+    <div id="indexPage">
+        <h3 id="indexPageDescription">Welcome! Since you are not signed in, <u id="indexPageSignInButton"
+                                                                               class="underlinedText">sign in</u> into
+            an existing account, or <u id="indexPageRegisterButton" class="underlinedText">register</u> yourself.</h3>
     </div>
-    <div id="navigationPage">
-        <div id="navigationPageHome">Home</div>
-        <div id="navigationPageSignIn">Sign in</div>
-        <div id="navigationPageRegister">Register</div>
-        <div id="navigationPageAbout">About</div>
+    <div id="signInPage">
+        <input id="signInPageUsername" class="regSignInputElements" type="text" placeholder="Username/Email...">
+        <input id="signInPagePassword" class="regSignInputElements" type="password" placeholder="Password...">
+        <button id="signInPageButton" class="regSignButtons">Sign In</button>
     </div>
-    <div id="contentPage">
-        <div id="indexPage">
-            <h3 id="indexPageDescription">Welcome! Since you are not signed in, <u id="indexPageSignInButton" class="underlinedText">sign in</u> into an existing account, or <u id="indexPageRegisterButton" class="underlinedText">register</u> yourself.</h3>
-        </div>
-        <div id="signInPage">
-            <input id="signInPageUsername" type="text" value="Username/Email...">
-            <input id="signInPagePassword" type="text" value="Password...">
-            <button id="signInPageButton">Sign In</button>
-        </div>
-        <div id="registerPage">
-            <input id="registerPageFirstName" type="text" value="First Name...">
-            <input id="registerPageLastName" type="text" value="Last Name...">
-            <input id="registerPageUsername" type="text" value="Username...">
-            <input id="registerPageEmail" type="text" value="Email...">
-            <input id="registerPagePassword" type="text" value="Password...">
-            <input id="registerPageRepeatPassword" type="text" value="Repeat Password...">
-            <button id="registerPageButton">Register</button>
-        </div>
-        <div id="aboutPage">
-            <h3>About Page</h3>
-        </div>
+    <div id="registerPage">
+        <input id="registerPageFirstName" class="regSignInputElements" type="text" placeholder="First name...">
+        <input id="registerPageLastName" class="regSignInputElements" type="text" placeholder="Last name...">
+        <input id="registerPageUsername" class="regSignInputElements" type="text" placeholder="Username...">
+        <input id="registerPageEmail" class="regSignInputElements" type="text" placeholder="Email...">
+        <input id="registerPagePassword" class="regSignInputElements" type="password" placeholder="Password...">
+        <input id="registerPageRepeatPassword" class="regSignInputElements" type="password"
+               placeholder="Repeat password...">
+        <button id="registerPageButton" class="regSignButtons">Register</button>
     </div>
+    <div id="aboutPage">
+        <h3>About Page</h3>
+    </div>
+</div>
 </body>
 </html>

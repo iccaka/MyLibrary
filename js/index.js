@@ -1,4 +1,4 @@
-$(document).ready(()=>{
+$(document).ready(() => {
 
     $("#navigationPageHome").click(showIndexPage);
     $("#navigationPageSignIn").click(showSignInPage);
@@ -7,36 +7,37 @@ $(document).ready(()=>{
     $("#indexPageSignInButton").click(signIn);
     $("#indexPageRegisterButton").click(register);
 
-    if(doesContainCookies()){
+    if (doesContainCookies()) {
         showSignInPage();
-    }
-    else {
+        $("#signInPageUsername").val(Cookies.get("username"));
+        $("#signInPagePassword").val(Cookies.get("password"));
+    } else {
         showIndexPage();
     }
 
     function doesContainCookies() {
-        if(Cookies.get("name") === undefined || Cookies.get("password") === undefined){
+        if (Cookies.get("username") === undefined || Cookies.get("password") === undefined) {
             return false;
         }
 
         return true;
     }
 
-    function hideAllPages(){
+    function hideAllPages() {
         $("#indexPage").hide();
         $("#signInPage").hide();
         $("#registerPage").hide();
         $("#aboutPage").hide();
     }
 
-    function showAllNavigationPages(){
+    function showAllNavigationPages() {
         $("#navigationPageHome").show();
         $("#navigationPageSignIn").show();
         $("#navigationPageRegister").show();
         $("#navigationPageAbout").show();
     }
 
-    function showIndexPage(){
+    function showIndexPage() {
         hideAllPages();
         $("#indexPage").show();
 
@@ -45,6 +46,7 @@ $(document).ready(()=>{
     }
 
     function showSignInPage() {
+        console.log("asd");
         hideAllPages();
         $("#signInPage").show();
 
@@ -52,7 +54,7 @@ $(document).ready(()=>{
         $("#navigationPageSignIn").hide();
     }
 
-    function showRegisterPage(){
+    function showRegisterPage() {
         hideAllPages();
         $("#registerPage").show();
 
@@ -60,7 +62,7 @@ $(document).ready(()=>{
         $("#navigationPageRegister").hide();
     }
 
-    function showAboutPage(){
+    function showAboutPage() {
         hideAllPages();
         $("#aboutPage").show();
 
@@ -68,11 +70,11 @@ $(document).ready(()=>{
         $("#navigationPageAbout").hide();
     }
 
-    function register(){
+    function register() {
         showRegisterPage();
     }
 
-    function signIn(){
+    function signIn() {
         showSignInPage();
     }
 });

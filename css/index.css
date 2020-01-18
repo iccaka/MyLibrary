@@ -1,11 +1,13 @@
-body{
-    background-color: beige;
+body {
+    background-color: #fadf93;
 }
-#headingPage{
+
+#headingPage {
     color: #3b7fed;
     text-align: center;
 }
-#navigationPage{
+
+#navigationPage {
     color: #3b7fed;
     cursor: pointer;
     float: left;
@@ -13,12 +15,35 @@ body{
     text-transform: uppercase;
     font-weight: bold;
 }
-#contentPage{
+
+#contentPage {
     border: 1px solid;
     overflow: hidden;
     text-align: center;
 }
-.underlinedText{
+
+.navigationPageElements {
+    padding-bottom: 20px;
+}
+
+.navigationPageElements:hover {
+    color: black;
+}
+
+.regSignInputElements {
+    width: 100%;
+    padding: 14px 20px;
+    margin: 8px 0;
+}
+
+.regSignButtons {
+    width: 100%;
+    color: white;
+    background-color: #3b7fed;
+    padding: 20px;
+}
+
+.underlinedText {
     color: #3b7fed;
     text-decoration: underline;
     cursor: pointer;
