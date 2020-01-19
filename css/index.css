@@ -3,11 +3,14 @@ body {
 }
 
 #headingPage {
-    color: #3b7fed;
     text-align: center;
 }
 
-#navigationPage {
+#headingPageHeading {
+    color: #3b7fed;
+}
+
+#preSignInNavigationPage {
     color: #3b7fed;
     cursor: pointer;
     float: left;
@@ -16,13 +19,28 @@ body {
     font-weight: bold;
 }
 
-#contentPage {
+#postSignInNavigationPage {
+    color: #3b7fed;
+    cursor: pointer;
+    float: left;
+    text-decoration: underline;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+#preSignInContentPage {
     border: 1px solid;
     overflow: hidden;
     text-align: center;
 }
 
-.errorMessages{
+#postSignInContentPage {
+    border: 1px solid;
+    overflow: hidden;
+    text-align: center;
+}
+
+#errorMessage {
     text-transform: uppercase;
     background-color: #b5222c;
     width: 100%;
@@ -31,7 +49,7 @@ body {
     margin: 8px 0;
 }
 
-.successMessages{
+#successMessage {
     text-transform: uppercase;
     background-color: #11c258;
     width: 100%;
@@ -54,7 +72,27 @@ body {
     margin: 8px 0;
 }
 
+.bookCreationInputElements {
+    width: 100%;
+    padding: 14px 20px;
+    margin: 8px 0;
+}
+
+.profileEditInputElements {
+    width: 100%;
+    padding: 14px 20px;
+    margin: 8px 0;
+}
+
 .regSignButtons {
+    cursor: pointer;
+    width: 100%;
+    color: white;
+    background-color: #3b7fed;
+    padding: 20px;
+}
+
+.crudButtons {
     cursor: pointer;
     width: 100%;
     color: white;
