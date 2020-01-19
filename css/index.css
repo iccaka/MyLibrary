@@ -31,6 +31,15 @@ body {
     margin: 8px 0;
 }
 
+.successMessages{
+    text-transform: uppercase;
+    background-color: #11c258;
+    width: 100%;
+    height: 50px;
+    padding: 14px 20px;
+    margin: 8px 0;
+}
+
 .navigationPageElements {
     padding-bottom: 20px;
 }

@@ -6,7 +6,6 @@
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/js.cookie.js"></script>
-    <script src="js/index.js"></script>
 </head>
 <body>
 <div id="headingPage">
@@ -26,36 +25,33 @@
             an existing account, or <u id="indexPageRegisterButton" class="underlinedText">register</u> yourself.</h3>
     </div>
     <div id="signInPage">
-        <input id="signInPageUsername" class="regSignInputElements" type="text" placeholder="Username...">
+        <input id="signInPageEmail" class="regSignInputElements" type="text" placeholder="Username...">
         <input id="signInPagePassword" class="regSignInputElements" type="password" placeholder="Password...">
         <button id="signInPageButton" class="regSignButtons">Sign In</button>
         <div id="signInPageErrorMessage" class="errorMessages"></div>
+        <div id="signInPageSuccessMessage" class="successMessages"></div>
     </div>
     <div id="registerPage">
-        <input id="registerPageFirstName" class="regSignInputElements" type="text" placeholder="First name...">
-        <input id="registerPageLastName" class="regSignInputElements" type="text" placeholder="Last name...">
-        <input id="registerPageUsername" class="regSignInputElements" type="text" placeholder="Username...">
+<!--        <input id="registerPageFirstName" class="regSignInputElements" type="text" placeholder="First name...">-->
+<!--        <input id="registerPageLastName" class="regSignInputElements" type="text" placeholder="Last name...">-->
+<!--        <input id="registerPageUsername" class="regSignInputElements" type="text" placeholder="Username...">-->
         <input id="registerPageEmail" class="regSignInputElements" type="text" placeholder="Email...">
         <input id="registerPagePassword" class="regSignInputElements" type="password" placeholder="Password...">
         <input id="registerPageRepeatPassword" class="regSignInputElements" type="password"
                placeholder="Repeat password...">
         <button id="registerPageButton" class="regSignButtons">Register</button>
         <div id="registerPageErrorMessage" class="errorMessages"></div>
+        <div id="registerPageSuccessMessage" class="successMessages"></div>
     </div>
     <div id="aboutPage">
         <h3>About Page</h3>
     </div>
 
 </div>
-<!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
-
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-analytics.js"></script>
-
+<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-auth.js"></script>
 <script>
-    // Your web app's Firebase configuration
     var firebaseConfig = {
         apiKey: "AIzaSyB1nQlsl-4ImmU_ils80XSjmUxf_DzHNQM",
         authDomain: "mylibrary-8d2fc.firebaseapp.com",
@@ -63,12 +59,16 @@
         projectId: "mylibrary-8d2fc",
         storageBucket: "mylibrary-8d2fc.appspot.com",
         messagingSenderId: "265753594475",
-        appId: "1:265753594475:web:98778847f679c62de63f2e",
-        measurementId: "G-86PZE4QGBX"
+        appId: "1:265753594475:web:f97b493c60131be8e63f2e",
+        measurementId: "G-V25PXRG0F0"
     };
-    // Initialize Firebase
+
     firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
+
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+
 </script>
+<script src="js/index.js"></script>
 </body>
 </html>

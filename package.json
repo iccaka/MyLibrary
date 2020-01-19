@@ -1,0 +1,19 @@
+{
+  "name": "firebase",
+  "version": "1.0.0",
+  "description": "*A simple 'library' single-page application written in JavaScript, that uses Firebase.*",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iccaka/MyLibrary.git"
+  },
+  "author": "iccaka",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iccaka/MyLibrary/issues"
+  },
+  "homepage": "https://github.com/iccaka/MyLibrary#readme"
+}
