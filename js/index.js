@@ -1,15 +1,7 @@
 $(document).ready(() => {
 
     $(".errorMessages").hide();
-
-    $("#navigationPageHome").click(showIndexPage);
-    $("#navigationPageSignIn").click(showSignInPage);
-    $("#navigationPageRegister").click(showRegisterPage);
-    $("#navigationPageAbout").click(showAboutPage);
-    $("#indexPageSignInButton").click(showSignInPage);
-    $("#indexPageRegisterButton").click(showRegisterPage);
-    $("#signInPageButton").click(signIn);
-    $("#registerPageButton").click(register);
+    addEventListeners();
 
     if (doesContainCookies()) {
         showSignInPage();
@@ -17,6 +9,17 @@ $(document).ready(() => {
         $("#signInPagePassword").val(Cookies.get("password"));
     } else {
         showIndexPage();
+    }
+
+    function addEventListeners(){
+        $("#navigationPageHome").click(showIndexPage);
+        $("#navigationPageSignIn").click(showSignInPage);
+        $("#navigationPageRegister").click(showRegisterPage);
+        $("#navigationPageAbout").click(showAboutPage);
+        $("#indexPageSignInButton").click(showSignInPage);
+        $("#indexPageRegisterButton").click(showRegisterPage);
+        $("#signInPageButton").click(signIn);
+        $("#registerPageButton").click(register);
     }
 
     function doesContainCookies() {
@@ -42,7 +45,7 @@ $(document).ready(() => {
     }
 
     function showIndexPage() {
-        $(document).prop("title", "My Library");
+        changePageTitle("My Library");
 
         hideAllPages();
         $("#indexPage").show();
@@ -52,7 +55,7 @@ $(document).ready(() => {
     }
 
     function showSignInPage() {
-        $(document).prop("title", "My Library - Sign In");
+        changePageTitle("My Library - Sign In");
 
         hideAllPages();
         $("#signInPage").show();
@@ -62,7 +65,7 @@ $(document).ready(() => {
     }
 
     function showRegisterPage() {
-        $(document).prop("title", "My Library - Register");
+        changePageTitle("My Library - Register");
 
         hideAllPages();
         $("#registerPage").show();
@@ -72,13 +75,17 @@ $(document).ready(() => {
     }
 
     function showAboutPage() {
+        changePageTitle("My Library - About");
+
         hideAllPages();
         $("#aboutPage").show();
 
-        $(document).prop("title", "My Library - About");
-
         showAllNavigationPages();
         $("#navigationPageAbout").hide();
+    }
+
+    function changePageTitle(name){
+        $(document).prop("title", name);
     }
 
     function register() {
@@ -92,29 +99,71 @@ $(document).ready(() => {
         let repeatPassword = $("#registerPageRepeatPassword").val();
 
         if(!validateFirstName(firstName)){
-            showRegisterErrorMessage("Invalid first name!");
+            showRegisterErrorMessage("Invalid first name!", 2000);
             return;
         }
         if(!validateLastName(lastName)){
-            showRegisterErrorMessage("Invalid last name!");
+            showRegisterErrorMessage("Invalid last name!", 2000);
             return;
         }
         if(!validateUsername(username)){
-            showRegisterErrorMessage("Invalid username!");
+            showRegisterErrorMessage("Invalid username!", 2000);
             return;
         }
         if(!validateEmail(email)){
-            showRegisterErrorMessage("Invalid email!");
+            showRegisterErrorMessage("Invalid email!", 2000);
             return;
         }
         if(!validatePassword(password)){
-            showRegisterErrorMessage("Invalid password! Your password must contain at least one uppercase letter, one lowercase letter and at least one special character");
+            showRegisterErrorMessage("Your password must contain at least 1 " +
+                "uppercase letter, 1 lowercase letter, 1 " +
+                "special character and be at least 8 characters long!", 5000);
             return;
         }
         if(repeatPassword !== password){
-            showRegisterErrorMessage("The two passwords don't match!");
+            showRegisterErrorMessage("The two passwords don't match!", 2000);
             return;
         }
+
+        // TODO register the user
+    }
+
+    function showRegisterErrorMessage(message, timeInMilliseconds){
+        $("#registerPageErrorMessage").show().text(message);
+
+        setTimeout(()=>{
+            $("#registerPageErrorMessage").fadeOut("fast");
+        }, timeInMilliseconds);
+    }
+
+    function signIn() {
+        showSignInPage();
+
+        let username = $("#signInPageUsername").val();
+        let password = $("#signInPagePassword").val();
+
+        if(username.length < 3 || username.length > 16){
+            showSignInErrorMessage("Usernames cannot be smaller than 3 or bigger than 16 characters!", 4000);
+            return;
+        }
+        if(password.length === 0){
+            showSignInErrorMessage("Please enter your password", 2000);
+            return;
+        }
+        if(password.length < 8){
+            showSignInErrorMessage("Your password has to at least have 8 characters!", 3000);
+            return;
+        }
+
+        // TODO sign the user in
+    }
+
+    function showSignInErrorMessage(message, timeInMilliseconds){
+        $("#signInPageErrorMessage").show().text(message);
+
+        setTimeout(()=>{
+            $("#signInPageErrorMessage").fadeOut("fast");
+        }, timeInMilliseconds);
     }
 
     function validateFirstName(firstName){
@@ -148,17 +197,5 @@ $(document).ready(() => {
     function validatePassword(password) {
         let re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         return re.test(password);
-    }
-
-    function showRegisterErrorMessage(message){
-        $("#registerPageErrorMessage").show().text(message);
-
-        setTimeout(()=>{
-            $("#registerPageErrorMessage").fadeOut("fast");
-        }, 2000);
-    }
-
-    function signIn() {
-        showSignInPage();
     }
 });
