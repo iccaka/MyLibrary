@@ -3,20 +3,29 @@ $(document).ready(() => {
     hideResponseMessages();
     addEventListeners();
 
-    showIndexPage();
-
-    if (isLoggedIn()) {
-        showPostSignInIndexPage();
-    } else {
-        showIndexPage();
-    }
-
     function hideResponseMessages() {
         $("#errorMessage").hide();
         $("#successMessage").hide();
     }
 
     function addEventListeners() {
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                showPostSignInIndexPage();
+
+                clearRegisterPageFields();
+                clearSignInPageFields();
+            } else {
+                showIndexPage();
+
+                clearMyProfileViewProfilePageText();
+                clearMyProfileEditInfoPageText();
+                clearMyProfileEditPasswordPageText();
+                clearMyProfileEditEmailPageText();
+            }
+        });
+
+        $(".responseMessages").click(hideResponseMessages);
         $("#navigationPageHome").click(showIndexPage);
         $("#navigationPageSignIn").click(showSignInPage);
         $("#navigationPageRegister").click(showRegisterPage);
@@ -29,19 +38,19 @@ $(document).ready(() => {
         $("#navigationPagePostSignInHome").click(showPostSignInIndexPage);
         $("#navigationPagePostSignInBooks").click(showPostSignInBooksPage);
         $("#navigationPagePostSignInMyBooks").click(showPostSignInMyBooksPage);
-        $("#navigationPagePostSignInMyProfile").click(showPostSignInMyProfilePage);
+        $("#navigationPagePostSignInMyProfile").click(showPostSignInMyProfilePageViewProfile);
+        $("#navigationPagePostSignInFavourites").click(showPostSignInFavouritesPage);
         $("#navigationPagePostSignInSignOut").click(signOut);
         $("#postSignInIndexPageBooks").click(showPostSignInBooksPage);
         $("#postSignInIndexPageMyBooks").click(showPostSignInMyBooksPage);
-        $("#postSignInIndexPageMyProfile").click(showPostSignInMyProfilePage);
-    }
-
-    function isLoggedIn() {
-        if (Cookies.get("currentUser") === undefined) {
-            return false;
-        }
-
-        return true;
+        $("#postSignInIndexPageMyProfile").click(showPostSignInMyProfilePageViewProfile);
+        $("#postSignInMyProfilePageViewProfileEditInfo").click(showPostSignInMyProfileEditPage);
+        $("#postSignInMyProfilePageEditProfileFinalEdit").click(editMyProfileInfo);
+        $("#postSignInMyProfilePageViewProfileEditEmail").click(showPostSignInMyProfileEditEmail);
+        $("#postSignInMyProfilePageEditEmailFinalEdit").click(editMyProfileEmail);
+        $("#postSignInMyProfilePageViewProfileEditPassword").click(showPostSignInMyProfileEditPassword);
+        $("#postSignInMyProfilePageEditPasswordFinalEdit").click(editMyProfilePassword);
+        $(".backToMyProfileViewProfilePageButtons").click(showPostSignInMyProfilePageViewProfile);
     }
 
     function hideAllPreSignInPages() {
@@ -60,30 +69,22 @@ $(document).ready(() => {
         $("#postSignInBooksPageCreateBookPage").hide();
         $("#postSignInBooksPageEditBookPage").hide();
         $("#postSignInBooksPageViewBookPage").hide();
-        $("#postSignInFavouritesPage").hide();
-        $("#postSignInMyProfilePage").hide();
         $("#postSignInMyProfilePageViewProfile").hide();
-        $("#postSignInMyProfilePageEditProfile").hide();
+        $("#postSignInMyProfilePageEditInfo").hide();
+        $("#postSignInMyProfilePageEditEmail").hide();
+        $("#postSignInMyProfilePageEditPassword").hide();
+        $("#postSignInFavouritesPage").hide();
 
         $("#postSignInContentPage").hide();
     }
 
     function hideAllPreSignInNavigationPages() {
-        $("#preSignInNavigationPage").hide();
-
         $("#navigationPageHome").hide();
         $("#navigationPageSignIn").hide();
         $("#navigationPageRegister").hide();
         $("#navigationPageAbout").hide();
-    }
 
-    function showAllPreSignInNavigationPages() {
-        $("#preSignInNavigationPage").show();
-
-        $("#navigationPageHome").show();
-        $("#navigationPageSignIn").show();
-        $("#navigationPageRegister").show();
-        $("#navigationPageAbout").show();
+        $("#preSignInNavigationPage").hide();
     }
 
     function hideAllPostSignInNavigationPages() {
@@ -91,26 +92,30 @@ $(document).ready(() => {
         $("#navigationPagePostSignInBooks").hide();
         $("#navigationPagePostSignInMyBooks").hide();
         $("#navigationPagePostSignInMyProfile").hide();
+        $("#navigationPagePostSignInFavourites").hide();
         $("#navigationPagePostSignInSignOut").hide();
 
         $("#postSignInNavigationPage").hide();
     }
 
-    function showAllPostSignInNavigationPages() {
-        $("#postSignInNavigationPage").show();
+    function showAllPreSignInNavigationPages() {
+        $("#navigationPageHome").show();
+        $("#navigationPageSignIn").show();
+        $("#navigationPageRegister").show();
+        $("#navigationPageAbout").show();
 
+        $("#preSignInNavigationPage").show();
+    }
+
+    function showAllPostSignInNavigationPages() {
         $("#navigationPagePostSignInHome").show();
         $("#navigationPagePostSignInBooks").show();
         $("#navigationPagePostSignInMyBooks").show();
         $("#navigationPagePostSignInMyProfile").show();
+        $("#navigationPagePostSignInFavourites").show();
         $("#navigationPagePostSignInSignOut").show();
-    }
 
-    function showAllPostSignInPages() {
-        hideAllPreSignInPages();
-        hideAllPostSignInPages();
-
-        showPostSignInIndexPage();
+        $("#postSignInNavigationPage").show();
     }
 
     function showIndexPage() {
@@ -191,7 +196,7 @@ $(document).ready(() => {
         hideAllPostSignInPages();
 
         $("#postSignInContentPage").show();
-        $("#postSignInBooksPage").show();
+        $("#postSignInBooksPage").show().empty();
 
         showAllPostSignInNavigationPages();
         $("#navigationPagePostSignInBooks").hide();
@@ -207,13 +212,17 @@ $(document).ready(() => {
         hideAllPostSignInPages();
 
         $("#postSignInContentPage").show();
+        $("#postSignInMyBooksPageList").show().empty();
         $("#postSignInMyBooksPage").show();
+        $("#postSignInMyBooksPageCreateBookButton").show();
 
         showAllPostSignInNavigationPages();
         $("#navigationPagePostSignInMyBooks").hide();
+
+        loadBooksOnMyBooksPage();
     }
 
-    function showPostSignInMyProfilePage() {
+    function showPostSignInMyProfilePageViewProfile() {
         changePageTitle("My Profile");
 
         hideAllPreSignInNavigationPages();
@@ -221,14 +230,286 @@ $(document).ready(() => {
         hideAllPostSignInPages();
 
         $("#postSignInContentPage").show();
-        $("#postSignInMyProfilePage").show();
+        $("#postSignInMyProfilePageViewProfile").show();
 
         showAllPostSignInNavigationPages();
         $("#navigationPagePostSignInMyProfile").hide();
+
+        loadProfileOnMyProfileViewPage();
+    }
+
+    function showPostSignInMyProfileEditPage() {
+        changePageTitle("My Profile - Edit information");
+
+        hideAllPreSignInNavigationPages();
+        hideAllPreSignInPages();
+        hideAllPostSignInPages();
+
+        $("#postSignInContentPage").show();
+        $("#postSignInMyProfilePageEditInfo").show();
+
+        showAllPostSignInNavigationPages();
+
+        loadProfileOnMyProfileEditPage();
+    }
+
+    function showPostSignInMyProfileEditEmail(){
+        changePageTitle("My Profile - Edit email");
+
+        hideAllPreSignInNavigationPages();
+        hideAllPreSignInPages();
+        hideAllPostSignInPages();
+
+        $("#postSignInContentPage").show();
+        $("#postSignInMyProfilePageEditEmail").show();
+
+        showAllPostSignInNavigationPages();
+
+        loadProfileOnMyProfileEditEmailPage();
+    }
+
+    function showPostSignInMyProfileEditPassword(){
+        changePageTitle("My Profile - Edit password");
+
+        hideAllPreSignInNavigationPages();
+        hideAllPreSignInPages();
+        hideAllPostSignInPages();
+
+        $("#postSignInContentPage").show();
+        $("#postSignInMyProfilePageEditPassword").show();
+
+        showAllPostSignInNavigationPages();
+    }
+
+    function showPostSignInFavouritesPage() {
+        changePageTitle("Favourites");
+
+        hideAllPreSignInNavigationPages();
+        hideAllPreSignInPages();
+        hideAllPostSignInPages();
+
+        $("#postSignInContentPage").show();
+        $("#postSignInFavouritesPage").show();
+
+        showAllPostSignInNavigationPages();
+        $("#navigationPagePostSignInFavourites").hide();
+
+        loadBooksOnFavouritesPage();
     }
 
     function loadBooksOnBooksPage() {
+        db.collection("books").get().then((snapshot) => {
+            snapshot.docs.forEach((book) => {
+                let bookData = book.data();
 
+                let element = `
+                    <li>Name: ${bookData.name}</li>                    
+                    <li>ISBN: ${bookData.isbn}</li>                    
+                    <li>Year: ${bookData.year}</li>                    
+                    <li>Description: ${bookData.description}</li>                    
+                    <li>Image: ${bookData.coverImage}</li>
+                    <hr>                    
+                `;
+
+                $("#postSignInBooksPage").append(element);
+            })
+        });
+    }
+
+    function loadBooksOnMyBooksPage() {
+        db.collection("books").get().then((snapshot) => {
+            snapshot.docs.forEach((book) => {
+                let bookData = book.data();
+
+                if (bookData.email === auth.currentUser.email) {
+                    let element = `
+                    <li>Name: ${bookData.name}</li>                    
+                    <li>ISBN: ${bookData.isbn}</li>                    
+                    <li>Year: ${bookData.year}</li>                    
+                    <li>Description: ${bookData.description}</li>                    
+                    <li>Image: ${bookData.coverImage}</li>
+                    <hr>                    
+                `;
+
+                    $("#postSignInMyBooksPageList").append(element);
+                }
+            })
+        });
+    }
+
+    function loadProfileOnMyProfileViewPage() {
+        clearMyProfileViewProfilePageText();
+        let userUid = auth.getUid();
+        let userEmail = auth.currentUser.email;
+
+        db.collection("users").doc(userUid).get().then((snapshot)=>{
+            if(snapshot.data() !== undefined){
+                let snapshotData = snapshot.data();
+
+                $("#postSignInMyProfilePageViewProfileFirstName").text(snapshotData.firstName);
+                $("#postSignInMyProfilePageViewProfileLastName").text(snapshotData.lastName);
+                $("#postSignInMyProfilePageViewProfileUsername").text(snapshotData.username);
+                $("#postSignInMyProfilePageViewProfileEmail").text(userEmail);
+            }
+        });
+    }
+
+    function loadProfileOnMyProfileEditPage() {
+        clearMyProfileEditInfoPageText();
+        let userUid = auth.getUid();
+
+        db.collection("users").doc(userUid).get().then((snapshot)=>{
+            if(snapshot.data() !== undefined){
+                let snapshotData = snapshot.data();
+
+                $("#postSignInMyProfilePageEditProfileFirstName").val(snapshotData.firstName);
+                $("#postSignInMyProfilePageEditProfileLastName").val(snapshotData.lastName);
+                $("#postSignInMyProfilePageEditProfileUsername").val(snapshotData.username);
+            }
+        });
+    }
+
+    function loadProfileOnMyProfileEditEmailPage(){
+        clearMyProfileEditEmailPageText();
+
+        $("#postSignInMyProfilePageEditProfileEmail").val(auth.currentUser.email);
+    }
+
+    function loadBooksOnFavouritesPage() {
+
+    }
+
+    function editMyProfileInfo() {
+        let userId = auth.currentUser.uid;
+        let firstName = $("#postSignInMyProfilePageEditProfileFirstName").val();
+        let lastName = $("#postSignInMyProfilePageEditProfileLastName").val();
+        let username = $("#postSignInMyProfilePageEditProfileUsername").val();
+
+        if(firstName.length !== 0){
+            if(!validateName(firstName)){
+                showErrorMessage("Invalid first name!", 3000);
+                return;
+            }
+        }
+
+        if(lastName.length !== 0){
+            if(!validateName(lastName)){
+                showErrorMessage("Invalid last name!", 3000);
+                return;
+            }
+        }
+
+        if(username.length !== 0){
+            if(!validateUsername(username)){
+                showErrorMessage("Invalid username!", 3000);
+                return;
+            }
+        }
+
+        db.collection("users").doc(userId).set({
+            firstName: firstName,
+            lastName: lastName,
+            username: username
+        }, {merge: true}).catch((error)=>{
+            let errorMessage = error.message;
+            showErrorMessage(errorMessage, 5000);
+        }).then(()=>{
+            showSuccessMessage("Profile edited successfully", 3000);
+            showPostSignInMyProfilePageViewProfile();
+        });
+    }
+
+    function editMyProfileEmail(){
+        let email = $("#postSignInMyProfilePageEditProfileEmail").val();
+        let currentUserEmail = auth.currentUser.email;
+        let password = $("#postSignInMyProfilePageEditProfilePassword").val();
+
+        if(email === currentUserEmail){
+            showErrorMessage("Your new email has to be different then your current one.", 4000);
+            return;
+        }
+
+        if (password.length === 0) {
+            showErrorMessage("In order to edit your email, you must enter your password.", 4000);
+            return;
+        }
+
+        if (!validatePassword(password)) {
+            showErrorMessage("Your password has to at least have 6 characters.", 3000);
+            return;
+        }
+
+        auth.signInWithEmailAndPassword(currentUserEmail, password).catch((error)=>{
+            let errorMessage = error.message;
+            showErrorMessage(errorMessage, 3000);
+        }).then((snapshot) => {
+            snapshot.user.updateEmail(email).catch((error)=>{
+                let errorMessage = error.message;
+                showErrorMessage(errorMessage, 5000);
+            }).then(()=>{
+                clearMyProfileEditEmailPageText();
+                showSuccessMessage("Email updated successfully.", 3000);
+                showPostSignInMyProfilePageViewProfile();
+            });
+        });
+    }
+
+    function editMyProfilePassword(){
+        let currentUserEmail = auth.currentUser.email;
+        let password = $("#postSignInMyProfilePageEditProfilePasswordPassword").val();
+        let newPassword = $("#postSignInMyProfilePageEditProfileNewPassword").val();
+        let repeatNewPassword = $("#postSignInMyProfilePageEditProfileRepeatNewPassword").val();
+
+        if (password.length === 0) {
+            showErrorMessage("In order to edit your password, you must enter your current password.", 5000);
+            return;
+        }
+
+        if (!validatePassword(password)) {
+            showErrorMessage("Your current password is at least 6 characters long.", 4000);
+            return;
+        }
+
+        if (newPassword.length === 0) {
+            showErrorMessage("Please enter your new password.", 3000);
+            return;
+        }
+
+        if (!validatePassword(newPassword)) {
+            showErrorMessage("Your new password has to at least have 6 characters.", 4000);
+            return;
+        }
+
+        if(newPassword === password){
+            showErrorMessage("Your new password has to be different than your current one.", 4000);
+            return;
+        }
+
+        if(repeatNewPassword.length === 0){
+            showErrorMessage("Please repeat your new password.", 3000);
+            return;
+        }
+
+        if(newPassword !== repeatNewPassword){
+            showErrorMessage("The two passwords don't match.", 3000);
+            return;
+        }
+
+        auth.signInWithEmailAndPassword(currentUserEmail, password).catch((error)=>{
+            let errorMessage = error.message;
+            showErrorMessage(errorMessage, 3000);
+        }).then((snapshot) => {
+            if(snapshot !== undefined){
+                snapshot.user.updatePassword(newPassword).catch((error)=>{
+                    let errorMessage = error.message;
+                    showErrorMessage(errorMessage, 5000);
+                }).then(()=>{
+                    clearMyProfileEditPasswordPageText();
+                    showSuccessMessage("Password updated successfully.", 3000);
+                    showPostSignInMyProfilePageViewProfile();
+                });
+            }
+        });
     }
 
     function changePageTitle(name) {
@@ -244,13 +525,13 @@ $(document).ready(() => {
         let repeatPassword = $("#registerPageRepeatPassword").val();
 
         if (firstName.length !== 0) {
-            if (!validateFirstName(firstName)) {
+            if (!validateName(firstName)) {
                 showErrorMessage("Invalid first name!", 3000);
                 return;
             }
         }
         if (lastName.length !== 0) {
-            if (!validateLastName(lastName)) {
+            if (!validateName(lastName)) {
                 showErrorMessage("Invalid last name!", 3000);
                 return;
             }
@@ -278,10 +559,6 @@ $(document).ready(() => {
         }).then((snapshot) => {
             if (snapshot !== undefined) {
                 showSuccessMessage("Registration successful.", 3000);
-                clearRegisterPageFields();
-                clearSignInPageFields();
-                Cookies.set("currentUser", auth.currentUser, {expires: 7});
-                showPostSignInIndexPage();
             }
         });
     }
@@ -290,15 +567,12 @@ $(document).ready(() => {
         let email = $("#signInPageEmail").val();
         let password = $("#signInPagePassword").val();
 
-        if (email.length < 3 || email.length > 16) {
-            showErrorMessage("Usernames cannot be smaller than 3 or bigger than 16 characters.", 5000);
-            return;
-        }
         if (password.length === 0) {
             showErrorMessage("Please enter your password.", 3000);
             return;
         }
-        if (password.length < 6) {
+
+        if (!validatePassword(password)) {
             showErrorMessage("Your password has to at least have 6 characters.", 4000);
             return;
         }
@@ -309,19 +583,13 @@ $(document).ready(() => {
         }).then((snapshot) => {
             if (snapshot !== undefined) {
                 showSuccessMessage("Sign in successful.", 3000);
-                clearSignInPageFields();
-                clearRegisterPageFields();
-                Cookies.set("currentUser", auth.currentUser, {expires: 7});
-                showPostSignInIndexPage();
             }
         });
     }
 
     function signOut() {
         auth.signOut().then(() => {
-            Cookies.remove("currentUser");
             showSuccessMessage("Sign out successful.", 3000);
-            showIndexPage();
         })
     }
 
@@ -352,38 +620,45 @@ $(document).ready(() => {
         $("#registerPageRepeatPassword").val("");
     }
 
-    function validateFirstName(firstName) {
-        if (firstName.length > 25) {
+    function clearMyProfileViewProfilePageText() {
+        $("#postSignInMyProfilePageViewProfileFirstName").text("");
+        $("#postSignInMyProfilePageViewProfileLastName").text("");
+        $("#postSignInMyProfilePageViewProfileUsername").text("");
+        $("#postSignInMyProfilePageViewProfileEmail").text("");
+    }
+
+    function clearMyProfileEditInfoPageText() {
+        $("#postSignInMyProfilePageEditProfileFirstName").val("");
+        $("#postSignInMyProfilePageEditProfileLastName").val("");
+        $("#postSignInMyProfilePageEditProfileUsername").val("");
+    }
+
+    function clearMyProfileEditEmailPageText(){
+        $("#postSignInMyProfilePageEditProfileEmail").val("");
+        $("#postSignInMyProfilePageEditProfilePassword").val("");
+    }
+
+    function clearMyProfileEditPasswordPageText(){
+        $("#postSignInMyProfilePageEditProfilePasswordPassword").val("");
+        $("#postSignInMyProfilePageEditProfileNewPassword").val("");
+        $("#postSignInMyProfilePageEditProfileRepeatNewPassword").val("");
+    }
+
+    function validateName(name){
+        if (name.length > 25) {
             return false;
         }
 
         let re = /^[a-zA-Z]+(([\'\,\.\-][a-zA-Z])?[a-zA-Z]*)*$/;
-        return re.test(firstName);
+        return re.test(name);
     }
-
-    function validateLastName(lastName) {
-        if (lastName.length > 25) {
-            return false;
-        }
-
-        let re = /^[a-zA-Z]+(([\'\,\.\-][a-zA-Z])?[a-zA-Z]*)*$/;
-        return re.test(lastName);
-    }
-
+    
     function validateUsername(username) {
         let re = /^[a-z0-9_-]{3,16}$/;
         return re.test(username.toLowerCase());
     }
 
-    // function validateEmail(email) {
-    //     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    //     return re.test(email.toLowerCase());
-    // }
-
     function validatePassword(password) {
-        // let re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        // return re.test(password);
-
         return password.length >= 6;
     }
 });

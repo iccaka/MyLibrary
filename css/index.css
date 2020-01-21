@@ -40,22 +40,21 @@ body {
     text-align: center;
 }
 
-#errorMessage {
+.responseMessages{
+    color: white;
     text-transform: uppercase;
-    background-color: #b5222c;
     width: 100%;
     height: 50px;
     padding: 14px 20px;
     margin: 8px 0;
 }
 
+#errorMessage {
+    background-color: #b5222c;
+}
+
 #successMessage {
-    text-transform: uppercase;
     background-color: #11c258;
-    width: 100%;
-    height: 50px;
-    padding: 14px 20px;
-    margin: 8px 0;
 }
 
 .navigationPageElements {
@@ -98,6 +97,23 @@ body {
     color: white;
     background-color: #3b7fed;
     padding: 20px;
+}
+
+.backToMyProfileViewProfilePageButtons {
+    cursor: pointer;
+    width: 100%;
+    color: black;
+    background-color: #04bfcc;
+    padding: 20px;
+}
+
+.crudButtons:hover {
+    background-color: #2a6ad1;
+}
+
+.backToMyProfileViewProfilePageButtons:hover {
+    background-color: #03949e;
+    color: white;
 }
 
 .underlinedText {

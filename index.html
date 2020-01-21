@@ -5,42 +5,39 @@
     <title>My Library</title>
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="js/js.cookie.js"></script>
 </head>
 <body>
 <div id="headingPage">
     <h1 id="headingPageHeading">My Library</h1>
     <hr>
-    <div id="errorMessage"></div>
-    <div id="successMessage"></div>
+    <div id="errorMessage" class="responseMessages"></div>
+    <div id="successMessage" class="responseMessages"></div>
     <hr>
 </div>
 <div id="postSignInNavigationPage">
     <div id="navigationPagePostSignInHome" class="navigationPageElements">Home</div>
     <div id="navigationPagePostSignInBooks" class="navigationPageElements">Books</div>
     <div id="navigationPagePostSignInMyBooks" class="navigationPageElements">My books</div>
+    <div id="navigationPagePostSignInFavourites" class="navigationPageElements">Favourites</div>
     <div id="navigationPagePostSignInMyProfile" class="navigationPageElements">My profile</div>
     <div id="navigationPagePostSignInSignOut" class="navigationPageElements">Sign out</div>
 </div>
 <div id="postSignInContentPage">
     <div id="postSignInIndexPage">
         <h3>Use the navigation bar on the left to <u id="postSignInIndexPageBooks"
-                                                                               class="underlinedText"> see all of the
-        books</u>, <u id="postSignInIndexPageMyBooks" class="underlinedText"> your books</u> or <u
-            id="postSignInIndexPageMyProfile" class="underlinedText"> your profile</u>.
+                                                     class="underlinedText"> see all of the
+            books</u>, <u id="postSignInIndexPageMyBooks" class="underlinedText"> your books</u> or <u
+                id="postSignInIndexPageMyProfile" class="underlinedText"> your profile</u>.
         </h3>
     </div>
     <div id="postSignInBooksPage">
-        <button id="postSignInBooksPageCreateBookButton" class="crudButtons">Create a book</button>
-
-        <!--        //TODO append all books here using JavaScript-->
 
     </div>
     <div id="postSignInMyBooksPage">
         <button id="postSignInMyBooksPageCreateBookButton" class="crudButtons">Create a book</button>
+        <div id="postSignInMyBooksPageList">
 
-        <!--        //TODO append my books here using JavaSript-->
-
+        </div>
     </div>
     <div id="postSignInBooksPageCreateBookPage">
         <input id="postSignInBooksPageCreateBookPageName" class="bookCreationInputElements" type="text"
@@ -87,32 +84,55 @@
         <!--        //TODO append favourites here using JavaScript-->
 
     </div>
-    <div id="postSignInMyProfilePage">
-        <div id="postSignInMyProfilePageViewProfile">
-            <h3>First name:</h3>
-            <h2 id="postSignInMyProfilePageViewProfileFirstName"></h2>
-            <h3>Last name:</h3>
-            <h2 id="postSignInMyProfilePageViewProfileLastName"></h2>
-            <h3>Username:</h3>
-            <h2 id="postSignInMyProfilePageViewProfileUsername"></h2>
-            <h3>Email:</h3>
-            <h2 id="postSignInMyProfilePageViewProfileEmail"></h2>
-        </div>
-        <div id="postSignInMyProfilePageEditProfile">
-            <input id="postSignInMyProfilePageEditProfileFirstName" class="profileEditInputElements" type="text"
-                   placeholder="First name...">
-            <input id="postSignInMyProfilePageEditProfileLastName" class="profileEditInputElements" type="text"
-                   placeholder="Last name...">
-            <input id="postSignInMyProfilePageEditProfileUsername" class="profileEditInputElements" type="text"
-                   placeholder="Username...">
-            <input id="postSignInMyProfilePageEditProfileEmail" class="profileEditInputElements" type="text"
-                   placeholder="Email...">
-            <input id="postSignInMyProfilePageEditProfilePassword" class="profileEditInputElements" type="text"
-                   placeholder="Password...">
-            <input id="postSignInMyProfilePageEditProfileRepeatPassword" class="profileEditInputElements" type="text"
-                   placeholder="Repeat password...">
-            <button id="postSignInMyProfilePageEditProfileFinalEdit" class="crudButtons">Edit</button>
-        </div>
+    <div id="postSignInMyProfilePageViewProfile">
+        <h2>First name:</h2>
+        <h3 id="postSignInMyProfilePageViewProfileFirstName"></h3>
+        <hr>
+        <h2>Last name:</h2>
+        <h3 id="postSignInMyProfilePageViewProfileLastName"></h3>
+        <hr>
+        <h2>Username:</h2>
+        <h3 id="postSignInMyProfilePageViewProfileUsername"></h3>
+        <hr>
+        <h2>Email:</h2>
+        <h3 id="postSignInMyProfilePageViewProfileEmail"></h3>
+        <hr>
+        <button id="postSignInMyProfilePageViewProfileEditInfo" class="crudButtons">Edit information</button>
+        <hr>
+        <button id="postSignInMyProfilePageViewProfileEditEmail" class="crudButtons">Edit email</button>
+        <hr>
+        <button id="postSignInMyProfilePageViewProfileEditPassword" class="crudButtons">Edit password</button>
+    </div>
+    <div id="postSignInMyProfilePageEditInfo">
+        <input id="postSignInMyProfilePageEditProfileFirstName" class="profileEditInputElements" type="text"
+               placeholder="First name...">
+        <input id="postSignInMyProfilePageEditProfileLastName" class="profileEditInputElements" type="text"
+               placeholder="Last name...">
+        <input id="postSignInMyProfilePageEditProfileUsername" class="profileEditInputElements" type="text"
+               placeholder="Username...">
+        <button id="postSignInMyProfilePageEditProfileFinalEdit" class="crudButtons">Edit</button>
+        <hr>
+        <button class="backToMyProfileViewProfilePageButtons">Back to my profile</button>
+    </div>
+    <div id="postSignInMyProfilePageEditEmail">
+        <input id="postSignInMyProfilePageEditProfileEmail" class="profileEditInputElements" type="text"
+               placeholder="Email...">
+        <input id="postSignInMyProfilePageEditProfilePassword" class="profileEditInputElements" type="password"
+               placeholder="Current password...">
+        <button id="postSignInMyProfilePageEditEmailFinalEdit" class="crudButtons">Edit</button>
+        <hr>
+        <button class="backToMyProfileViewProfilePageButtons">Back to my profile</button>
+    </div>
+    <div id="postSignInMyProfilePageEditPassword">
+        <input id="postSignInMyProfilePageEditProfilePasswordPassword" class="profileEditInputElements" type="password"
+               placeholder="Current password...">
+        <input id="postSignInMyProfilePageEditProfileNewPassword" class="profileEditInputElements" type="password"
+               placeholder="New password...">
+        <input id="postSignInMyProfilePageEditProfileRepeatNewPassword" class="profileEditInputElements" type="password"
+               placeholder="Repeat new password...">
+        <button id="postSignInMyProfilePageEditPasswordFinalEdit" class="crudButtons">Edit</button>
+        <hr>
+        <button class="backToMyProfileViewProfilePageButtons">Back to my profile</button>
     </div>
 </div>
 <div id="preSignInNavigationPage">
@@ -147,8 +167,10 @@
     </div>
     <div id="aboutPage">
         <h2>A simple library single-page application written in JavaScript, that uses Firebase.</h2>
+        <hr>
         <h2>Created by:</h2>
         <h3><a href="https://github.com/iccaka" target="_blank">iccaka</a></h3>
+        <hr>
         <h2>GitHub repository:</h2>
         <h3><a href="https://github.com/iccaka/MyLibrary" target="_blank">MyLibrary</a></h3>
     </div>
