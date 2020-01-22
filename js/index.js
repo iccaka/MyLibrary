@@ -27,6 +27,7 @@ $(document).ready(() => {
                 clearMyProfileEditPasswordPageText();
                 clearMyProfileEditEmailPageText();
                 clearMyBookCreateBookPageText();
+                clearBookViewBookPageText();
             }
         });
 
@@ -203,6 +204,8 @@ $(document).ready(() => {
 
         changePageTitle("Books");
 
+        clearBookViewBookPageText();
+
         hideAllPreSignInNavigationPages();
         hideAllPreSignInPages();
         hideAllPostSignInPages();
@@ -222,6 +225,8 @@ $(document).ready(() => {
 
         changePageTitle("My Books");
 
+        clearBookViewBookPageText();
+
         hideAllPreSignInNavigationPages();
         hideAllPreSignInPages();
         hideAllPostSignInPages();
@@ -238,6 +243,8 @@ $(document).ready(() => {
     }
 
     function showBooksOrMyBooksPage(){
+        clearBookViewBookPageText();
+
         if(isOnBooksPage){
             showPostSignInBooksPage();
         }
@@ -879,6 +886,13 @@ $(document).ready(() => {
         $("#postSignInBooksPageCreateBookPageISBN").val("");
         $("#postSignInBooksPageCreateBookPageYear").val("");
         $("#postSignInBooksPageCreateBookPageDescription").val("");
+    }
+
+    function clearBookViewBookPageText(){
+        $("#postSignInBooksPageViewBookPageName").text("");
+        $("#postSignInBooksPageViewBookPageISBN").text("");
+        $("#postSignInBooksPageViewBookPageYear").text("");
+        $("#postSignInBooksPageViewBookPageDescription").text("");
     }
 
     function validateName(name) {
