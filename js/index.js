@@ -43,6 +43,8 @@ $(document).ready(() => {
         $("#navigationPagePostSignInSignOut").click(signOut);
         $("#postSignInIndexPageBooks").click(showPostSignInBooksPage);
         $("#postSignInIndexPageMyBooks").click(showPostSignInMyBooksPage);
+        $("#postSignInMyBooksPageCreateBookButton").click(showCreateBookPage);
+        $("#postSignInBooksPageCreateBookButtonFinalCreate").click(createBook);
         $("#postSignInIndexPageMyProfile").click(showPostSignInMyProfilePageViewProfile);
         $("#postSignInMyProfilePageViewProfileEditInfo").click(showPostSignInMyProfileEditPage);
         $("#postSignInMyProfilePageEditProfileFinalEdit").click(editMyProfileInfo);
@@ -222,6 +224,19 @@ $(document).ready(() => {
         loadBooksOnMyBooksPage();
     }
 
+    function showCreateBookPage(){
+        changePageTitle("My books - Create book");
+
+        hideAllPreSignInNavigationPages();
+        hideAllPreSignInPages();
+        hideAllPostSignInPages();
+
+        $("#postSignInContentPage").show();
+        $("#postSignInBooksPageCreateBookPage").show();
+
+        showAllPostSignInNavigationPages();
+    }
+
     function showPostSignInMyProfilePageViewProfile() {
         changePageTitle("My Profile");
 
@@ -302,13 +317,20 @@ $(document).ready(() => {
             snapshot.docs.forEach((book) => {
                 let bookData = book.data();
 
+                // let element = `
+                //     <li>Name: ${bookData.name}</li>
+                //     <li>ISBN: ${bookData.isbn}</li>
+                //     <li>Year: ${bookData.year}</li>
+                //     <li>Description: ${bookData.description}</li>
+                //     <li>Image: ${bookData.coverImage}</li>
+                //     <hr>
+                // `;
                 let element = `
-                    <li>Name: ${bookData.name}</li>                    
-                    <li>ISBN: ${bookData.isbn}</li>                    
-                    <li>Year: ${bookData.year}</li>                    
-                    <li>Description: ${bookData.description}</li>                    
-                    <li>Image: ${bookData.coverImage}</li>
-                    <hr>                    
+                    <h4>Name: <h5>${bookData.name}</h5></h4>
+                    <h4>ISBN: <h5>${bookData.isbn}</h5></h4>
+                    <h4>Year: <h5>${bookData.year}</h5></h4>
+                    <h4>Description: <h5>${bookData.description}</h5></h4>
+                    <hr>
                 `;
 
                 $("#postSignInBooksPage").append(element);
@@ -341,6 +363,7 @@ $(document).ready(() => {
         clearMyProfileViewProfilePageText();
         let userUid = auth.getUid();
         let userEmail = auth.currentUser.email;
+        $("#postSignInMyProfilePageViewProfileEmail").text(userEmail);
 
         db.collection("users").doc(userUid).get().then((snapshot)=>{
             if(snapshot.data() !== undefined){
@@ -349,7 +372,6 @@ $(document).ready(() => {
                 $("#postSignInMyProfilePageViewProfileFirstName").text(snapshotData.firstName);
                 $("#postSignInMyProfilePageViewProfileLastName").text(snapshotData.lastName);
                 $("#postSignInMyProfilePageViewProfileUsername").text(snapshotData.username);
-                $("#postSignInMyProfilePageViewProfileEmail").text(userEmail);
             }
         });
     }
@@ -512,6 +534,15 @@ $(document).ready(() => {
         });
     }
 
+    function createBook(){
+        let name = $("#postSignInBooksPageCreateBookPageName").val();
+        let isbn = $("#postSignInBooksPageCreateBookPageISBN").val();
+        let year = $("#postSignInBooksPageCreateBookPageYear").val();
+        let description = $("#postSignInBooksPageCreateBookPageDescription").val();
+
+
+    }
+
     function changePageTitle(name) {
         $(document).prop("title", name);
     }
@@ -524,23 +555,33 @@ $(document).ready(() => {
         let password = $("#registerPagePassword").val();
         let repeatPassword = $("#registerPageRepeatPassword").val();
 
+        let willSetFirstName = false;
+        let willSetLastName = false;
+        let willSetUsername = false;
+
         if (firstName.length !== 0) {
             if (!validateName(firstName)) {
                 showErrorMessage("Invalid first name!", 3000);
                 return;
             }
+
+            willSetFirstName = true;
         }
         if (lastName.length !== 0) {
             if (!validateName(lastName)) {
                 showErrorMessage("Invalid last name!", 3000);
                 return;
             }
+
+            willSetLastName = true;
         }
         if (username.length !== 0) {
             if (!validateUsername(username)) {
                 showErrorMessage("Invalid username!", 3000);
                 return;
             }
+
+            willSetUsername = true;
         }
 
         if (!validatePassword(password)) {
@@ -558,6 +599,16 @@ $(document).ready(() => {
             showErrorMessage(errorMessage, 5000);
         }).then((snapshot) => {
             if (snapshot !== undefined) {
+                if(willSetFirstName || willSetLastName || willSetUsername){
+                    db.collection("users").doc(auth.getUid()).set({
+                        firstName: firstName,
+                        lastName: lastName,
+                        username: username
+                    }, {merge: true}).catch((error)=>{
+                        let errorMessage = error.message;
+                        showErrorMessage(errorMessage, 5000);
+                    });
+                }
                 showSuccessMessage("Registration successful.", 3000);
             }
         });
