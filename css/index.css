@@ -119,6 +119,14 @@ body {
     padding: 20px;
 }
 
+#backToAnyOfTheTwoBookPages {
+    cursor: pointer;
+    width: 100%;
+    color: black;
+    background-color: #04bfcc;
+    padding: 20px;
+}
+
 .crudButtons:hover {
     background-color: #2a6ad1;
 }
@@ -132,4 +140,8 @@ body {
     color: #3b7fed;
     text-decoration: underline;
     cursor: pointer;
+}
+
+.underlinedText:hover {
+    color: white;
 }

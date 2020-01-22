@@ -1,5 +1,8 @@
 $(document).ready(() => {
 
+    let isOnBooksPage = false;
+    let isOnMyBooksPage = false;
+
     hideResponseMessages();
     addEventListeners();
 
@@ -23,6 +26,7 @@ $(document).ready(() => {
                 clearMyProfileEditInfoPageText();
                 clearMyProfileEditPasswordPageText();
                 clearMyProfileEditEmailPageText();
+                clearMyBookCreateBookPageText();
             }
         });
 
@@ -55,6 +59,7 @@ $(document).ready(() => {
         $("#postSignInMyProfilePageEditPasswordFinalEdit").click(editMyProfilePassword);
         $(".backToMyProfileViewProfilePageButtons").click(showPostSignInMyProfilePageViewProfile);
         $(".backToMyBooksViewProfilePageButtons").click(showPostSignInMyBooksPage);
+        $("#backToAnyOfTheTwoBookPages").click(showBooksOrMyBooksPage);
     }
 
     function hideAllPreSignInPages() {
@@ -193,6 +198,9 @@ $(document).ready(() => {
     }
 
     function showPostSignInBooksPage() {
+        isOnBooksPage = true;
+        isOnMyBooksPage = false;
+
         changePageTitle("Books");
 
         hideAllPreSignInNavigationPages();
@@ -209,6 +217,9 @@ $(document).ready(() => {
     }
 
     function showPostSignInMyBooksPage() {
+        isOnBooksPage = false;
+        isOnMyBooksPage = true;
+
         changePageTitle("My Books");
 
         hideAllPreSignInNavigationPages();
@@ -224,6 +235,35 @@ $(document).ready(() => {
         $("#navigationPagePostSignInMyBooks").hide();
 
         loadBooksOnMyBooksPage();
+    }
+
+    function showBooksOrMyBooksPage(){
+        if(isOnBooksPage){
+            showPostSignInBooksPage();
+        }
+        else {
+            showPostSignInMyBooksPage();
+        }
+    }
+
+    function showPostSignInBooksViewBook(){
+        changePageTitle("Book");
+
+        hideAllPreSignInNavigationPages();
+        hideAllPreSignInPages();
+        hideAllPostSignInPages();
+
+        $("#postSignInContentPage").show();
+        $("#postSignInBooksPageViewBookPage").show();
+
+        if(isOnBooksPage){
+            $("#backToAnyOfTheTwoBookPages").text("Back to books page");
+        }
+        else {
+            $("#backToAnyOfTheTwoBookPages").text("Back to my books page");
+        }
+
+        showAllPostSignInNavigationPages();
     }
 
     function showCreateBookPage() {
@@ -315,56 +355,100 @@ $(document).ready(() => {
     }
 
     function loadBooksOnBooksPage() {
+        let userUid = auth.getUid();
+        let hasMyBooks = false;
+
+        if(isOnBooksPage){
+            $("#backToAnyOfTheTwoBookPages").text("Back to books page");
+        }
+        else {
+            $("#backToAnyOfTheTwoBookPages").text("Back to my books page");
+        }
+
         db.collection("books").get().then((snapshot) => {
-            snapshot.docs.forEach((book) => {
-                let bookData = book.data();
+            if(snapshot.length !== 0){
+                snapshot.docs.forEach((book) => {
+                    let bookData = book.data();
 
-                let element = `
-                    <li>Name: ${bookData.name}</li>
-                    <li>ISBN: ${bookData.isbn}</li>
-                    <li>Year: ${bookData.year}</li>
-                    <li>Description: ${bookData.description}</li>
-                    <hr>
-                `;
-                // let element = `
-                //     <li>Name: ${bookData.name}</li>
-                //     <li>ISBN: ${bookData.isbn}</li>
-                //     <li>Year: ${bookData.year}</li>
-                //     <li>Description: ${bookData.description}</li>
-                //     <li>Image: ${bookData.coverImage}</li>
-                //     <hr>
-                // `;
-                // let element = `
-                //     <h4>Name: <h5>${bookData.name}</h5></h4>
-                //     <h4>ISBN: <h5>${bookData.isbn}</h5></h4>
-                //     <h4>Year: <h5>${bookData.year}</h5></h4>
-                //     <h4>Description: <h5>${bookData.description}</h5></h4>
-                //     <hr>
-                // `;
+                    if(bookData.creator === userUid){
+                        hasMyBooks = true;
 
-                $("#postSignInBooksPage").append(element);
-            })
+                        let element = `
+                            <h3>${bookData.name}</h3>
+                            <u class="underlinedText viewBookText" name="${book.id}">view</u> | <u class="underlinedText deleteBookText" name="${book.id}">delete</u>
+                            <hr>
+                        `;
+
+                        $("#postSignInBooksPage").append(element);
+                    }
+                    else {
+                        let element = `
+                            <h3>${bookData.name}</h3>
+                            <u class="underlinedText viewBookText" name="${book.id}">view</u>
+                            <hr>
+                        `;
+
+                        $("#postSignInBooksPage").append(element);
+                    }
+                });
+
+                $(".viewBookText").click((event)=>{
+                    let nameAttr = $(event.target).attr("name");
+                    showPostSignInBooksViewBook();
+                    loadBookOnViewBookPage(nameAttr)
+                });
+
+                if(hasMyBooks){
+                    $(".deleteBookText").click((event)=>{
+                        let nameAttr = $(event.target).attr("name");
+                        deleteBook(nameAttr);
+                    });
+                }
+            }
         });
     }
 
     function loadBooksOnMyBooksPage() {
-        db.collection("books").get().then((snapshot) => {
-            snapshot.docs.forEach((book) => {
-                let bookData = book.data();
+        let userUid = auth.getUid();
 
-                if (bookData.email === auth.currentUser.email) {
+        db.collection("books").where("creator", "==", userUid).get().then((snapshot) => {
+            if(snapshot.length !== 0){
+                snapshot.docs.forEach((book) => {
+                    let bookData = book.data();
+
                     let element = `
-                    <li>Name: ${bookData.name}</li>                    
-                    <li>ISBN: ${bookData.isbn}</li>                    
-                    <li>Year: ${bookData.year}</li>                    
-                    <li>Description: ${bookData.description}</li>                    
-                    <li>Image: ${bookData.coverImage}</li>
-                    <hr>                    
-                `;
+                        <h3>${bookData.name}</h3>
+                        <u class="underlinedText viewBookText" name="${book.id}">view</u> | <u class="underlinedText deleteBookText" name="${book.id}">delete</u>
+                        <hr>
+                    `;
 
                     $("#postSignInMyBooksPageList").append(element);
-                }
-            })
+                });
+
+                $(".viewBookText").click((event)=>{
+                    let nameAttr = $(event.target).attr("name");
+                    showPostSignInBooksViewBook();
+                    loadBookOnViewBookPage(nameAttr)
+                });
+
+                $(".deleteBookText").click((event)=>{
+                    let nameAttr = $(event.target).attr("name");
+                    deleteBook(nameAttr);
+                });
+            }
+        });
+    }
+
+    function loadBookOnViewBookPage(nameAttr){
+        db.collection("books").doc(nameAttr).get().then((snapshot)=>{
+            if(snapshot !== undefined){
+                let bookData = snapshot.data();
+
+                $("#postSignInBooksPageViewBookPageName").text(bookData.name);
+                $("#postSignInBooksPageViewBookPageISBN").text(bookData.isbn);
+                $("#postSignInBooksPageViewBookPageYear").text(bookData.year);
+                $("#postSignInBooksPageViewBookPageDescription").text(bookData.description);
+            }
         });
     }
 
@@ -587,19 +671,37 @@ $(document).ready(() => {
             }
         }
 
-        let userId = auth.getUid();
+        let userUid = auth.getUid();
 
-        db.collection("books").doc(userId).set({
+        db.collection("books").add({
             name: bookName,
             isbn: bookISBN,
             year: bookYear,
-            description: bookDescription
-        }, {merge: true}).catch((error) => {
+            description: bookDescription,
+            creator: userUid
+        }).catch((error) => {
             let errorMessage = error.message;
             showErrorMessage(errorMessage, 5000);
         }).then(() => {
             showSuccessMessage("Book created successfully.", 3000);
+            clearMyBookCreateBookPageText();
             showPostSignInMyBooksPage();
+        });
+    }
+
+    function deleteBook(nameAttr){
+        db.collection("books").doc(nameAttr).delete().catch((error)=>{
+            let errorMessage = error.message;
+            showErrorMessage(errorMessage, 5000);
+        }).then(()=>{
+            showSuccessMessage("Book deleted successfully.", 3000);
+
+            if(isOnBooksPage){
+                showPostSignInBooksPage();
+            }
+            else {
+                showPostSignInMyBooksPage();
+            }
         });
     }
 
@@ -664,7 +766,6 @@ $(document).ready(() => {
                         firstName: firstName,
                         lastName: lastName,
                         username: username,
-                        email: auth.currentUser.email
                     }, {merge: true}).catch((error) => {
                         let errorMessage = error.message;
                         showErrorMessage(errorMessage, 5000);
@@ -674,7 +775,6 @@ $(document).ready(() => {
                         firstName: "",
                         lastName: "",
                         username: "",
-                        email: auth.currentUser.email
                     }, {merge: true}).catch((error) => {
                         let errorMessage = error.message;
                         showErrorMessage(errorMessage, 5000);
@@ -685,137 +785,144 @@ $(document).ready(() => {
         });
     }
 
-function signIn() {
-    let email = $("#signInPageEmail").val();
-    let password = $("#signInPagePassword").val();
+    function signIn() {
+        let email = $("#signInPageEmail").val();
+        let password = $("#signInPagePassword").val();
 
-    if (password.length === 0) {
-        showInfoMessage("Please enter your password.", 3000);
-        return;
-    }
-
-    if (!validatePassword(password)) {
-        showErrorMessage("Your password has to at least have 6 characters.", 4000);
-        return;
-    }
-
-    auth.signInWithEmailAndPassword(email, password).catch((error) => {
-        let errorMessage = error.message;
-        showErrorMessage(errorMessage, 5000);
-    }).then((snapshot) => {
-        if (snapshot !== undefined) {
-            showSuccessMessage("Sign in successful.", 3000);
+        if (password.length === 0) {
+            showInfoMessage("Please enter your password.", 3000);
+            return;
         }
-    });
-}
 
-function signOut() {
-    auth.signOut().then(() => {
-        showSuccessMessage("Sign out successful.", 3000);
-    })
-}
+        if (!validatePassword(password)) {
+            showErrorMessage("Your password has to at least have 6 characters.", 4000);
+            return;
+        }
 
-function showErrorMessage(message, timeInMilliseconds) {
-    $("#errorMessage").show().text(message);
-
-    setTimeout(() => {
-        $("#errorMessage").fadeOut("fast");
-    }, timeInMilliseconds);
-}
-
-function showSuccessMessage(message, timeInMilliseconds) {
-    $("#successMessage").show().text(message);
-
-    setTimeout(() => {
-        $("#successMessage").fadeOut("fast");
-    }, timeInMilliseconds);
-}
-
-function showInfoMessage(message, timeInMilliseconds) {
-    $("#infoMessage").show().text(message);
-
-    setTimeout(() => {
-        $("#infoMessage").fadeOut("fast");
-    }, timeInMilliseconds);
-}
-
-function clearSignInPageFields() {
-    $("#signInPageEmail").val("");
-    $("#signInPagePassword").val("");
-}
-
-function clearRegisterPageFields() {
-    $("#registerPageEmail").val("");
-    $("#registerPagePassword").val("");
-    $("#registerPageRepeatPassword").val("");
-}
-
-function clearMyProfileViewProfilePageText() {
-    $("#postSignInMyProfilePageViewProfileFirstName").text("");
-    $("#postSignInMyProfilePageViewProfileLastName").text("");
-    $("#postSignInMyProfilePageViewProfileUsername").text("");
-    $("#postSignInMyProfilePageViewProfileEmail").text("");
-}
-
-function clearMyProfileEditInfoPageText() {
-    $("#postSignInMyProfilePageEditProfileFirstName").val("");
-    $("#postSignInMyProfilePageEditProfileLastName").val("");
-    $("#postSignInMyProfilePageEditProfileUsername").val("");
-}
-
-function clearMyProfileEditEmailPageText() {
-    $("#postSignInMyProfilePageEditProfileEmail").val("");
-    $("#postSignInMyProfilePageEditProfilePassword").val("");
-}
-
-function clearMyProfileEditPasswordPageText() {
-    $("#postSignInMyProfilePageEditProfilePasswordPassword").val("");
-    $("#postSignInMyProfilePageEditProfileNewPassword").val("");
-    $("#postSignInMyProfilePageEditProfileRepeatNewPassword").val("");
-}
-
-function validateName(name) {
-    if (name.length > 25) {
-        return false;
+        auth.signInWithEmailAndPassword(email, password).catch((error) => {
+            let errorMessage = error.message;
+            showErrorMessage(errorMessage, 5000);
+        }).then((snapshot) => {
+            if (snapshot !== undefined) {
+                showSuccessMessage("Sign in successful.", 3000);
+            }
+        });
     }
 
-    let re = /^[a-zA-Z]+(([\'\,\.\-][a-zA-Z])?[a-zA-Z]*)*$/;
-    return re.test(name);
-}
-
-function validateUsername(username) {
-    let re = /^[a-z0-9_-]{3,16}$/;
-    return re.test(username.toLowerCase());
-}
-
-function validatePassword(password) {
-    return password.length >= 6;
-}
-
-function validateBookName(bookName) {
-    if (bookName.length > 150) {
-        return false;
+    function signOut() {
+        auth.signOut().then(() => {
+            showSuccessMessage("Sign out successful.", 3000);
+        })
     }
 
-    let re = /^[A-Za-z0-9\s\-_,\.;:()]+$/;
-    return re.test(bookName);
-}
+    function showErrorMessage(message, timeInMilliseconds) {
+        $("#errorMessage").show().text(message);
 
-function validateBookISBN(isbn) {
-    let re = /^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/;
-    return re.test(isbn);
-}
-
-function validateBookYear(year) {
-    if (isNaN(year)) {
-        return false;
+        setTimeout(() => {
+            $("#errorMessage").fadeOut("fast");
+        }, timeInMilliseconds);
     }
 
-    let date = new Date();
-    return year >= 1 && year <= date.getFullYear();
-}
+    function showSuccessMessage(message, timeInMilliseconds) {
+        $("#successMessage").show().text(message);
 
-function validateBookDescription(description) {
-    return description.length >= 16 && description.length <= 1500;
-}
-})
+        setTimeout(() => {
+            $("#successMessage").fadeOut("fast");
+        }, timeInMilliseconds);
+    }
+
+    function showInfoMessage(message, timeInMilliseconds) {
+        $("#infoMessage").show().text(message);
+
+        setTimeout(() => {
+            $("#infoMessage").fadeOut("fast");
+        }, timeInMilliseconds);
+    }
+
+    function clearSignInPageFields() {
+        $("#signInPageEmail").val("");
+        $("#signInPagePassword").val("");
+    }
+
+    function clearRegisterPageFields() {
+        $("#registerPageEmail").val("");
+        $("#registerPagePassword").val("");
+        $("#registerPageRepeatPassword").val("");
+    }
+
+    function clearMyProfileViewProfilePageText() {
+        $("#postSignInMyProfilePageViewProfileFirstName").text("");
+        $("#postSignInMyProfilePageViewProfileLastName").text("");
+        $("#postSignInMyProfilePageViewProfileUsername").text("");
+        $("#postSignInMyProfilePageViewProfileEmail").text("");
+    }
+
+    function clearMyProfileEditInfoPageText() {
+        $("#postSignInMyProfilePageEditProfileFirstName").val("");
+        $("#postSignInMyProfilePageEditProfileLastName").val("");
+        $("#postSignInMyProfilePageEditProfileUsername").val("");
+    }
+
+    function clearMyProfileEditEmailPageText() {
+        $("#postSignInMyProfilePageEditProfileEmail").val("");
+        $("#postSignInMyProfilePageEditProfilePassword").val("");
+    }
+
+    function clearMyProfileEditPasswordPageText() {
+        $("#postSignInMyProfilePageEditProfilePasswordPassword").val("");
+        $("#postSignInMyProfilePageEditProfileNewPassword").val("");
+        $("#postSignInMyProfilePageEditProfileRepeatNewPassword").val("");
+    }
+
+    function clearMyBookCreateBookPageText(){
+        $("#postSignInBooksPageCreateBookPageName").val("");
+        $("#postSignInBooksPageCreateBookPageISBN").val("");
+        $("#postSignInBooksPageCreateBookPageYear").val("");
+        $("#postSignInBooksPageCreateBookPageDescription").val("");
+    }
+
+    function validateName(name) {
+        if (name.length > 25) {
+            return false;
+        }
+
+        let re = /^[a-zA-Z]+(([\'\,\.\-][a-zA-Z])?[a-zA-Z]*)*$/;
+        return re.test(name);
+    }
+
+    function validateUsername(username) {
+        let re = /^[a-z0-9_-]{3,16}$/;
+        return re.test(username.toLowerCase());
+    }
+
+    function validatePassword(password) {
+        return password.length >= 6;
+    }
+
+    function validateBookName(bookName) {
+        if (bookName.length > 150) {
+            return false;
+        }
+
+        let re = /^[A-Za-z0-9\s\-_,\.;:()]+$/;
+        return re.test(bookName);
+    }
+
+    function validateBookISBN(isbn) {
+        let re = /^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/;
+        return re.test(isbn);
+    }
+
+    function validateBookYear(year) {
+        if (isNaN(year)) {
+            return false;
+        }
+
+        let date = new Date();
+        return year >= 1 && year <= date.getFullYear();
+    }
+
+    function validateBookDescription(description) {
+        return description.length >= 16 && description.length <= 1500;
+    }
+});
