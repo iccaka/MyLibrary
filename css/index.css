@@ -40,7 +40,7 @@ body {
     text-align: center;
 }
 
-.responseMessages{
+.responseMessages {
     color: white;
     text-transform: uppercase;
     width: 100%;
@@ -55,6 +55,10 @@ body {
 
 #successMessage {
     background-color: #11c258;
+}
+
+#infoMessage {
+    background-color: #9e039b;
 }
 
 .navigationPageElements {
@@ -100,6 +104,14 @@ body {
 }
 
 .backToMyProfileViewProfilePageButtons {
+    cursor: pointer;
+    width: 100%;
+    color: black;
+    background-color: #04bfcc;
+    padding: 20px;
+}
+
+.backToMyBooksViewProfilePageButtons {
     cursor: pointer;
     width: 100%;
     color: black;

@@ -6,6 +6,7 @@ $(document).ready(() => {
     function hideResponseMessages() {
         $("#errorMessage").hide();
         $("#successMessage").hide();
+        $("#infoMessage").hide();
     }
 
     function addEventListeners() {
@@ -53,6 +54,7 @@ $(document).ready(() => {
         $("#postSignInMyProfilePageViewProfileEditPassword").click(showPostSignInMyProfileEditPassword);
         $("#postSignInMyProfilePageEditPasswordFinalEdit").click(editMyProfilePassword);
         $(".backToMyProfileViewProfilePageButtons").click(showPostSignInMyProfilePageViewProfile);
+        $(".backToMyBooksViewProfilePageButtons").click(showPostSignInMyBooksPage);
     }
 
     function hideAllPreSignInPages() {
@@ -224,7 +226,7 @@ $(document).ready(() => {
         loadBooksOnMyBooksPage();
     }
 
-    function showCreateBookPage(){
+    function showCreateBookPage() {
         changePageTitle("My books - Create book");
 
         hideAllPreSignInNavigationPages();
@@ -268,7 +270,7 @@ $(document).ready(() => {
         loadProfileOnMyProfileEditPage();
     }
 
-    function showPostSignInMyProfileEditEmail(){
+    function showPostSignInMyProfileEditEmail() {
         changePageTitle("My Profile - Edit email");
 
         hideAllPreSignInNavigationPages();
@@ -283,7 +285,7 @@ $(document).ready(() => {
         loadProfileOnMyProfileEditEmailPage();
     }
 
-    function showPostSignInMyProfileEditPassword(){
+    function showPostSignInMyProfileEditPassword() {
         changePageTitle("My Profile - Edit password");
 
         hideAllPreSignInNavigationPages();
@@ -317,6 +319,13 @@ $(document).ready(() => {
             snapshot.docs.forEach((book) => {
                 let bookData = book.data();
 
+                let element = `
+                    <li>Name: ${bookData.name}</li>
+                    <li>ISBN: ${bookData.isbn}</li>
+                    <li>Year: ${bookData.year}</li>
+                    <li>Description: ${bookData.description}</li>
+                    <hr>
+                `;
                 // let element = `
                 //     <li>Name: ${bookData.name}</li>
                 //     <li>ISBN: ${bookData.isbn}</li>
@@ -325,13 +334,13 @@ $(document).ready(() => {
                 //     <li>Image: ${bookData.coverImage}</li>
                 //     <hr>
                 // `;
-                let element = `
-                    <h4>Name: <h5>${bookData.name}</h5></h4>
-                    <h4>ISBN: <h5>${bookData.isbn}</h5></h4>
-                    <h4>Year: <h5>${bookData.year}</h5></h4>
-                    <h4>Description: <h5>${bookData.description}</h5></h4>
-                    <hr>
-                `;
+                // let element = `
+                //     <h4>Name: <h5>${bookData.name}</h5></h4>
+                //     <h4>ISBN: <h5>${bookData.isbn}</h5></h4>
+                //     <h4>Year: <h5>${bookData.year}</h5></h4>
+                //     <h4>Description: <h5>${bookData.description}</h5></h4>
+                //     <hr>
+                // `;
 
                 $("#postSignInBooksPage").append(element);
             })
@@ -365,8 +374,8 @@ $(document).ready(() => {
         let userEmail = auth.currentUser.email;
         $("#postSignInMyProfilePageViewProfileEmail").text(userEmail);
 
-        db.collection("users").doc(userUid).get().then((snapshot)=>{
-            if(snapshot.data() !== undefined){
+        db.collection("users").doc(userUid).get().then((snapshot) => {
+            if (snapshot.data() !== undefined) {
                 let snapshotData = snapshot.data();
 
                 $("#postSignInMyProfilePageViewProfileFirstName").text(snapshotData.firstName);
@@ -380,8 +389,8 @@ $(document).ready(() => {
         clearMyProfileEditInfoPageText();
         let userUid = auth.getUid();
 
-        db.collection("users").doc(userUid).get().then((snapshot)=>{
-            if(snapshot.data() !== undefined){
+        db.collection("users").doc(userUid).get().then((snapshot) => {
+            if (snapshot.data() !== undefined) {
                 let snapshotData = snapshot.data();
 
                 $("#postSignInMyProfilePageEditProfileFirstName").val(snapshotData.firstName);
@@ -391,14 +400,14 @@ $(document).ready(() => {
         });
     }
 
-    function loadProfileOnMyProfileEditEmailPage(){
+    function loadProfileOnMyProfileEditEmailPage() {
         clearMyProfileEditEmailPageText();
 
         $("#postSignInMyProfilePageEditProfileEmail").val(auth.currentUser.email);
     }
 
     function loadBooksOnFavouritesPage() {
-
+        //TODO load my favourite books on 'favourites' page
     }
 
     function editMyProfileInfo() {
@@ -407,22 +416,22 @@ $(document).ready(() => {
         let lastName = $("#postSignInMyProfilePageEditProfileLastName").val();
         let username = $("#postSignInMyProfilePageEditProfileUsername").val();
 
-        if(firstName.length !== 0){
-            if(!validateName(firstName)){
+        if (firstName.length !== 0) {
+            if (!validateName(firstName)) {
                 showErrorMessage("Invalid first name!", 3000);
                 return;
             }
         }
 
-        if(lastName.length !== 0){
-            if(!validateName(lastName)){
+        if (lastName.length !== 0) {
+            if (!validateName(lastName)) {
                 showErrorMessage("Invalid last name!", 3000);
                 return;
             }
         }
 
-        if(username.length !== 0){
-            if(!validateUsername(username)){
+        if (username.length !== 0) {
+            if (!validateUsername(username)) {
                 showErrorMessage("Invalid username!", 3000);
                 return;
             }
@@ -432,27 +441,27 @@ $(document).ready(() => {
             firstName: firstName,
             lastName: lastName,
             username: username
-        }, {merge: true}).catch((error)=>{
+        }, {merge: true}).catch((error) => {
             let errorMessage = error.message;
             showErrorMessage(errorMessage, 5000);
-        }).then(()=>{
-            showSuccessMessage("Profile edited successfully", 3000);
+        }).then(() => {
+            showSuccessMessage("Profile edited successfully.", 3000);
             showPostSignInMyProfilePageViewProfile();
         });
     }
 
-    function editMyProfileEmail(){
+    function editMyProfileEmail() {
         let email = $("#postSignInMyProfilePageEditProfileEmail").val();
         let currentUserEmail = auth.currentUser.email;
         let password = $("#postSignInMyProfilePageEditProfilePassword").val();
 
-        if(email === currentUserEmail){
+        if (email === currentUserEmail) {
             showErrorMessage("Your new email has to be different then your current one.", 4000);
             return;
         }
 
         if (password.length === 0) {
-            showErrorMessage("In order to edit your email, you must enter your password.", 4000);
+            showInfoMessage("In order to edit your email, you must enter your password.", 4000);
             return;
         }
 
@@ -461,14 +470,14 @@ $(document).ready(() => {
             return;
         }
 
-        auth.signInWithEmailAndPassword(currentUserEmail, password).catch((error)=>{
+        auth.signInWithEmailAndPassword(currentUserEmail, password).catch((error) => {
             let errorMessage = error.message;
             showErrorMessage(errorMessage, 3000);
         }).then((snapshot) => {
-            snapshot.user.updateEmail(email).catch((error)=>{
+            snapshot.user.updateEmail(email).catch((error) => {
                 let errorMessage = error.message;
                 showErrorMessage(errorMessage, 5000);
-            }).then(()=>{
+            }).then(() => {
                 clearMyProfileEditEmailPageText();
                 showSuccessMessage("Email updated successfully.", 3000);
                 showPostSignInMyProfilePageViewProfile();
@@ -476,14 +485,14 @@ $(document).ready(() => {
         });
     }
 
-    function editMyProfilePassword(){
+    function editMyProfilePassword() {
         let currentUserEmail = auth.currentUser.email;
         let password = $("#postSignInMyProfilePageEditProfilePasswordPassword").val();
         let newPassword = $("#postSignInMyProfilePageEditProfileNewPassword").val();
         let repeatNewPassword = $("#postSignInMyProfilePageEditProfileRepeatNewPassword").val();
 
         if (password.length === 0) {
-            showErrorMessage("In order to edit your password, you must enter your current password.", 5000);
+            showInfoMessage("In order to edit your password, you must enter your current password.", 5000);
             return;
         }
 
@@ -494,6 +503,7 @@ $(document).ready(() => {
 
         if (newPassword.length === 0) {
             showErrorMessage("Please enter your new password.", 3000);
+            showInfoMessage(" enter your new password.", 3000);
             return;
         }
 
@@ -502,30 +512,30 @@ $(document).ready(() => {
             return;
         }
 
-        if(newPassword === password){
-            showErrorMessage("Your new password has to be different than your current one.", 4000);
+        if (newPassword === password) {
+            showInfoMessage("Your new password has to be different than your current one.", 4000);
             return;
         }
 
-        if(repeatNewPassword.length === 0){
-            showErrorMessage("Please repeat your new password.", 3000);
+        if (repeatNewPassword.length === 0) {
+            showInfoMessage("Please repeat your new password.", 3000);
             return;
         }
 
-        if(newPassword !== repeatNewPassword){
+        if (newPassword !== repeatNewPassword) {
             showErrorMessage("The two passwords don't match.", 3000);
             return;
         }
 
-        auth.signInWithEmailAndPassword(currentUserEmail, password).catch((error)=>{
+        auth.signInWithEmailAndPassword(currentUserEmail, password).catch((error) => {
             let errorMessage = error.message;
             showErrorMessage(errorMessage, 3000);
         }).then((snapshot) => {
-            if(snapshot !== undefined){
-                snapshot.user.updatePassword(newPassword).catch((error)=>{
+            if (snapshot !== undefined) {
+                snapshot.user.updatePassword(newPassword).catch((error) => {
                     let errorMessage = error.message;
                     showErrorMessage(errorMessage, 5000);
-                }).then(()=>{
+                }).then(() => {
                     clearMyProfileEditPasswordPageText();
                     showSuccessMessage("Password updated successfully.", 3000);
                     showPostSignInMyProfilePageViewProfile();
@@ -534,13 +544,63 @@ $(document).ready(() => {
         });
     }
 
-    function createBook(){
-        let name = $("#postSignInBooksPageCreateBookPageName").val();
-        let isbn = $("#postSignInBooksPageCreateBookPageISBN").val();
-        let year = $("#postSignInBooksPageCreateBookPageYear").val();
-        let description = $("#postSignInBooksPageCreateBookPageDescription").val();
+    function createBook() {
+        let bookName = $("#postSignInBooksPageCreateBookPageName").val();
+        let bookISBN = $("#postSignInBooksPageCreateBookPageISBN").val();
+        let bookYear = $("#postSignInBooksPageCreateBookPageYear").val();
+        let bookDescription = $("#postSignInBooksPageCreateBookPageDescription").val();
 
+        if (bookName.length === 0) {
+            showInfoMessage("Please enter the book's name.", 3000);
+            return;
+        }
 
+        if (!validateBookName(bookName)) {
+            showErrorMessage("Invalid book name.", 3000);
+            return;
+        }
+
+        if (bookISBN.length === 0) {
+            showInfoMessage("Please enter the book's ISBN.", 3000);
+            return;
+        }
+
+        if (!validateBookISBN(bookISBN)) {
+            showErrorMessage("Invalid book ISBN.", 3000);
+            return;
+        }
+
+        if (bookYear.length === 0) {
+            showInfoMessage("Please enter the book's year.", 3000);
+            return;
+        }
+
+        if (!validateBookYear(bookYear)) {
+            showErrorMessage("Invalid book year.", 3000);
+            return;
+        }
+
+        if (bookDescription.length !== 0) {
+            if (!validateBookDescription(bookDescription)) {
+                showErrorMessage("The book's description has to have between 16 and 1500 characters.", 3000);
+                return;
+            }
+        }
+
+        let userId = auth.getUid();
+
+        db.collection("books").doc(userId).set({
+            name: bookName,
+            isbn: bookISBN,
+            year: bookYear,
+            description: bookDescription
+        }, {merge: true}).catch((error) => {
+            let errorMessage = error.message;
+            showErrorMessage(errorMessage, 5000);
+        }).then(() => {
+            showSuccessMessage("Book created successfully.", 3000);
+            showPostSignInMyBooksPage();
+        });
     }
 
     function changePageTitle(name) {
@@ -561,7 +621,7 @@ $(document).ready(() => {
 
         if (firstName.length !== 0) {
             if (!validateName(firstName)) {
-                showErrorMessage("Invalid first name!", 3000);
+                showErrorMessage("Invalid first name.", 3000);
                 return;
             }
 
@@ -569,7 +629,7 @@ $(document).ready(() => {
         }
         if (lastName.length !== 0) {
             if (!validateName(lastName)) {
-                showErrorMessage("Invalid last name!", 3000);
+                showErrorMessage("Invalid last name.", 3000);
                 return;
             }
 
@@ -577,7 +637,7 @@ $(document).ready(() => {
         }
         if (username.length !== 0) {
             if (!validateUsername(username)) {
-                showErrorMessage("Invalid username!", 3000);
+                showErrorMessage("Invalid username.", 3000);
                 return;
             }
 
@@ -585,7 +645,7 @@ $(document).ready(() => {
         }
 
         if (!validatePassword(password)) {
-            showErrorMessage("Password should be at least 6 characters", 3000);
+            showErrorMessage("Password should be at least 6 characters", 4000);
             return;
         }
 
@@ -599,117 +659,163 @@ $(document).ready(() => {
             showErrorMessage(errorMessage, 5000);
         }).then((snapshot) => {
             if (snapshot !== undefined) {
-                if(willSetFirstName || willSetLastName || willSetUsername){
+                if (willSetFirstName || willSetLastName || willSetUsername) {
                     db.collection("users").doc(auth.getUid()).set({
                         firstName: firstName,
                         lastName: lastName,
-                        username: username
-                    }, {merge: true}).catch((error)=>{
+                        username: username,
+                        email: auth.currentUser.email
+                    }, {merge: true}).catch((error) => {
+                        let errorMessage = error.message;
+                        showErrorMessage(errorMessage, 5000);
+                    });
+                } else {
+                    db.collection("users").doc(auth.getUid()).set({
+                        firstName: "",
+                        lastName: "",
+                        username: "",
+                        email: auth.currentUser.email
+                    }, {merge: true}).catch((error) => {
                         let errorMessage = error.message;
                         showErrorMessage(errorMessage, 5000);
                     });
                 }
-                showSuccessMessage("Registration successful.", 3000);
             }
+            showSuccessMessage("Registration successful.", 3000);
         });
     }
 
-    function signIn() {
-        let email = $("#signInPageEmail").val();
-        let password = $("#signInPagePassword").val();
+function signIn() {
+    let email = $("#signInPageEmail").val();
+    let password = $("#signInPagePassword").val();
 
-        if (password.length === 0) {
-            showErrorMessage("Please enter your password.", 3000);
-            return;
+    if (password.length === 0) {
+        showInfoMessage("Please enter your password.", 3000);
+        return;
+    }
+
+    if (!validatePassword(password)) {
+        showErrorMessage("Your password has to at least have 6 characters.", 4000);
+        return;
+    }
+
+    auth.signInWithEmailAndPassword(email, password).catch((error) => {
+        let errorMessage = error.message;
+        showErrorMessage(errorMessage, 5000);
+    }).then((snapshot) => {
+        if (snapshot !== undefined) {
+            showSuccessMessage("Sign in successful.", 3000);
         }
+    });
+}
 
-        if (!validatePassword(password)) {
-            showErrorMessage("Your password has to at least have 6 characters.", 4000);
-            return;
-        }
+function signOut() {
+    auth.signOut().then(() => {
+        showSuccessMessage("Sign out successful.", 3000);
+    })
+}
 
-        auth.signInWithEmailAndPassword(email, password).catch((error) => {
-            let errorMessage = error.message;
-            showErrorMessage(errorMessage, 5000);
-        }).then((snapshot) => {
-            if (snapshot !== undefined) {
-                showSuccessMessage("Sign in successful.", 3000);
-            }
-        });
+function showErrorMessage(message, timeInMilliseconds) {
+    $("#errorMessage").show().text(message);
+
+    setTimeout(() => {
+        $("#errorMessage").fadeOut("fast");
+    }, timeInMilliseconds);
+}
+
+function showSuccessMessage(message, timeInMilliseconds) {
+    $("#successMessage").show().text(message);
+
+    setTimeout(() => {
+        $("#successMessage").fadeOut("fast");
+    }, timeInMilliseconds);
+}
+
+function showInfoMessage(message, timeInMilliseconds) {
+    $("#infoMessage").show().text(message);
+
+    setTimeout(() => {
+        $("#infoMessage").fadeOut("fast");
+    }, timeInMilliseconds);
+}
+
+function clearSignInPageFields() {
+    $("#signInPageEmail").val("");
+    $("#signInPagePassword").val("");
+}
+
+function clearRegisterPageFields() {
+    $("#registerPageEmail").val("");
+    $("#registerPagePassword").val("");
+    $("#registerPageRepeatPassword").val("");
+}
+
+function clearMyProfileViewProfilePageText() {
+    $("#postSignInMyProfilePageViewProfileFirstName").text("");
+    $("#postSignInMyProfilePageViewProfileLastName").text("");
+    $("#postSignInMyProfilePageViewProfileUsername").text("");
+    $("#postSignInMyProfilePageViewProfileEmail").text("");
+}
+
+function clearMyProfileEditInfoPageText() {
+    $("#postSignInMyProfilePageEditProfileFirstName").val("");
+    $("#postSignInMyProfilePageEditProfileLastName").val("");
+    $("#postSignInMyProfilePageEditProfileUsername").val("");
+}
+
+function clearMyProfileEditEmailPageText() {
+    $("#postSignInMyProfilePageEditProfileEmail").val("");
+    $("#postSignInMyProfilePageEditProfilePassword").val("");
+}
+
+function clearMyProfileEditPasswordPageText() {
+    $("#postSignInMyProfilePageEditProfilePasswordPassword").val("");
+    $("#postSignInMyProfilePageEditProfileNewPassword").val("");
+    $("#postSignInMyProfilePageEditProfileRepeatNewPassword").val("");
+}
+
+function validateName(name) {
+    if (name.length > 25) {
+        return false;
     }
 
-    function signOut() {
-        auth.signOut().then(() => {
-            showSuccessMessage("Sign out successful.", 3000);
-        })
+    let re = /^[a-zA-Z]+(([\'\,\.\-][a-zA-Z])?[a-zA-Z]*)*$/;
+    return re.test(name);
+}
+
+function validateUsername(username) {
+    let re = /^[a-z0-9_-]{3,16}$/;
+    return re.test(username.toLowerCase());
+}
+
+function validatePassword(password) {
+    return password.length >= 6;
+}
+
+function validateBookName(bookName) {
+    if (bookName.length > 150) {
+        return false;
     }
 
-    function showErrorMessage(message, timeInMilliseconds) {
-        $("#errorMessage").show().text(message);
+    let re = /^[A-Za-z0-9\s\-_,\.;:()]+$/;
+    return re.test(bookName);
+}
 
-        setTimeout(() => {
-            $("#errorMessage").fadeOut("fast");
-        }, timeInMilliseconds);
+function validateBookISBN(isbn) {
+    let re = /^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/;
+    return re.test(isbn);
+}
+
+function validateBookYear(year) {
+    if (isNaN(year)) {
+        return false;
     }
 
-    function showSuccessMessage(message, timeInMilliseconds) {
-        $("#successMessage").show().text(message);
+    let date = new Date();
+    return year >= 1 && year <= date.getFullYear();
+}
 
-        setTimeout(() => {
-            $("#successMessage").fadeOut("fast");
-        }, timeInMilliseconds);
-    }
-
-    function clearSignInPageFields() {
-        $("#signInPageEmail").val("");
-        $("#signInPagePassword").val("");
-    }
-
-    function clearRegisterPageFields() {
-        $("#registerPageEmail").val("");
-        $("#registerPagePassword").val("");
-        $("#registerPageRepeatPassword").val("");
-    }
-
-    function clearMyProfileViewProfilePageText() {
-        $("#postSignInMyProfilePageViewProfileFirstName").text("");
-        $("#postSignInMyProfilePageViewProfileLastName").text("");
-        $("#postSignInMyProfilePageViewProfileUsername").text("");
-        $("#postSignInMyProfilePageViewProfileEmail").text("");
-    }
-
-    function clearMyProfileEditInfoPageText() {
-        $("#postSignInMyProfilePageEditProfileFirstName").val("");
-        $("#postSignInMyProfilePageEditProfileLastName").val("");
-        $("#postSignInMyProfilePageEditProfileUsername").val("");
-    }
-
-    function clearMyProfileEditEmailPageText(){
-        $("#postSignInMyProfilePageEditProfileEmail").val("");
-        $("#postSignInMyProfilePageEditProfilePassword").val("");
-    }
-
-    function clearMyProfileEditPasswordPageText(){
-        $("#postSignInMyProfilePageEditProfilePasswordPassword").val("");
-        $("#postSignInMyProfilePageEditProfileNewPassword").val("");
-        $("#postSignInMyProfilePageEditProfileRepeatNewPassword").val("");
-    }
-
-    function validateName(name){
-        if (name.length > 25) {
-            return false;
-        }
-
-        let re = /^[a-zA-Z]+(([\'\,\.\-][a-zA-Z])?[a-zA-Z]*)*$/;
-        return re.test(name);
-    }
-    
-    function validateUsername(username) {
-        let re = /^[a-z0-9_-]{3,16}$/;
-        return re.test(username.toLowerCase());
-    }
-
-    function validatePassword(password) {
-        return password.length >= 6;
-    }
-});
+function validateBookDescription(description) {
+    return description.length >= 16 && description.length <= 1500;
+}
+})

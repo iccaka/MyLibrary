@@ -12,6 +12,7 @@
     <hr>
     <div id="errorMessage" class="responseMessages"></div>
     <div id="successMessage" class="responseMessages"></div>
+    <div id="infoMessage" class="responseMessages"></div>
     <hr>
 </div>
 <div id="postSignInNavigationPage">
@@ -46,10 +47,12 @@
                placeholder="ISBN...">
         <input id="postSignInBooksPageCreateBookPageYear" class="bookCreationInputElements" type="text"
                placeholder="Year...">
-        <textarea id="postSignInBooksPageCreateBookPageDescription" placeholder="Description..."></textarea>
+        <textarea id="postSignInBooksPageCreateBookPageDescription" placeholder="Description...(optional)"></textarea>
 <!--        <input id="postSignInBooksPageCreateBookPageCoverImage" class="bookCreationInputElements" type="file"-->
 <!--               accept="image/*">-->
         <button id="postSignInBooksPageCreateBookButtonFinalCreate" class="crudButtons">Create</button>
+        <hr>
+        <button class="backToMyBooksViewProfilePageButtons">Back to my books</button>
     </div>
     <div id="postSignInBooksPageEditBookPage">
         <input id="postSignInBooksPageEditBookPageName" class="bookCreationInputElements" type="text"
@@ -59,9 +62,11 @@
         <input id="postSignInBooksPageEditBookPageYear" class="bookCreationInputElements" type="text"
                placeholder="Year...">
         <textarea id="postSignInBooksPageEditBookPageDescription" placeholder="Description..."></textarea>
-        <input id="postSignInBooksPageEditBookPageCoverImage" class="bookCreationInputElements" type="file"
-               accept="image/*">
+<!--        <input id="postSignInBooksPageEditBookPageCoverImage" class="bookCreationInputElements" type="file"-->
+<!--               accept="image/*">-->
         <button id="postSignInBooksPageEditBookButtonFinalEdit" class="crudButtons">Edit</button>
+        <hr>
+        <button class="backToMyBooksViewProfilePageButtons">Back to my books</button>
     </div>
     <div id="postSignInBooksPageViewBookPage">
         <h3>Cover image:</h3>
