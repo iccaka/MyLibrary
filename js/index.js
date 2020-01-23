@@ -286,6 +286,19 @@ $(document).ready(() => {
         showAllPostSignInNavigationPages();
     }
 
+    function showEditBookPage(){
+        changePageTitle("My books - Edit book");
+
+        hideAllPreSignInNavigationPages();
+        hideAllPreSignInPages();
+        hideAllPostSignInPages();
+
+        $("#postSignInContentPage").show();
+        $("#postSignInBooksPageEditBookPage").show();
+
+        showAllPostSignInNavigationPages();
+    }
+
     function showPostSignInMyProfilePageViewProfile() {
         changePageTitle("My Profile");
 
@@ -365,12 +378,7 @@ $(document).ready(() => {
         let userUid = auth.getUid();
         let hasMyBooks = false;
 
-        if(isOnBooksPage){
-            $("#backToAnyOfTheTwoBookPages").text("Back to books page");
-        }
-        else {
-            $("#backToAnyOfTheTwoBookPages").text("Back to my books page");
-        }
+        unbindBookCrudButtons();
 
         db.collection("books").get().then((snapshot) => {
             if(snapshot.length !== 0){
@@ -417,9 +425,14 @@ $(document).ready(() => {
 
     function loadBooksOnMyBooksPage() {
         let userUid = auth.getUid();
+        let hasMyBooks = false;
+
+        unbindBookCrudButtons();
 
         db.collection("books").where("creator", "==", userUid).get().then((snapshot) => {
             if(snapshot.length !== 0){
+                hasMyBooks = true;
+
                 snapshot.docs.forEach((book) => {
                     let bookData = book.data();
 
@@ -447,16 +460,54 @@ $(document).ready(() => {
     }
 
     function loadBookOnViewBookPage(nameAttr){
+        let userUid = auth.getUid();
+
+        $("#postSignInBooksPageViewBookEditBook").unbind();
+        $("#postSignInBooksPageViewBookEditBook").hide();
+        $("#postSignInBooksPageViewBookEditBook").attr("name", "");
+
         db.collection("books").doc(nameAttr).get().then((snapshot)=>{
             if(snapshot !== undefined){
                 let bookData = snapshot.data();
+
+                changePageTitle(bookData.name);
+
+                if(userUid === bookData.creator){
+                    $("#postSignInBooksPageViewBookEditBook").show();
+                    $("#postSignInBooksPageViewBookEditBook").attr("name", nameAttr);
+                }
 
                 $("#postSignInBooksPageViewBookPageName").text(bookData.name);
                 $("#postSignInBooksPageViewBookPageISBN").text(bookData.isbn);
                 $("#postSignInBooksPageViewBookPageYear").text(bookData.year);
                 $("#postSignInBooksPageViewBookPageDescription").text(bookData.description);
+
+                $("#postSignInBooksPageViewBookEditBook").click((event)=>{
+                    let name = $(event.target).attr("name");
+                    showEditBookPage();
+                    loadBookOnEditBookPage(name, bookData.name, bookData.isbn, bookData.year, bookData.description);
+                });
             }
         });
+    }
+
+    function loadBookOnEditBookPage(nameAttr, bookName, bookISBN, bookYear, bookDescription){
+        $(".backToMyBooksViewProfilePageButtons").unbind("click");
+        $(".backToMyBooksViewProfilePageButtons").text("Back to book");
+        $(".backToMyBooksViewProfilePageButtons").click(()=>{
+            showPostSignInBooksViewBook();
+            loadBookOnViewBookPage(nameAttr);
+        });
+
+        $("#postSignInBooksPageEditBookButtonFinalEdit").unbind("click");
+        $("#postSignInBooksPageEditBookButtonFinalEdit").click(()=>{
+            editBook(nameAttr);
+        });
+
+        $("#postSignInBooksPageEditBookPageName").val(bookName);
+        $("#postSignInBooksPageEditBookPageISBN").val(bookISBN);
+        $("#postSignInBooksPageEditBookPageYear").val(bookYear);
+        $("#postSignInBooksPageEditBookPageDescription").val(bookDescription);
     }
 
     function loadProfileOnMyProfileViewPage() {
@@ -641,61 +692,26 @@ $(document).ready(() => {
         let bookYear = $("#postSignInBooksPageCreateBookPageYear").val();
         let bookDescription = $("#postSignInBooksPageCreateBookPageDescription").val();
 
-        if (bookName.length === 0) {
-            showInfoMessage("Please enter the book's name.", 3000);
-            return;
+        if(validateBookCompletely(bookName, bookISBN, bookYear, bookDescription)){
+            let userUid = auth.getUid();
+
+            db.collection("books").add({
+                name: bookName,
+                isbn: bookISBN,
+                year: parseInt(bookYear),
+                description: bookDescription,
+                creator: userUid
+            }).catch((error) => {
+                let errorMessage = error.message;
+                showErrorMessage(errorMessage, 5000);
+            }).then((snapshot) => {
+                if(snapshot !== undefined){
+                    showSuccessMessage("Book created successfully.", 3000);
+                    clearMyBookCreateBookPageText();
+                    showPostSignInMyBooksPage();
+                }
+            });
         }
-
-        if (!validateBookName(bookName)) {
-            showErrorMessage("Invalid book name.", 3000);
-            return;
-        }
-
-        if (bookISBN.length === 0) {
-            showInfoMessage("Please enter the book's ISBN.", 3000);
-            return;
-        }
-
-        if (!validateBookISBN(bookISBN)) {
-            showErrorMessage("Invalid book ISBN.", 3000);
-            return;
-        }
-
-        if (bookYear.length === 0) {
-            showInfoMessage("Please enter the book's year.", 3000);
-            return;
-        }
-
-        if (!validateBookYear(bookYear)) {
-            showErrorMessage("Invalid book year.", 3000);
-            return;
-        }
-
-        if (bookDescription.length !== 0) {
-            if (!validateBookDescription(bookDescription)) {
-                showErrorMessage("The book's description has to have between 16 and 1500 characters.", 3000);
-                return;
-            }
-        }
-
-        let userUid = auth.getUid();
-
-        db.collection("books").add({
-            name: bookName,
-            isbn: bookISBN,
-            year: parseInt(bookYear),
-            description: bookDescription,
-            creator: userUid
-        }).catch((error) => {
-            let errorMessage = error.message;
-            showErrorMessage(errorMessage, 5000);
-        }).then((snapshot) => {
-            if(snapshot !== undefined){
-                showSuccessMessage("Book created successfully.", 3000);
-                clearMyBookCreateBookPageText();
-                showPostSignInMyBooksPage();
-            }
-        });
     }
 
     function deleteBook(nameAttr){
@@ -714,8 +730,41 @@ $(document).ready(() => {
         });
     }
 
+    function editBook(nameAttr){
+        let bookName = $("#postSignInBooksPageEditBookPageName").val();
+        let bookISBN = $("#postSignInBooksPageEditBookPageISBN").val();
+        let bookYear = $("#postSignInBooksPageEditBookPageYear").val();
+        let bookDescription = $("#postSignInBooksPageEditBookPageDescription").val();
+
+        if(validateBookCompletely(bookName, bookISBN, bookYear, bookDescription)){
+            let userUid = auth.getUid();
+
+            db.collection("books").doc(nameAttr).set({
+                name: bookName,
+                isbn: bookISBN,
+                year: parseInt(bookYear),
+                description: bookDescription,
+                creator: userUid
+            }).catch((error) => {
+                let errorMessage = error.message;
+                showErrorMessage(errorMessage, 5000);
+            }).then(() => {
+                showSuccessMessage("Book edited successfully.", 3000);
+                clearEditBookPageText();
+                showPostSignInBooksViewBook();
+                loadBookOnViewBookPage(nameAttr);
+            });
+
+        }
+    }
+
     function changePageTitle(name) {
         $(document).prop("title", name);
+    }
+
+    function unbindBookCrudButtons(){
+        $(".viewBookText").unbind("click");
+        $(".deleteBookText").unbind("click");
     }
 
     function register() {
@@ -897,6 +946,13 @@ $(document).ready(() => {
         $("#postSignInBooksPageViewBookPageDescription").text("");
     }
 
+    function clearEditBookPageText(){
+        $("#postSignInBooksPageEditBookPageName").val("");
+        $("#postSignInBooksPageEditBookPageISBN").val("");
+        $("#postSignInBooksPageEditBookPageYear").val("");
+        $("#postSignInBooksPageEditBookPageDescription").val("");
+    }
+
     function validateName(name) {
         if (name.length > 25) {
             return false;
@@ -913,6 +969,47 @@ $(document).ready(() => {
 
     function validatePassword(password) {
         return password.length >= 6;
+    }
+
+    function validateBookCompletely(bookName, bookISBN, bookYear, bookDescription){
+        if (bookName.length === 0) {
+            showInfoMessage("Please enter the book's name.", 3000);
+            return false;
+        }
+
+        if (!validateBookName(bookName)) {
+            showErrorMessage("Invalid book name.", 3000);
+            return false;
+        }
+
+        if (bookISBN.length === 0) {
+            showInfoMessage("Please enter the book's ISBN.", 3000);
+            return false;
+        }
+
+        if (!validateBookISBN(bookISBN)) {
+            showErrorMessage("Invalid book ISBN.", 3000);
+            return false;
+        }
+
+        if (bookYear.length === 0) {
+            showInfoMessage("Please enter the book's year.", 3000);
+            return false;
+        }
+
+        if (!validateBookYear(bookYear)) {
+            showErrorMessage("Invalid book year.", 3000);
+            return false;
+        }
+
+        if (bookDescription.length !== 0) {
+            if (!validateBookDescription(bookDescription)) {
+                showErrorMessage("The book's description has to have between 16 and 1500 characters.", 3000);
+                return false;
+            }
+        }
+
+        return true;
     }
 
     function validateBookName(bookName) {
