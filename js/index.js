@@ -28,6 +28,7 @@ $(document).ready(() => {
                 clearMyProfileEditEmailPageText();
                 clearMyBookCreateBookPageText();
                 clearBookViewBookPageText();
+                clearEditBookPageText();
             }
         });
 
