@@ -683,16 +683,18 @@ $(document).ready(() => {
         db.collection("books").add({
             name: bookName,
             isbn: bookISBN,
-            year: bookYear,
+            year: parseInt(bookYear),
             description: bookDescription,
             creator: userUid
         }).catch((error) => {
             let errorMessage = error.message;
             showErrorMessage(errorMessage, 5000);
-        }).then(() => {
-            showSuccessMessage("Book created successfully.", 3000);
-            clearMyBookCreateBookPageText();
-            showPostSignInMyBooksPage();
+        }).then((snapshot) => {
+            if(snapshot !== undefined){
+                showSuccessMessage("Book created successfully.", 3000);
+                clearMyBookCreateBookPageText();
+                showPostSignInMyBooksPage();
+            }
         });
     }
 
