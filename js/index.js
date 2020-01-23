@@ -45,6 +45,7 @@ $(document).ready(() => {
         $("#navigationPagePostSignInBooks").click(showPostSignInBooksPage);
         $("#navigationPagePostSignInMyBooks").click(showPostSignInMyBooksPage);
         $("#navigationPagePostSignInMyProfile").click(showPostSignInMyProfilePageViewProfile);
+        $("#postSignInIndexPageFavourites").click(showPostSignInFavouritesPage);
         $("#navigationPagePostSignInFavourites").click(showPostSignInFavouritesPage);
         $("#navigationPagePostSignInSignOut").click(signOut);
         $("#postSignInIndexPageBooks").click(showPostSignInBooksPage);
