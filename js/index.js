@@ -52,6 +52,7 @@ $(document).ready(() => {
         $("#postSignInIndexPageBooks").click(showPostSignInBooksPage);
         $("#postSignInIndexPageMyBooks").click(showPostSignInMyBooksPage);
         $("#postSignInMyBooksPageCreateBookButton").click(showCreateBookPage);
+        $("#backToMyBooksPageFromCreateBookPage").click(showPostSignInMyBooksPage);
         $("#postSignInBooksPageCreateBookButtonFinalCreate").click(createBook);
         $("#postSignInIndexPageMyProfile").click(showPostSignInMyProfilePageViewProfile);
         $("#postSignInMyProfilePageViewProfileEditInfo").click(showPostSignInMyProfileEditPage);

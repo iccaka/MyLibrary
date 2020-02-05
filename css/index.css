@@ -111,6 +111,14 @@ body {
     padding: 20px;
 }
 
+#backToMyBooksPageFromCreateBookPage{
+    cursor: pointer;
+    width: 100%;
+    color: black;
+    background-color: #04bfcc;
+    padding: 20px;
+}
+
 .backToMyBooksViewProfilePageButtons {
     cursor: pointer;
     width: 100%;
