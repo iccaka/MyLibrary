@@ -52,6 +52,7 @@ $(document).ready(() => {
         $("#postSignInIndexPageBooks").click(showPostSignInBooksPage);
         $("#postSignInIndexPageMyBooks").click(showPostSignInMyBooksPage);
         $("#postSignInMyBooksPageCreateBookButton").click(showCreateBookPage);
+        $("#postSignInBooksPageViewBookHideComments").click(hideComments);
         $("#backToMyBooksPageFromCreateBookPage").click(showPostSignInMyBooksPage);
         $("#postSignInBooksPageCreateBookButtonFinalCreate").click(createBook);
         $("#postSignInIndexPageMyProfile").click(showPostSignInMyProfilePageViewProfile);
@@ -273,6 +274,9 @@ $(document).ready(() => {
             $("#backToAnyOfTheTwoBookPages").text("Back to my books page");
         }
 
+        $("#postSignInBooksPageViewBookShowComments").show();
+        $("#postSignInBooksPageViewBookHideComments").hide();
+
         showAllPostSignInNavigationPages();
     }
 
@@ -466,6 +470,7 @@ $(document).ready(() => {
         let userUid = auth.getUid();
 
         $("#postSignInBooksPageViewBookEditBook").unbind();
+        $("#postSignInBooksPageViewBookShowComments").unbind();
         $("#postSignInBooksPageViewBookEditBook").hide();
         $("#postSignInBooksPageViewBookEditBook").attr("name", "");
 
@@ -480,6 +485,8 @@ $(document).ready(() => {
                     $("#postSignInBooksPageViewBookEditBook").attr("name", nameAttr);
                 }
 
+                $("#postSignInBooksPageViewBookShowComments").attr("name", nameAttr);
+
                 $("#postSignInBooksPageViewBookPageName").text(bookData.name);
                 $("#postSignInBooksPageViewBookPageISBN").text(bookData.isbn);
                 $("#postSignInBooksPageViewBookPageYear").text(bookData.year);
@@ -489,6 +496,11 @@ $(document).ready(() => {
                     let name = $(event.target).attr("name");
                     showEditBookPage();
                     loadBookOnEditBookPage(name, bookData.name, bookData.isbn, bookData.year, bookData.description);
+                });
+
+                $("#postSignInBooksPageViewBookShowComments").click((event)=>{
+                    let name = $(event.target).attr("name");
+                    loadComments(name);
                 });
             }
         });
@@ -553,6 +565,20 @@ $(document).ready(() => {
 
     function loadBooksOnFavouritesPage() {
         //TODO load my favourite books on 'favourites' page
+    }
+
+    function loadComments(nameAttr){
+        $("#postSignInBooksPageViewBookShowComments").hide();
+        $("#postSignInBooksPageViewBookHideComments").show();
+
+        
+    }
+
+    function hideComments(){
+        $("#postSignInBooksPageViewBookShowComments").show();
+        $("#postSignInBooksPageViewBookHideComments").hide();
+
+
     }
 
     function editMyProfileInfo() {
