@@ -569,10 +569,9 @@ $(document).ready(() => {
         //TODO load my favourite books on 'favourites' page
     }
 
-    function loadComments(nameAttr){
-        // db.collection("comments").where("book", "==", nameAttr).get().then((snapshot) => {
-        //     console.log(snapshot);
-        // });
+    function loadComments(nameAttr, isAfterDelete){
+        $(".deleteCommentText").unbind();
+
         db.collection("comments").where("book", "==", nameAttr).get().catch((error)=>{
             let errorMessage = error.message;
             showErrorMessage(errorMessage, 5000);
@@ -586,17 +585,43 @@ $(document).ready(() => {
 
                     for(bookComment in bookComments){
                         let commentData = bookComments[bookComment].data().comment;
+                        let commentCreator = bookComments[bookComment].data().creator;
+                        let userUid = auth.getUid();
+                        let commentId = bookComments[bookComment].id;
 
-                        let paragraphElement = `
+                        let paragraphElement;
+
+                        if(userUid === commentCreator){
+                            paragraphElement = `
+                            <hr>
+                            <p>${commentData}</p>
+                            <u class="underlinedText deleteCommentText" name="${commentId}">delete</u>
+                        `;
+                        }
+                        else {
+                            paragraphElement = `
                             <hr>
                             <p>${commentData}</p>
                         `;
+                        }
 
                         $("#commentBucket").append(paragraphElement);
                     }
+
+                    $(".deleteCommentText").click((event)=>{
+                        let name = $(event.target).attr("name");
+                        deleteComment(name);
+                        $("#commentBucket").empty();
+                        loadComments(nameAttr, true);
+                    });
                 }
                 else {
-                    showInfoMessage("This book doesn't have any comments", 3000);
+                    if(!isAfterDelete){
+                        showInfoMessage("This book doesn't have any comments", 3000);
+                    }
+                    else {
+                        hideComments();
+                    }
                 }
             }
         });
@@ -607,6 +632,15 @@ $(document).ready(() => {
         $("#postSignInBooksPageViewBookHideComments").hide();
 
         $("#commentBucket").empty();
+    }
+
+    function deleteComment(nameAttr){
+        db.collection("comments").doc(nameAttr).delete().catch((error)=>{
+            let errorMessage = error.message;
+            showErrorMessage(errorMessage, 5000);
+        }).then(()=>{
+            showSuccessMessage("Comment deleted successfully.", 3000);
+        });
     }
 
     function editMyProfileInfo() {
