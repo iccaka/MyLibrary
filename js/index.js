@@ -469,6 +469,8 @@ $(document).ready(() => {
     function loadBookOnViewBookPage(nameAttr){
         let userUid = auth.getUid();
 
+        hideComments();
+
         $("#postSignInBooksPageViewBookEditBook").unbind();
         $("#postSignInBooksPageViewBookShowComments").unbind();
         $("#postSignInBooksPageViewBookEditBook").hide();
@@ -568,17 +570,43 @@ $(document).ready(() => {
     }
 
     function loadComments(nameAttr){
-        $("#postSignInBooksPageViewBookShowComments").hide();
-        $("#postSignInBooksPageViewBookHideComments").show();
+        // db.collection("comments").where("book", "==", nameAttr).get().then((snapshot) => {
+        //     console.log(snapshot);
+        // });
+        db.collection("comments").where("book", "==", nameAttr).get().catch((error)=>{
+            let errorMessage = error.message;
+            showErrorMessage(errorMessage, 5000);
+        }).then((snapshot) => {
+            if(snapshot !== undefined){
+                let bookComments = snapshot.docs;
 
-        
+                if(bookComments.length !== 0){
+                    $("#postSignInBooksPageViewBookShowComments").hide();
+                    $("#postSignInBooksPageViewBookHideComments").show();
+
+                    for(bookComment in bookComments){
+                        let commentData = bookComments[bookComment].data().comment;
+
+                        let paragraphElement = `
+                            <hr>
+                            <p>${commentData}</p>
+                        `;
+
+                        $("#commentBucket").append(paragraphElement);
+                    }
+                }
+                else {
+                    showInfoMessage("This book doesn't have any comments", 3000);
+                }
+            }
+        });
     }
 
     function hideComments(){
         $("#postSignInBooksPageViewBookShowComments").show();
         $("#postSignInBooksPageViewBookHideComments").hide();
 
-
+        $("#commentBucket").empty();
     }
 
     function editMyProfileInfo() {
