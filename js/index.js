@@ -677,6 +677,16 @@ $(document).ready(() => {
 
     function addComment(nameAttr){
         let bookComment = $("#postSignInAddCommentPageText").val();
+
+        if(bookComment.length === 0){
+            showInfoMessage("The comment's length cannot be zero.", 3000);
+            return;
+        }
+        if(bookComment.length > 350){
+            showInfoMessage("The comment cannot be longer than 350 characters.", 4000);
+            return;
+        }
+
         let userUid = auth.getUid();
 
         db.collection("comments").add({
