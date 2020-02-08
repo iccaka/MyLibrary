@@ -46,12 +46,13 @@ $(document).ready(() => {
         $("#navigationPagePostSignInBooks").click(showPostSignInBooksPage);
         $("#navigationPagePostSignInMyBooks").click(showPostSignInMyBooksPage);
         $("#navigationPagePostSignInMyProfile").click(showPostSignInMyProfilePageViewProfile);
-        $("#postSignInIndexPageFavourites").click(showPostSignInFavouritesPage);
         $("#navigationPagePostSignInFavourites").click(showPostSignInFavouritesPage);
         $("#navigationPagePostSignInSignOut").click(signOut);
+        $("#postSignInIndexPageFavourites").click(showPostSignInFavouritesPage);
         $("#postSignInIndexPageBooks").click(showPostSignInBooksPage);
         $("#postSignInIndexPageMyBooks").click(showPostSignInMyBooksPage);
         $("#postSignInMyBooksPageCreateBookButton").click(showCreateBookPage);
+        $("#postSignInBooksPageViewBookAddComment").click(showAddCommentPage);
         $("#postSignInBooksPageViewBookHideComments").click(hideComments);
         $("#backToMyBooksPageFromCreateBookPage").click(showPostSignInMyBooksPage);
         $("#postSignInBooksPageCreateBookButtonFinalCreate").click(createBook);
@@ -83,6 +84,7 @@ $(document).ready(() => {
         $("#postSignInBooksPageCreateBookPage").hide();
         $("#postSignInBooksPageEditBookPage").hide();
         $("#postSignInBooksPageViewBookPage").hide();
+        $("#postSignInAddCommentPage").hide();
         $("#postSignInMyProfilePageViewProfile").hide();
         $("#postSignInMyProfilePageEditInfo").hide();
         $("#postSignInMyProfilePageEditEmail").hide();
