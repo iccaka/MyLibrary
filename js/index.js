@@ -29,6 +29,7 @@ $(document).ready(() => {
                 clearMyBookCreateBookPageText();
                 clearBookViewBookPageText();
                 clearEditBookPageText();
+                clearAddCommentTextArea();
             }
         });
 
@@ -52,7 +53,6 @@ $(document).ready(() => {
         $("#postSignInIndexPageBooks").click(showPostSignInBooksPage);
         $("#postSignInIndexPageMyBooks").click(showPostSignInMyBooksPage);
         $("#postSignInMyBooksPageCreateBookButton").click(showCreateBookPage);
-        $("#postSignInBooksPageViewBookAddComment").click(showAddCommentPage);
         $("#postSignInBooksPageViewBookHideComments").click(hideComments);
         $("#backToMyBooksPageFromCreateBookPage").click(showPostSignInMyBooksPage);
         $("#postSignInBooksPageCreateBookButtonFinalCreate").click(createBook);
@@ -308,6 +308,30 @@ $(document).ready(() => {
         showAllPostSignInNavigationPages();
     }
 
+    function showAddCommentPage(nameAttr){
+        $("#backToBookFromAddCommentPage").unbind();
+        $("#backToBookFromAddCommentPage").click(()=>{
+            showPostSignInBooksViewBook();
+            loadBookOnViewBookPage(nameAttr);
+        });
+
+        $("#addCommentButtonFinal").unbind();
+        $("#addCommentButtonFinal").click(()=>{
+            addComment(nameAttr);
+        });
+
+        changePageTitle("Add comment");
+
+        hideAllPreSignInNavigationPages();
+        hideAllPreSignInPages();
+        hideAllPostSignInPages();
+
+        $("#postSignInContentPage").show();
+        $("#postSignInAddCommentPage").show();
+
+        showAllPostSignInNavigationPages();
+    }
+
     function showPostSignInMyProfilePageViewProfile() {
         changePageTitle("My Profile");
 
@@ -474,9 +498,9 @@ $(document).ready(() => {
         hideComments();
 
         $("#postSignInBooksPageViewBookEditBook").unbind();
+        $("#postSignInBooksPageViewBookAddComment").unbind();
         $("#postSignInBooksPageViewBookShowComments").unbind();
         $("#postSignInBooksPageViewBookEditBook").hide();
-        $("#postSignInBooksPageViewBookEditBook").attr("name", "");
 
         db.collection("books").doc(nameAttr).get().then((snapshot)=>{
             if(snapshot !== undefined){
@@ -490,6 +514,7 @@ $(document).ready(() => {
                 }
 
                 $("#postSignInBooksPageViewBookShowComments").attr("name", nameAttr);
+                $("#postSignInBooksPageViewBookAddComment").attr("name", nameAttr);
 
                 $("#postSignInBooksPageViewBookPageName").text(bookData.name);
                 $("#postSignInBooksPageViewBookPageISBN").text(bookData.isbn);
@@ -500,6 +525,11 @@ $(document).ready(() => {
                     let name = $(event.target).attr("name");
                     showEditBookPage();
                     loadBookOnEditBookPage(name, bookData.name, bookData.isbn, bookData.year, bookData.description);
+                });
+
+                $("#postSignInBooksPageViewBookAddComment").click((event)=>{
+                    let name = $(event.target).attr("name");
+                     showAddCommentPage(name);
                 });
 
                 $("#postSignInBooksPageViewBookShowComments").click((event)=>{
@@ -642,6 +672,28 @@ $(document).ready(() => {
             showErrorMessage(errorMessage, 5000);
         }).then(()=>{
             showSuccessMessage("Comment deleted successfully.", 3000);
+        });
+    }
+
+    function addComment(nameAttr){
+        let bookComment = $("#postSignInAddCommentPageText").val();
+        let userUid = auth.getUid();
+
+        db.collection("comments").add({
+            book: nameAttr,
+            comment: bookComment,
+            creator: userUid,
+        }).catch((error) => {
+            let errorMessage = error.message;
+            showErrorMessage(errorMessage, 5000);
+        }).then((snapshot) => {
+            if(snapshot !== undefined){
+                showSuccessMessage("Comment added successfully.", 3000);
+                clearAddCommentTextArea();
+                clearBookViewBookPageText();
+                showPostSignInBooksViewBook();
+                loadBookOnViewBookPage(nameAttr);
+            }
         });
     }
 
@@ -1044,6 +1096,10 @@ $(document).ready(() => {
         $("#postSignInBooksPageEditBookPageISBN").val("");
         $("#postSignInBooksPageEditBookPageYear").val("");
         $("#postSignInBooksPageEditBookPageDescription").val("");
+    }
+
+    function clearAddCommentTextArea(){
+        $("#postSignInAddCommentPageText").val("");
     }
 
     function validateName(name) {
