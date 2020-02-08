@@ -111,14 +111,6 @@ body {
     padding: 20px;
 }
 
-#backToMyBooksPageFromCreateBookPage{
-    cursor: pointer;
-    width: 100%;
-    color: black;
-    background-color: #04bfcc;
-    padding: 20px;
-}
-
 .backToMyBooksViewProfilePageButtons {
     cursor: pointer;
     width: 100%;
@@ -127,7 +119,9 @@ body {
     padding: 20px;
 }
 
-#backToAnyOfTheTwoBookPages {
+/*TODO put the below buttons in the same class*/
+
+#backToMyBooksPageFromCreateBookPage, #backToAnyOfTheTwoBookPages, #backToBookFromAddCommentPage {
     cursor: pointer;
     width: 100%;
     color: black;
@@ -152,4 +146,9 @@ body {
 
 .underlinedText:hover {
     color: white;
+}
+
+textarea {
+    width: 80%;
+    height: 100px;
 }
