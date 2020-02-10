@@ -30,6 +30,7 @@ $(document).ready(() => {
                 clearBookViewBookPageText();
                 clearEditBookPageText();
                 clearAddCommentTextArea();
+                clearEditCommentTextArea();
             }
         });
 
@@ -54,6 +55,7 @@ $(document).ready(() => {
         $("#postSignInIndexPageMyBooks").click(showPostSignInMyBooksPage);
         $("#postSignInMyBooksPageCreateBookButton").click(showCreateBookPage);
         $("#postSignInBooksPageViewBookHideComments").click(hideComments);
+        $("#editCommentButtonFinal").click(editComment);
         $("#backToMyBooksPageFromCreateBookPage").click(showPostSignInMyBooksPage);
         $("#postSignInBooksPageCreateBookButtonFinalCreate").click(createBook);
         $("#postSignInIndexPageMyProfile").click(showPostSignInMyProfilePageViewProfile);
@@ -85,6 +87,7 @@ $(document).ready(() => {
         $("#postSignInBooksPageEditBookPage").hide();
         $("#postSignInBooksPageViewBookPage").hide();
         $("#postSignInAddCommentPage").hide();
+        $("#postSignInEditCommentPage").hide();
         $("#postSignInMyProfilePageViewProfile").hide();
         $("#postSignInMyProfilePageEditInfo").hide();
         $("#postSignInMyProfilePageEditEmail").hide();
@@ -332,6 +335,25 @@ $(document).ready(() => {
         showAllPostSignInNavigationPages();
     }
 
+    function showEditCommentPage(nameAttr){
+        $("#backToBookFromEditCommentPage").unbind();
+        $("#backToBookFromEditCommentPage").click(()=>{
+            showPostSignInBooksViewBook();
+            loadBookOnViewBookPage(nameAttr);
+        });
+
+        changePageTitle("Edit comment");
+
+        hideAllPreSignInNavigationPages();
+        hideAllPreSignInPages();
+        hideAllPostSignInPages();
+
+        $("#postSignInContentPage").show();
+        $("#postSignInEditCommentPage").show();
+
+        showAllPostSignInNavigationPages();
+    }
+
     function showPostSignInMyProfilePageViewProfile() {
         changePageTitle("My Profile");
 
@@ -559,6 +581,28 @@ $(document).ready(() => {
         $("#postSignInBooksPageEditBookPageDescription").val(bookDescription);
     }
 
+    function loadCommentOnEditCommentPage(nameAttr){
+        $("#editCommentButtonFinal").unbind();
+
+        db.collection("comments").doc(nameAttr).get().catch((error)=>{
+            let errorMessage = error.message;
+            showErrorMessage(errorMessage, 5000)
+        }).then((snapshot) => {
+            if(snapshot !== undefined){
+                let snapshotData = snapshot.data();
+                let bookComment = snapshotData.comment;
+                let bookId = snapshotData.book;
+                $("#postSignInEditCommentPageText").val(bookComment);
+
+                $("#editCommentButtonFinal").attr("name", nameAttr);
+                $("#editCommentButtonFinal").click(()=>{
+                    editComment(nameAttr, bookId);
+                });
+            }
+        });
+
+    }
+
     function loadProfileOnMyProfileViewPage() {
         clearMyProfileViewProfilePageText();
         let userUid = auth.getUid();
@@ -603,6 +647,7 @@ $(document).ready(() => {
 
     function loadComments(nameAttr, isAfterDelete){
         $(".deleteCommentText").unbind();
+        $(".editCommentText").unbind();
 
         db.collection("comments").where("book", "==", nameAttr).get().catch((error)=>{
             let errorMessage = error.message;
@@ -627,7 +672,7 @@ $(document).ready(() => {
                             paragraphElement = `
                             <hr>
                             <p>${commentData}</p>
-                            <u class="underlinedText deleteCommentText" name="${commentId}">delete</u>
+                            <u class="underlinedText deleteCommentText" name="${commentId}">delete</u> | <u class="underlinedText editCommentText" name="${commentId}">edit</u>
                         `;
                         }
                         else {
@@ -645,6 +690,11 @@ $(document).ready(() => {
                         deleteComment(name);
                         $("#commentBucket").empty();
                         loadComments(nameAttr, true);
+                    });
+                    $(".editCommentText").click((event)=>{
+                        let name = $(event.target).attr("name");
+                        showEditCommentPage(name);
+                        loadCommentOnEditCommentPage(name);
                     });
                 }
                 else {
@@ -678,37 +728,51 @@ $(document).ready(() => {
     function addComment(nameAttr){
         let bookComment = $("#postSignInAddCommentPageText").val();
 
-        if(bookComment.length === 0){
-            showInfoMessage("The comment's length cannot be zero.", 3000);
-            return;
-        }
-        if(bookComment.length > 350){
-            showInfoMessage("The comment cannot be longer than 350 characters.", 4000);
-            return;
-        }
+        if(validateBookComment(bookComment)){
+            let userUid = auth.getUid();
 
+            db.collection("comments").add({
+                book: nameAttr,
+                comment: bookComment,
+                creator: userUid,
+            }).catch((error) => {
+                let errorMessage = error.message;
+                showErrorMessage(errorMessage, 5000);
+            }).then((snapshot) => {
+                if(snapshot !== undefined){
+                    showSuccessMessage("Comment added successfully.", 3000);
+                    clearAddCommentTextArea();
+                    clearBookViewBookPageText();
+                    showPostSignInBooksViewBook();
+                    loadBookOnViewBookPage(nameAttr);
+                }
+            });
+        }
+    }
+
+    function editComment(nameAttr, bookId){
+        let bookComment = $("#postSignInEditCommentPageText").val();
         let userUid = auth.getUid();
 
-        db.collection("comments").add({
-            book: nameAttr,
-            comment: bookComment,
-            creator: userUid,
-        }).catch((error) => {
-            let errorMessage = error.message;
-            showErrorMessage(errorMessage, 5000);
-        }).then((snapshot) => {
-            if(snapshot !== undefined){
-                showSuccessMessage("Comment added successfully.", 3000);
-                clearAddCommentTextArea();
-                clearBookViewBookPageText();
+        if(validateBookComment(bookComment)){
+            db.collection("comments").doc(nameAttr).set({
+                book: bookId,
+                comment: bookComment,
+                creator: userUid
+            }, {merge: true}).catch((error) => {
+                let errorMessage = error.message;
+                showErrorMessage(errorMessage, 5000);
+            }).then(() => {
+                showSuccessMessage("Comment edited successfully.", 3000);
+                clearEditCommentTextArea();
                 showPostSignInBooksViewBook();
-                loadBookOnViewBookPage(nameAttr);
-            }
-        });
+                loadBookOnViewBookPage(bookId);
+            });
+        }
     }
 
     function editMyProfileInfo() {
-        let userId = auth.currentUser.uid;
+        let userUid = auth.getUid();
         let firstName = $("#postSignInMyProfilePageEditProfileFirstName").val();
         let lastName = $("#postSignInMyProfilePageEditProfileLastName").val();
         let username = $("#postSignInMyProfilePageEditProfileUsername").val();
@@ -734,7 +798,7 @@ $(document).ready(() => {
             }
         }
 
-        db.collection("users").doc(userId).set({
+        db.collection("users").doc(userUid).set({
             firstName: firstName,
             lastName: lastName,
             username: username
@@ -1112,6 +1176,10 @@ $(document).ready(() => {
         $("#postSignInAddCommentPageText").val("");
     }
 
+    function clearEditCommentTextArea(){
+        $("#postSignInEditCommentPageText").val("");
+    }
+
     function validateName(name) {
         if (name.length > 25) {
             return false;
@@ -1196,5 +1264,18 @@ $(document).ready(() => {
 
     function validateBookDescription(description) {
         return description.length >= 16 && description.length <= 1500;
+    }
+
+    function validateBookComment(bookComment){
+        if(bookComment.length === 0){
+            showInfoMessage("The comment's length cannot be zero.", 3000);
+            return false;
+        }
+        if(bookComment.length > 350){
+            showInfoMessage("The comment cannot be longer than 350 characters.", 4000);
+            return false;
+        }
+
+        return true;
     }
 });
