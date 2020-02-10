@@ -10,7 +10,7 @@ body {
     color: #3b7fed;
 }
 
-#preSignInNavigationPage {
+#preSignInNavigationPage, #postSignInNavigationPage {
     color: #3b7fed;
     cursor: pointer;
     float: left;
@@ -19,22 +19,7 @@ body {
     font-weight: bold;
 }
 
-#postSignInNavigationPage {
-    color: #3b7fed;
-    cursor: pointer;
-    float: left;
-    text-decoration: underline;
-    text-transform: uppercase;
-    font-weight: bold;
-}
-
-#preSignInContentPage {
-    border: 1px solid;
-    overflow: hidden;
-    text-align: center;
-}
-
-#postSignInContentPage {
+#preSignInContentPage, #postSignInContentPage {
     border: 1px solid;
     overflow: hidden;
     text-align: center;
@@ -69,30 +54,10 @@ body {
     color: black;
 }
 
-.regSignInputElements {
+.inputElements {
     width: 100%;
     padding: 14px 20px;
     margin: 8px 0;
-}
-
-.bookCreationInputElements {
-    width: 100%;
-    padding: 14px 20px;
-    margin: 8px 0;
-}
-
-.profileEditInputElements {
-    width: 100%;
-    padding: 14px 20px;
-    margin: 8px 0;
-}
-
-.regSignButtons {
-    cursor: pointer;
-    width: 100%;
-    color: white;
-    background-color: #3b7fed;
-    padding: 20px;
 }
 
 .crudButtons {
@@ -121,7 +86,7 @@ body {
 
 /*TODO put the below buttons in the same class*/
 
-#backToMyBooksPageFromCreateBookPage, #backToAnyOfTheTwoBookPages, #backToBookFromAddCommentPage {
+#backToMyBooksPageFromCreateBookPage, #backToAnyOfTheTwoBookPages, #backToBookFromAddCommentPage, #backToBookFromEditCommentPage {
     cursor: pointer;
     width: 100%;
     color: black;

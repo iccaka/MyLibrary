@@ -43,26 +43,24 @@
     <div id="postSignInBooksPageCreateBookPage">
         <button id="backToMyBooksPageFromCreateBookPage">Back to my books page</button>
         <hr>
-        <input id="postSignInBooksPageCreateBookPageName" class="bookCreationInputElements" type="text"
+        <input id="postSignInBooksPageCreateBookPageName" class="inputElements" type="text"
                placeholder="Name...">
-        <input id="postSignInBooksPageCreateBookPageISBN" class="bookCreationInputElements" type="text"
+        <input id="postSignInBooksPageCreateBookPageISBN" class="inputElements" type="text"
                placeholder="ISBN...">
-        <input id="postSignInBooksPageCreateBookPageYear" class="bookCreationInputElements" type="text"
+        <input id="postSignInBooksPageCreateBookPageYear" class="inputElements" type="text"
                placeholder="Year...">
         <textarea id="postSignInBooksPageCreateBookPageDescription" placeholder="Description...(optional)"></textarea>
-<!--        <input id="postSignInBooksPageCreateBookPageCoverImage" class="bookCreationInputElements" type="file"-->
-<!--               accept="image/*">-->
         <hr>
         <button id="postSignInBooksPageCreateBookButtonFinalCreate" class="crudButtons">Create</button>
     </div>
     <div id="postSignInBooksPageEditBookPage">
         <button class="backToMyBooksViewProfilePageButtons"></button>
         <hr>
-        <input id="postSignInBooksPageEditBookPageName" class="bookCreationInputElements" type="text"
+        <input id="postSignInBooksPageEditBookPageName" class="inputElements" type="text"
                placeholder="Name...">
-        <input id="postSignInBooksPageEditBookPageISBN" class="bookCreationInputElements" type="text"
+        <input id="postSignInBooksPageEditBookPageISBN" class="inputElements" type="text"
                placeholder="ISBN...">
-        <input id="postSignInBooksPageEditBookPageYear" class="bookCreationInputElements" type="text"
+        <input id="postSignInBooksPageEditBookPageYear" class="inputElements" type="text"
                placeholder="Year...">
         <textarea id="postSignInBooksPageEditBookPageDescription" placeholder="Description..."></textarea>
 <!--        <input id="postSignInBooksPageEditBookPageCoverImage" class="bookCreationInputElements" type="file"-->
@@ -104,6 +102,13 @@
         <hr>
         <button id="addCommentButtonFinal" class="crudButtons">Add</button>
     </div>
+    <div id="postSignInEditCommentPage">
+        <button id="backToBookFromEditCommentPage">Back to book</button>
+        <hr>
+        <textarea id="postSignInEditCommentPageText" placeholder="Comment..."></textarea>
+        <hr>
+        <button id="editCommentButtonFinal" class="crudButtons">Edit</button>
+    </div>
     <div id="postSignInFavouritesPage">
 
         <!--        //TODO append favourites here using JavaScript-->
@@ -129,31 +134,31 @@
         <button id="postSignInMyProfilePageViewProfileEditPassword" class="crudButtons">Edit password</button>
     </div>
     <div id="postSignInMyProfilePageEditInfo">
-        <input id="postSignInMyProfilePageEditProfileFirstName" class="profileEditInputElements" type="text"
+        <input id="postSignInMyProfilePageEditProfileFirstName" class="inputElements" type="text"
                placeholder="First name...">
-        <input id="postSignInMyProfilePageEditProfileLastName" class="profileEditInputElements" type="text"
+        <input id="postSignInMyProfilePageEditProfileLastName" class="inputElements" type="text"
                placeholder="Last name...">
-        <input id="postSignInMyProfilePageEditProfileUsername" class="profileEditInputElements" type="text"
+        <input id="postSignInMyProfilePageEditProfileUsername" class="inputElements" type="text"
                placeholder="Username...">
         <button id="postSignInMyProfilePageEditProfileFinalEdit" class="crudButtons">Edit</button>
         <hr>
         <button class="backToMyProfileViewProfilePageButtons">Back to my profile</button>
     </div>
     <div id="postSignInMyProfilePageEditEmail">
-        <input id="postSignInMyProfilePageEditProfileEmail" class="profileEditInputElements" type="text"
+        <input id="postSignInMyProfilePageEditProfileEmail" class="inputElements" type="text"
                placeholder="Email...">
-        <input id="postSignInMyProfilePageEditProfilePassword" class="profileEditInputElements" type="password"
+        <input id="postSignInMyProfilePageEditProfilePassword" class="inputElements" type="password"
                placeholder="Current password...">
         <button id="postSignInMyProfilePageEditEmailFinalEdit" class="crudButtons">Edit</button>
         <hr>
         <button class="backToMyProfileViewProfilePageButtons">Back to my profile</button>
     </div>
     <div id="postSignInMyProfilePageEditPassword">
-        <input id="postSignInMyProfilePageEditProfilePasswordPassword" class="profileEditInputElements" type="password"
+        <input id="postSignInMyProfilePageEditProfilePasswordPassword" class="inputElements" type="password"
                placeholder="Current password...">
-        <input id="postSignInMyProfilePageEditProfileNewPassword" class="profileEditInputElements" type="password"
+        <input id="postSignInMyProfilePageEditProfileNewPassword" class="inputElements" type="password"
                placeholder="New password...">
-        <input id="postSignInMyProfilePageEditProfileRepeatNewPassword" class="profileEditInputElements" type="password"
+        <input id="postSignInMyProfilePageEditProfileRepeatNewPassword" class="inputElements" type="password"
                placeholder="Repeat new password...">
         <button id="postSignInMyProfilePageEditPasswordFinalEdit" class="crudButtons">Edit</button>
         <hr>
@@ -175,20 +180,20 @@
         </h2>
     </div>
     <div id="signInPage">
-        <input id="signInPageEmail" class="regSignInputElements" type="text" placeholder="Email...">
-        <input id="signInPagePassword" class="regSignInputElements" type="password" placeholder="Password...">
-        <button id="signInPageButton" class="regSignButtons">Sign In</button>
+        <input id="signInPageEmail" class="inputElements" type="text" placeholder="Email...">
+        <input id="signInPagePassword" class="inputElements" type="password" placeholder="Password...">
+        <button id="signInPageButton" class="crudButtons">Sign In</button>
     </div>
     <div id="registerPage">
-        <input id="registerPageFirstName" class="regSignInputElements" type="text"
+        <input id="registerPageFirstName" class="inputElements" type="text"
                placeholder="First name...(optional)">
-        <input id="registerPageLastName" class="regSignInputElements" type="text" placeholder="Last name...(optional)">
-        <input id="registerPageUsername" class="regSignInputElements" type="text" placeholder="Username...(optional)">
-        <input id="registerPageEmail" class="regSignInputElements" type="text" placeholder="Email...">
-        <input id="registerPagePassword" class="regSignInputElements" type="password" placeholder="Password...">
-        <input id="registerPageRepeatPassword" class="regSignInputElements" type="password"
+        <input id="registerPageLastName" class="inputElements" type="text" placeholder="Last name...(optional)">
+        <input id="registerPageUsername" class="inputElements" type="text" placeholder="Username...(optional)">
+        <input id="registerPageEmail" class="inputElements" type="text" placeholder="Email...">
+        <input id="registerPagePassword" class="inputElements" type="password" placeholder="Password...">
+        <input id="registerPageRepeatPassword" class="inputElements" type="password"
                placeholder="Repeat password...">
-        <button id="registerPageButton" class="regSignButtons">Register</button>
+        <button id="registerPageButton" class="crudButtons">Register</button>
     </div>
     <div id="aboutPage">
         <h2>A simple library single-page application written in JavaScript, that uses Firebase.</h2>
