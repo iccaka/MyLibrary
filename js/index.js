@@ -44,12 +44,12 @@ $(document).ready(() => {
         $("#signInPageButton").click(signIn);
         $("#registerPageButton").click(register);
         $("#indexPageAboutButton").click(showAboutPage);
-        $("#navigationPagePostSignInHome").click(showPostSignInIndexPage);
-        $("#navigationPagePostSignInBooks").click(showPostSignInBooksPage);
-        $("#navigationPagePostSignInMyBooks").click(showPostSignInMyBooksPage);
-        $("#navigationPagePostSignInMyProfile").click(showPostSignInMyProfilePageViewProfile);
-        $("#navigationPagePostSignInFavourites").click(showPostSignInFavouritesPage);
-        $("#navigationPagePostSignInSignOut").click(signOut);
+        $("#postSignInNavigationHome").click(showPostSignInIndexPage);
+        $("#postSignInNavigationBooks").click(showPostSignInBooksPage);
+        $("#postSignInNavigationMyBooks").click(showPostSignInMyBooksPage);
+        $("#postSignInNavigationMyProfile").click(showPostSignInMyProfilePageViewProfile);
+        $("#postSignInNavigationFavourites").click(showPostSignInFavouritesPage);
+        $("#postSignInNavigationSignOut").click(signOut);
         $("#postSignInIndexPageFavourites").click(showPostSignInFavouritesPage);
         $("#postSignInIndexPageBooks").click(showPostSignInBooksPage);
         $("#postSignInIndexPageMyBooks").click(showPostSignInMyBooksPage);
@@ -71,8 +71,8 @@ $(document).ready(() => {
     }
 
     function hideAllPreSignInPages() {
-        $("#indexPage").hide();
-        $("#signInPage").hide();
+        $("#preSignInIndexPage").hide();
+        $("#preSignInSignInPage").hide();
         $("#registerPage").hide();
         $("#aboutPage").hide();
 
@@ -107,12 +107,12 @@ $(document).ready(() => {
     }
 
     function hideAllPostSignInNavigationPages() {
-        $("#navigationPagePostSignInHome").hide();
-        $("#navigationPagePostSignInBooks").hide();
-        $("#navigationPagePostSignInMyBooks").hide();
-        $("#navigationPagePostSignInMyProfile").hide();
-        $("#navigationPagePostSignInFavourites").hide();
-        $("#navigationPagePostSignInSignOut").hide();
+        $("#postSignInNavigationHome").hide();
+        $("#postSignInNavigationBooks").hide();
+        $("#postSignInNavigationMyBooks").hide();
+        $("#postSignInNavigationMyProfile").hide();
+        $("#postSignInNavigationFavourites").hide();
+        $("#postSignInNavigationSignOut").hide();
 
         $("#postSignInNavigationPage").hide();
     }
@@ -127,12 +127,12 @@ $(document).ready(() => {
     }
 
     function showAllPostSignInNavigationPages() {
-        $("#navigationPagePostSignInHome").show();
-        $("#navigationPagePostSignInBooks").show();
-        $("#navigationPagePostSignInMyBooks").show();
-        $("#navigationPagePostSignInMyProfile").show();
-        $("#navigationPagePostSignInFavourites").show();
-        $("#navigationPagePostSignInSignOut").show();
+        $("#postSignInNavigationHome").show();
+        $("#postSignInNavigationBooks").show();
+        $("#postSignInNavigationMyBooks").show();
+        $("#postSignInNavigationMyProfile").show();
+        $("#postSignInNavigationFavourites").show();
+        $("#postSignInNavigationSignOut").show();
 
         $("#postSignInNavigationPage").show();
     }
@@ -145,7 +145,7 @@ $(document).ready(() => {
         hideAllPreSignInPages();
 
         $("#preSignInContentPage").show();
-        $("#indexPage").show();
+        $("#preSignInIndexPage").show();
 
         showAllPreSignInNavigationPages();
         $("#navigationPageHome").hide();
@@ -159,7 +159,7 @@ $(document).ready(() => {
         hideAllPreSignInPages();
 
         $("#preSignInContentPage").show();
-        $("#signInPage").show();
+        $("#preSignInSignInPage").show();
 
         showAllPreSignInNavigationPages();
         $("#navigationPageSignIn").hide();
@@ -204,7 +204,7 @@ $(document).ready(() => {
         $("#postSignInIndexPage").show();
 
         showAllPostSignInNavigationPages();
-        $("#navigationPagePostSignInHome").hide()
+        $("#postSignInNavigationHome").hide()
     }
 
     function showPostSignInBooksPage() {
@@ -223,7 +223,7 @@ $(document).ready(() => {
         $("#postSignInBooksPage").show().empty();
 
         showAllPostSignInNavigationPages();
-        $("#navigationPagePostSignInBooks").hide();
+        $("#postSignInNavigationBooks").hide();
 
         loadBooksOnBooksPage();
     }
@@ -246,7 +246,7 @@ $(document).ready(() => {
         $("#postSignInMyBooksPageCreateBookButton").show();
 
         showAllPostSignInNavigationPages();
-        $("#navigationPagePostSignInMyBooks").hide();
+        $("#postSignInNavigationMyBooks").hide();
 
         loadBooksOnMyBooksPage();
     }
@@ -365,7 +365,7 @@ $(document).ready(() => {
         $("#postSignInMyProfilePageViewProfile").show();
 
         showAllPostSignInNavigationPages();
-        $("#navigationPagePostSignInMyProfile").hide();
+        $("#postSignInNavigationMyProfile").hide();
 
         loadProfileOnMyProfileViewPage();
     }
@@ -424,7 +424,7 @@ $(document).ready(() => {
         $("#postSignInFavouritesPage").show();
 
         showAllPostSignInNavigationPages();
-        $("#navigationPagePostSignInFavourites").hide();
+        $("#postSignInNavigationFavourites").hide();
 
         loadBooksOnFavouritesPage();
     }

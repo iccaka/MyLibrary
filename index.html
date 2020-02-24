@@ -7,203 +7,105 @@
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
-<body>
-<div id="headingPage">
-    <h1 id="headingPageHeading">My Library</h1>
-    <hr>
-    <div id="errorMessage" class="responseMessages"></div>
-    <div id="successMessage" class="responseMessages"></div>
-    <div id="infoMessage" class="responseMessages"></div>
-    <hr>
-</div>
-<div id="postSignInNavigationPage">
-    <div id="navigationPagePostSignInHome" class="navigationPageElements">Home</div>
-    <div id="navigationPagePostSignInBooks" class="navigationPageElements">Books</div>
-    <div id="navigationPagePostSignInMyBooks" class="navigationPageElements">My books</div>
-    <div id="navigationPagePostSignInFavourites" class="navigationPageElements">Favourites</div>
-    <div id="navigationPagePostSignInMyProfile" class="navigationPageElements">My profile</div>
-    <div id="navigationPagePostSignInSignOut" class="navigationPageElements">Sign out</div>
-</div>
-<div id="postSignInContentPage">
-    <div id="postSignInIndexPage">
-        <h3>Use the navigation bar on the left to see <u id="postSignInIndexPageBooks"
-                                                     class="underlinedText">all books</u>, <u id="postSignInIndexPageMyBooks" class="underlinedText"> your books</u>, <u id="postSignInIndexPageFavourites" class="underlinedText"> your favourites</u> or<u
-                id="postSignInIndexPageMyProfile" class="underlinedText"> your profile</u>.
-        </h3>
+<body class="bg-light">
+<div id="header" class="container">
+    <div id="headingPage" class="row">
+        <h1 id="headingPageHeading" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">My Library</h1>
+        <div id="errorMessage" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+        <div id="successMessage" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+        <div id="infoMessage" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
     </div>
-    <div id="postSignInBooksPage">
+    <div id="preSignInNavigationPage" class="row">
+        <div id="navigationPageHome" class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Home</div>
+        <div id="navigationPageSignIn" class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Sign in</div>
+        <div id="navigationPageRegister" class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Register</div>
+        <div id="navigationPageAbout" class="col-lg-2 col-md-2 col-sm-2 col-xs-2">About</div>
+    </div>
+    <div id="postSignInNavigationPage" class="row">
+        <div id="postSignInNavigationHome" class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Home</div>
+        <div id="postSignInNavigationBooks" class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Books</div>
+        <div id="postSignInNavigationMyBooks" class="col-lg-2 col-md-2 col-sm-2 col-xs-2">My books</div>
+        <div id="postSignInNavigationFavourites" class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Favourites</div>
+        <div id="postSignInNavigationMyProfile" class="col-lg-2 col-md-2 col-sm-2 col-xs-2">My profile</div>
+        <div id="postSignInNavigationSignOut" class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Sign out</div>
+    </div>
+</div>
+<div id="preSignInContentPage" class="container">
+    <div id="preSignInIndexPage" class="row">
+        <h4 id="preSignInIndexPageDescription" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Welcome! Use the navigation bar on top to <u id="indexPageSignInButton" class="underlinedText">sign in</u> into an existing account, or <u id="indexPageRegisterButton" class="underlinedText">register</u> yourself. You can also check out the <u id="indexPageAboutButton" class="underlinedText">about</u> section.</h4>
+    </div>
+    <div id="preSignInSignInPage" class="row">
+        <input id="preSignInPageEmail" class="col-lg-8 col-md-8 col-sm-8 col-xs-8" type="text" placeholder="Email...">
+        <input id="preSignInPagePassword" class="col-lg-8 col-md-8 col-sm-8 col-xs-8" type="password" placeholder="Password...">
+        <button id="preSignInPageSignInButton" class="col-lg-8 col-md-8 col-sm-8 col-xs-8 crudButtons">Sign In</button>
+    </div>
+    <div id="preSignInRegisterPage" class="row">
+        <input id="preSignInRegisterPageFirstName" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" type="text" placeholder="First name...(optional)">
+        <input id="preSignInRegisterPageLastName" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" type="text" placeholder="Last name...(optional)">
+        <input id="preSignInRegisterPageUsername" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" type="text" placeholder="Username...(optional)">
+        <input id="preSignInRegisterPageEmail" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" type="text" placeholder="Email...">
+        <input id="preSignInRegisterPagePassword" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" type="password" placeholder="Password...">
+        <input id="preSignInRegisterPageRepeatPassword" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" type="password" placeholder="Repeat password...">
+        <button id="preSignInRegisterPageButton" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 crudButtons">Register</button>
+    </div>
+    <div id="preSignInAboutPage" class="row">
+        <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12">A simple 'library' single-page application written in JavaScript that uses Firebase.</h4>
+        <div class="row">
+            <h2 class="col-lg-12 col-md-12 col-sm-6 col-xs-6">Created by:</h2>
+            <h3 class="col-lg-12 col-md-12 col-sm-6 col-xs-6"><a href="https://github.com/iccaka" target="_blank">iccaka</a></h3>
+        </div>
+        <div class="row">
+            <h2 class="col-lg-12 col-md-12 col-sm-12 col-xs-12">GitHub repository:</h2>
+            <h3 class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><a href="https://github.com/iccaka/MyLibrary" target="_blank">MyLibrary</a></h3>
+        </div>
+    </div>
+</div>
+<div id="postSignInContentPage" class="container">
+    <div id="postSignInIndexPage" class="row">
+        <h3>Use the navigation bar on the left to see <u id="postSignInIndexPageBooks" class="underlinedText">all books</u>, <u id="postSignInIndexPageMyBooks" class="underlinedText"> your books</u>, <u id="postSignInIndexPageFavourites" class="underlinedText"> your favourites</u> or<u id="postSignInIndexPageMyProfile" class="underlinedText"> your profile</u>.</h3>
+    </div>
+    <div id="postSignInBooksPage" class="row">
 
     </div>
-    <div id="postSignInMyBooksPage">
-        <button id="postSignInMyBooksPageCreateBookButton" class="crudButtons">Create a book</button>
-        <hr>
-        <div id="postSignInMyBooksPageList">
+    <div id="postSignInMyBooksPage" class="row">
+        <button id="postSignInMyBooksPageCreateBookButton" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 crudButtons">Create a book</button>
+        <div id="postSignInMyBooksPageList" class="row">
 
         </div>
     </div>
-    <div id="postSignInBooksPageCreateBookPage">
-        <button id="backToMyBooksPageFromCreateBookPage">Back to my books page</button>
-        <hr>
-        <input id="postSignInBooksPageCreateBookPageName" class="inputElements" type="text"
-               placeholder="Name...">
-        <input id="postSignInBooksPageCreateBookPageISBN" class="inputElements" type="text"
-               placeholder="ISBN...">
-        <input id="postSignInBooksPageCreateBookPageYear" class="inputElements" type="text"
-               placeholder="Year...">
-        <textarea id="postSignInBooksPageCreateBookPageDescription" placeholder="Description...(optional)"></textarea>
-        <hr>
-        <button id="postSignInBooksPageCreateBookButtonFinalCreate" class="crudButtons">Create</button>
+    <div id="postSignInBooksPageCreateBookPage" class="row">
+        <button id="backToMyBooksPageFromCreateBookPage" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 crudButtons">Back to my books page</button>
+        <input id="postSignInBooksPageCreateBookPageName" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" type="text" placeholder="Name...">
+        <input id="postSignInBooksPageCreateBookPageISBN" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" type="text" placeholder="ISBN...">
+        <input id="postSignInBooksPageCreateBookPageYear" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" type="text" placeholder="Year...">
+        <textarea id="postSignInBooksPageCreateBookPageDescription" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" placeholder="Description...(optional)"></textarea>
+        <button id="postSignInBooksPageCreateBookButtonFinalCreate" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 crudButtons">Create</button>
     </div>
-    <div id="postSignInBooksPageEditBookPage">
-        <button class="backToMyBooksViewProfilePageButtons"></button>
-        <hr>
-        <input id="postSignInBooksPageEditBookPageName" class="inputElements" type="text"
-               placeholder="Name...">
-        <input id="postSignInBooksPageEditBookPageISBN" class="inputElements" type="text"
-               placeholder="ISBN...">
-        <input id="postSignInBooksPageEditBookPageYear" class="inputElements" type="text"
-               placeholder="Year...">
-        <textarea id="postSignInBooksPageEditBookPageDescription" placeholder="Description..."></textarea>
-<!--        <input id="postSignInBooksPageEditBookPageCoverImage" class="bookCreationInputElements" type="file"-->
-<!--               accept="image/*">-->
-        <hr>
-        <button id="postSignInBooksPageEditBookButtonFinalEdit" class="crudButtons">Edit</button>
+    <div id="postSignInBooksPageEditBookPage" class="row">
+        <button class="col-lg-12 col-md-12 col-sm-12 col-xs-12 backToMyBooksViewProfilePageButtons"></button>
+        <input id="postSignInBooksPageEditBookPageName" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" type="text" placeholder="Name...">
+        <input id="postSignInBooksPageEditBookPageISBN" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" type="text" placeholder="ISBN...">
+        <input id="postSignInBooksPageEditBookPageYear" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" type="text" placeholder="Year...">
+        <textarea id="postSignInBooksPageEditBookPageDescription" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" placeholder="Description..."></textarea>
+        <button id="postSignInBooksPageEditBookButtonFinalEdit" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 crudButtons">Edit</button>
     </div>
-    <div id="postSignInBooksPageViewBookPage">
-<!--        <h3>Cover image:</h3>-->
-<!--        <img id="postSignInBooksPageViewBookPageCoverImage">-->
-        <button id="backToAnyOfTheTwoBookPages"></button>
-        <hr>
-        <h2>Name:</h2>
-        <h3 id="postSignInBooksPageViewBookPageName"></h3>
-        <hr>
-        <h2>ISBN:</h2>
-        <h3 id="postSignInBooksPageViewBookPageISBN"></h3>
-        <hr>
-        <h2>Year:</h2>
-        <h3 id="postSignInBooksPageViewBookPageYear"></h3>
-        <hr>
-        <h2>Description:</h2>
-        <p id="postSignInBooksPageViewBookPageDescription"></p>
-        <hr>
-        <button id="postSignInBooksPageViewBookEditBook" class="crudButtons">Edit</button>
-        <hr>
-        <button id="postSignInBooksPageViewBookAddComment" class="crudButtons">Add comment</button>
-        <hr>
-        <button id="postSignInBooksPageViewBookShowComments" class="crudButtons">Show comments</button>
-        <button id="postSignInBooksPageViewBookHideComments" class="crudButtons">Hide comments</button>
+    <div id="postSignInBooksPageViewBookPage" class="row">
+        <button id="backToAnyOfTheTwoBookPages" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></button>
+        <h2 class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Name:</h2>
+        <h3 id="postSignInBooksPageViewBookPageName" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></h3>
+        <h2 class="col-lg-12 col-md-12 col-sm-12 col-xs-12">ISBN:</h2>
+        <h3 id="postSignInBooksPageViewBookPageISBN" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></h3>
+        <h2 class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Year:</h2>
+        <h3 id="postSignInBooksPageViewBookPageYear" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></h3>
+        <h2 class="col-lg-12 col-md-12 col-sm-12 col-xs-12">Description:</h2>
+        <p id="postSignInBooksPageViewBookPageDescription" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></p>
+        <button id="postSignInBooksPageViewBookEditBook" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 crudButtons">Edit</button>
+        <button id="postSignInBooksPageViewBookAddComment" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 crudButtons">Add comment</button>
+        <button id="postSignInBooksPageViewBookShowComments" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 crudButtons">Show comments</button>
+        <button id="postSignInBooksPageViewBookHideComments" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 crudButtons">Hide comments</button>
         <div id="commentBucket">
 
         </div>
-    </div>
-    <div id="postSignInAddCommentPage">
-        <button id="backToBookFromAddCommentPage">Back to book</button>
-        <hr>
-        <textarea id="postSignInAddCommentPageText" placeholder="Comment..."></textarea>
-        <hr>
-        <button id="addCommentButtonFinal" class="crudButtons">Add</button>
-    </div>
-    <div id="postSignInEditCommentPage">
-        <button id="backToBookFromEditCommentPage">Back to book</button>
-        <hr>
-        <textarea id="postSignInEditCommentPageText" placeholder="Comment..."></textarea>
-        <hr>
-        <button id="editCommentButtonFinal" class="crudButtons">Edit</button>
-    </div>
-    <div id="postSignInFavouritesPage">
-
-        <!--        //TODO append favourites here using JavaScript-->
-
-    </div>
-    <div id="postSignInMyProfilePageViewProfile">
-        <h2>First name:</h2>
-        <h3 id="postSignInMyProfilePageViewProfileFirstName"></h3>
-        <hr>
-        <h2>Last name:</h2>
-        <h3 id="postSignInMyProfilePageViewProfileLastName"></h3>
-        <hr>
-        <h2>Username:</h2>
-        <h3 id="postSignInMyProfilePageViewProfileUsername"></h3>
-        <hr>
-        <h2>Email:</h2>
-        <h3 id="postSignInMyProfilePageViewProfileEmail"></h3>
-        <hr>
-        <button id="postSignInMyProfilePageViewProfileEditInfo" class="crudButtons">Edit information</button>
-        <hr>
-        <button id="postSignInMyProfilePageViewProfileEditEmail" class="crudButtons">Edit email</button>
-        <hr>
-        <button id="postSignInMyProfilePageViewProfileEditPassword" class="crudButtons">Edit password</button>
-    </div>
-    <div id="postSignInMyProfilePageEditInfo">
-        <input id="postSignInMyProfilePageEditProfileFirstName" class="inputElements" type="text"
-               placeholder="First name...">
-        <input id="postSignInMyProfilePageEditProfileLastName" class="inputElements" type="text"
-               placeholder="Last name...">
-        <input id="postSignInMyProfilePageEditProfileUsername" class="inputElements" type="text"
-               placeholder="Username...">
-        <button id="postSignInMyProfilePageEditProfileFinalEdit" class="crudButtons">Edit</button>
-        <hr>
-        <button class="backToMyProfileViewProfilePageButtons">Back to my profile</button>
-    </div>
-    <div id="postSignInMyProfilePageEditEmail">
-        <input id="postSignInMyProfilePageEditProfileEmail" class="inputElements" type="text"
-               placeholder="Email...">
-        <input id="postSignInMyProfilePageEditProfilePassword" class="inputElements" type="password"
-               placeholder="Current password...">
-        <button id="postSignInMyProfilePageEditEmailFinalEdit" class="crudButtons">Edit</button>
-        <hr>
-        <button class="backToMyProfileViewProfilePageButtons">Back to my profile</button>
-    </div>
-    <div id="postSignInMyProfilePageEditPassword">
-        <input id="postSignInMyProfilePageEditProfilePasswordPassword" class="inputElements" type="password"
-               placeholder="Current password...">
-        <input id="postSignInMyProfilePageEditProfileNewPassword" class="inputElements" type="password"
-               placeholder="New password...">
-        <input id="postSignInMyProfilePageEditProfileRepeatNewPassword" class="inputElements" type="password"
-               placeholder="Repeat new password...">
-        <button id="postSignInMyProfilePageEditPasswordFinalEdit" class="crudButtons">Edit</button>
-        <hr>
-        <button class="backToMyProfileViewProfilePageButtons">Back to my profile</button>
-    </div>
-</div>
-<div id="preSignInNavigationPage">
-    <div id="navigationPageHome" class="navigationPageElements">Home</div>
-    <div id="navigationPageSignIn" class="navigationPageElements">Sign in</div>
-    <div id="navigationPageRegister" class="navigationPageElements">Register</div>
-    <div id="navigationPageAbout" class="navigationPageElements">About</div>
-</div>
-<div id="preSignInContentPage">
-    <div id="indexPage">
-        <h2 id="indexPageDescription">Welcome! Use the navigation bar on the left to <u id="indexPageSignInButton"
-                                                                                        class="underlinedText">sign
-            in</u> into an existing account, or <u id="indexPageRegisterButton" class="underlinedText">register</u>
-            yourself. You can also check out the <u id="indexPageAboutButton" class="underlinedText">about</u> section.
-        </h2>
-    </div>
-    <div id="signInPage">
-        <input id="signInPageEmail" class="inputElements" type="text" placeholder="Email...">
-        <input id="signInPagePassword" class="inputElements" type="password" placeholder="Password...">
-        <button id="signInPageButton" class="crudButtons">Sign In</button>
-    </div>
-    <div id="registerPage">
-        <input id="registerPageFirstName" class="inputElements" type="text"
-               placeholder="First name...(optional)">
-        <input id="registerPageLastName" class="inputElements" type="text" placeholder="Last name...(optional)">
-        <input id="registerPageUsername" class="inputElements" type="text" placeholder="Username...(optional)">
-        <input id="registerPageEmail" class="inputElements" type="text" placeholder="Email...">
-        <input id="registerPagePassword" class="inputElements" type="password" placeholder="Password...">
-        <input id="registerPageRepeatPassword" class="inputElements" type="password"
-               placeholder="Repeat password...">
-        <button id="registerPageButton" class="crudButtons">Register</button>
-    </div>
-    <div id="aboutPage">
-        <h2>A simple library single-page application written in JavaScript, that uses Firebase.</h2>
-        <hr>
-        <h2>Created by:</h2>
-        <h3><a href="https://github.com/iccaka" target="_blank">iccaka</a></h3>
-        <hr>
-        <h2>GitHub repository:</h2>
-        <h3><a href="https://github.com/iccaka/MyLibrary" target="_blank">MyLibrary</a></h3>
     </div>
 </div>
 <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
