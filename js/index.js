@@ -60,18 +60,16 @@ $(document).ready(() => {
         $("#postSignInNavigationFavourites").click(showPostSignInFavouritesPage);
         $("#postSignInNavigationSignOut").click(signOut);
 
-        // the 3 little text buttons inside of the 'post sign in' index page
+        // the 4 little text buttons inside of the 'post sign in' index page
         $("#postSignInIndexPageFavourites").click(showPostSignInFavouritesPage);
         $("#postSignInIndexPageBooks").click(showPostSignInBooksPage);
         $("#postSignInIndexPageMyBooks").click(showPostSignInMyBooksPage);
-
+        $("#postSignInIndexPageMyProfile").click(showPostSignInMyProfilePageViewProfile);
 
         $("#postSignInMyBooksPageCreateBookButton").click(showCreateBookPage);
+        $("#postSignInBooksPageCreateBookButtonFinalCreate").click(createBook);
         $("#postSignInBooksPageViewBookHideComments").click(hideComments);
         $("#editCommentButtonFinal").click(editComment);
-        $("#backToMyBooksPageFromCreateBookPage").click(showPostSignInMyBooksPage);
-        $("#postSignInBooksPageCreateBookButtonFinalCreate").click(createBook);
-        $("#postSignInIndexPageMyProfile").click(showPostSignInMyProfilePageViewProfile);
 
         // the 3 buttons corresponding to showing the 3 'my profile' edit pages(edit info, password and email)
         $("#postSignInMyProfilePageViewProfileEditInfo").click(showPostSignInMyProfileEditPage);
@@ -86,6 +84,7 @@ $(document).ready(() => {
         // back buttons
         $(".backToMyProfileViewProfilePageButtons").click(showPostSignInMyProfilePageViewProfile);
         $(".backToMyBooksViewProfilePageButtons").click(showPostSignInMyBooksPage);
+        $("#backToMyBooksPageFromCreateBookPage").click(showPostSignInMyBooksPage);
         $("#backToAnyOfTheTwoBookPages").click(showBooksOrMyBooksPage);
     }
 
