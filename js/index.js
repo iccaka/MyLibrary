@@ -34,37 +34,56 @@ $(document).ready(() => {
             }
         });
 
+        // the 3 response messages inside of the 'header' div
         $(".responseMessages").click(hideResponseMessages);
+
+        // the 4 'pre sign in' navigation tabs
         $("#navigationPageHome").click(showIndexPage);
         $("#navigationPageSignIn").click(showSignInPage);
         $("#navigationPageRegister").click(showRegisterPage);
         $("#navigationPageAbout").click(showAboutPage);
+
+        // the 3 little text buttons inside of the 'pre sign in' index page
         $("#indexPageSignInButton").click(showSignInPage);
         $("#indexPageRegisterButton").click(showRegisterPage);
-        $("#signInPageButton").click(signIn);
-        $("#registerPageButton").click(register);
         $("#indexPageAboutButton").click(showAboutPage);
+
+        // the 2 buttons activating the 'signIn' and 'register' functions
+        $("#preSignInPageSignInButton").click(signIn);
+        $("#preSignInRegisterPageButton").click(register);
+
+        // the 6 'post sign in' navigation tabs
         $("#postSignInNavigationHome").click(showPostSignInIndexPage);
         $("#postSignInNavigationBooks").click(showPostSignInBooksPage);
         $("#postSignInNavigationMyBooks").click(showPostSignInMyBooksPage);
         $("#postSignInNavigationMyProfile").click(showPostSignInMyProfilePageViewProfile);
         $("#postSignInNavigationFavourites").click(showPostSignInFavouritesPage);
         $("#postSignInNavigationSignOut").click(signOut);
+
+        // the 3 little text buttons inside of the 'post sign in' index page
         $("#postSignInIndexPageFavourites").click(showPostSignInFavouritesPage);
         $("#postSignInIndexPageBooks").click(showPostSignInBooksPage);
         $("#postSignInIndexPageMyBooks").click(showPostSignInMyBooksPage);
+
+
         $("#postSignInMyBooksPageCreateBookButton").click(showCreateBookPage);
         $("#postSignInBooksPageViewBookHideComments").click(hideComments);
         $("#editCommentButtonFinal").click(editComment);
         $("#backToMyBooksPageFromCreateBookPage").click(showPostSignInMyBooksPage);
         $("#postSignInBooksPageCreateBookButtonFinalCreate").click(createBook);
         $("#postSignInIndexPageMyProfile").click(showPostSignInMyProfilePageViewProfile);
+
+        // the 3 buttons corresponding to showing the 3 'my profile' edit pages(edit info, password and email)
         $("#postSignInMyProfilePageViewProfileEditInfo").click(showPostSignInMyProfileEditPage);
-        $("#postSignInMyProfilePageEditProfileFinalEdit").click(editMyProfileInfo);
-        $("#postSignInMyProfilePageViewProfileEditEmail").click(showPostSignInMyProfileEditEmail);
-        $("#postSignInMyProfilePageEditEmailFinalEdit").click(editMyProfileEmail);
         $("#postSignInMyProfilePageViewProfileEditPassword").click(showPostSignInMyProfileEditPassword);
+        $("#postSignInMyProfilePageViewProfileEditEmail").click(showPostSignInMyProfileEditEmail);
+
+        // the 3 final buttons editing the overall 'my profile' information(info, password and email)
+        $("#postSignInMyProfilePageEditProfileFinalEdit").click(editMyProfileInfo);
+        $("#postSignInMyProfilePageEditEmailFinalEdit").click(editMyProfileEmail);
         $("#postSignInMyProfilePageEditPasswordFinalEdit").click(editMyProfilePassword);
+
+        // back buttons
         $(".backToMyProfileViewProfilePageButtons").click(showPostSignInMyProfilePageViewProfile);
         $(".backToMyBooksViewProfilePageButtons").click(showPostSignInMyBooksPage);
         $("#backToAnyOfTheTwoBookPages").click(showBooksOrMyBooksPage);
