@@ -3,9 +3,10 @@
     background-color: #8acaf2;
 }
 
-.underlinedText {
+.underlinedText, .descText {
     color: #8acaf2;
 }
+
 
 .underlinedText:hover {
     cursor: pointer;

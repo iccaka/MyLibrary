@@ -284,10 +284,10 @@ $(document).ready(() => {
         $("#postSignInBooksPageViewBookPage").show();
 
         if(isOnBooksPage){
-            $("#backToAnyOfTheTwoBookPages").text("Back to books page");
+            $("#backToAnyOfTheTwoBookPages").text("Back to all books");
         }
         else {
-            $("#backToAnyOfTheTwoBookPages").text("Back to my books page");
+            $("#backToAnyOfTheTwoBookPages").text("Back to my books");
         }
 
         $("#postSignInBooksPageViewBookShowComments").show();
@@ -690,17 +690,25 @@ $(document).ready(() => {
                         let paragraphElement;
 
                         if(userUid === commentCreator){
+                        //     paragraphElement = `
+                        //     <hr>
+                        //     <p>${commentData}</p>
+                        //     <u class="underlinedText deleteCommentText" name="${commentId}">delete</u> | <u class="underlinedText editCommentText" name="${commentId}">edit</u>
+                        // `;
+
                             paragraphElement = `
-                            <hr>
-                            <p>${commentData}</p>
-                            <u class="underlinedText deleteCommentText" name="${commentId}">delete</u> | <u class="underlinedText editCommentText" name="${commentId}">edit</u>
-                        `;
+                                <div class="row">
+                                    <p>${commentData}</p>
+                                    <u class="underlinedText deleteCommentText" name="${commentId}">delete</u> | <u class="underlinedText editCommentText" name="${commentId}">edit</u>
+                                </div>
+                            `;
                         }
                         else {
                             paragraphElement = `
-                            <hr>
-                            <p>${commentData}</p>
-                        `;
+                                <div class="row">
+                                    <p>${commentData}</p>
+                                </div>
+                            `;
                         }
 
                         $("#commentBucket").append(paragraphElement);
