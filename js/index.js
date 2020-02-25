@@ -262,18 +262,17 @@ $(document).ready(() => {
         loadBooksOnMyBooksPage();
     }
 
-    function showBooksOrMyBooksPage(){
+    function showBooksOrMyBooksPage() {
         clearBookViewBookPageText();
 
-        if(isOnBooksPage){
+        if (isOnBooksPage) {
             showPostSignInBooksPage();
-        }
-        else {
+        } else {
             showPostSignInMyBooksPage();
         }
     }
 
-    function showPostSignInBooksViewBook(){
+    function showPostSignInBooksViewBook() {
         changePageTitle("Book");
 
         hideAllPreSignInNavigationPages();
@@ -283,10 +282,9 @@ $(document).ready(() => {
         $("#postSignInContentPage").show();
         $("#postSignInBooksPageViewBookPage").show();
 
-        if(isOnBooksPage){
+        if (isOnBooksPage) {
             $("#backToAnyOfTheTwoBookPages").text("Back to all books");
-        }
-        else {
+        } else {
             $("#backToAnyOfTheTwoBookPages").text("Back to my books");
         }
 
@@ -309,7 +307,7 @@ $(document).ready(() => {
         showAllPostSignInNavigationPages();
     }
 
-    function showEditBookPage(){
+    function showEditBookPage() {
         changePageTitle("My books - Edit book");
 
         hideAllPreSignInNavigationPages();
@@ -322,15 +320,15 @@ $(document).ready(() => {
         showAllPostSignInNavigationPages();
     }
 
-    function showAddCommentPage(nameAttr){
+    function showAddCommentPage(nameAttr) {
         $("#backToBookFromAddCommentPage").unbind();
-        $("#backToBookFromAddCommentPage").click(()=>{
+        $("#backToBookFromAddCommentPage").click(() => {
             showPostSignInBooksViewBook();
             loadBookOnViewBookPage(nameAttr);
         });
 
         $("#addCommentButtonFinal").unbind();
-        $("#addCommentButtonFinal").click(()=>{
+        $("#addCommentButtonFinal").click(() => {
             addComment(nameAttr);
         });
 
@@ -346,9 +344,9 @@ $(document).ready(() => {
         showAllPostSignInNavigationPages();
     }
 
-    function showEditCommentPage(nameAttr){
+    function showEditCommentPage(nameAttr) {
         $("#backToBookFromEditCommentPage").unbind();
-        $("#backToBookFromEditCommentPage").click(()=>{
+        $("#backToBookFromEditCommentPage").click(() => {
             showPostSignInBooksViewBook();
             loadBookOnViewBookPage(nameAttr);
         });
@@ -445,18 +443,24 @@ $(document).ready(() => {
         unbindBookCrudButtons();
 
         db.collection("books").get().then((snapshot) => {
-            if(snapshot.length !== 0){
+            if (snapshot.length !== 0) {
                 let counter = 1;
+                let className = "";
 
                 snapshot.docs.forEach((book) => {
                     let bookData = book.data();
 
-                    if(counter % 2 === 0){
-                        if(bookData.creator === userUid){
-                            hasMyBooks = true;
+                    if (counter % 2 === 0) {
+                        className = "secondOnList";
+                    } else {
+                        className = "";
+                    }
 
-                            let element = `
-                            <div class="secondOnList">
+                    if (bookData.creator === userUid) {
+                        hasMyBooks = true;
+
+                        let element = `
+                            <div class="${className}">
                                 <br>
                                 <div class="row justify-content-center text-center">
                                     <h4 class="col-12 col-sm-12 col-md-8 col-lg-8">${bookData.name}</h4>
@@ -468,11 +472,10 @@ $(document).ready(() => {
                             </div>
                             `;
 
-                            $("#postSignInBooksPage").append(element);
-                        }
-                        else {
-                            let element = `
-                            <div class="secondOnList">
+                        $("#postSignInBooksPage").append(element);
+                    } else {
+                        let element = `
+                            <div class="${className}">
                                 <br>
                                 <div class="row justify-content-center text-center">
                                     <h4 class="col-12 col-sm-12 col-md-8 col-lg-8">${bookData.name}</h4>
@@ -484,60 +487,20 @@ $(document).ready(() => {
                             </div>
                             `;
 
-                            $("#postSignInBooksPage").append(element);
-                        }
-
-                        counter++;
+                        $("#postSignInBooksPage").append(element);
                     }
-                    else {
-                        if(bookData.creator === userUid){
-                            hasMyBooks = true;
 
-                            let element = `
-                            <div>
-                                <br>
-                                <div class="row justify-content-center text-center">
-                                    <h4 class="col-12 col-sm-12 col-md-8 col-lg-8">${bookData.name}</h4>
-                                </div>
-                                <div class="row justify-content-center text-center">
-                                    <u class="underlinedText viewBookText" name="${book.id}">view</u>&nbspor&nbsp<u class="underlinedText deleteBookText" name="${book.id}">delete</u>
-                                </div>
-                                <br>
-                            </div>
-                            `;
-
-                            $("#postSignInBooksPage").append(element);
-                        }
-                        else {
-                            let element = `
-                            <div>
-                                <br>
-                                <div class="row justify-content-center text-center">
-                                    <h4 class="col-12 col-sm-12 col-md-8 col-lg-8">${bookData.name}</h4>
-                                </div>
-                                <div class="row justify-content-center text-center">
-                                    <u class="underlinedText viewBookText" name="${book.id}">view</u>
-                                </div>
-                                <br>
-                            </div>
-
-                            `;
-
-                            $("#postSignInBooksPage").append(element);
-                        }
-
-                        counter++;
-                    }
+                    counter++;
                 });
 
-                $(".viewBookText").click((event)=>{
+                $(".viewBookText").click((event) => {
                     let nameAttr = $(event.target).attr("name");
                     showPostSignInBooksViewBook();
                     loadBookOnViewBookPage(nameAttr)
                 });
 
-                if(hasMyBooks){
-                    $(".deleteBookText").click((event)=>{
+                if (hasMyBooks) {
+                    $(".deleteBookText").click((event) => {
                         let nameAttr = $(event.target).attr("name");
                         deleteBook(nameAttr);
                     });
@@ -553,7 +516,7 @@ $(document).ready(() => {
         unbindBookCrudButtons();
 
         db.collection("books").where("creator", "==", userUid).get().then((snapshot) => {
-            if(snapshot.length !== 0){
+            if (snapshot.length !== 0) {
                 hasMyBooks = true;
 
                 snapshot.docs.forEach((book) => {
@@ -572,13 +535,13 @@ $(document).ready(() => {
                     $("#postSignInMyBooksPageList").append(element);
                 });
 
-                $(".viewBookText").click((event)=>{
+                $(".viewBookText").click((event) => {
                     let nameAttr = $(event.target).attr("name");
                     showPostSignInBooksViewBook();
                     loadBookOnViewBookPage(nameAttr)
                 });
 
-                $(".deleteBookText").click((event)=>{
+                $(".deleteBookText").click((event) => {
                     let nameAttr = $(event.target).attr("name");
                     deleteBook(nameAttr);
                 });
@@ -586,7 +549,7 @@ $(document).ready(() => {
         });
     }
 
-    function loadBookOnViewBookPage(nameAttr){
+    function loadBookOnViewBookPage(nameAttr) {
         let userUid = auth.getUid();
 
         hideComments();
@@ -596,13 +559,13 @@ $(document).ready(() => {
         $("#postSignInBooksPageViewBookShowComments").unbind();
         $("#postSignInBooksPageViewBookEditBook").hide();
 
-        db.collection("books").doc(nameAttr).get().then((snapshot)=>{
-            if(snapshot !== undefined){
+        db.collection("books").doc(nameAttr).get().then((snapshot) => {
+            if (snapshot !== undefined) {
                 let bookData = snapshot.data();
 
                 changePageTitle(bookData.name);
 
-                if(userUid === bookData.creator){
+                if (userUid === bookData.creator) {
                     $("#postSignInBooksPageViewBookEditBook").show();
                     $("#postSignInBooksPageViewBookEditBook").attr("name", nameAttr);
                 }
@@ -615,18 +578,18 @@ $(document).ready(() => {
                 $("#postSignInBooksPageViewBookPageYear").text(bookData.year);
                 $("#postSignInBooksPageViewBookPageDescription").text(bookData.description);
 
-                $("#postSignInBooksPageViewBookEditBook").click((event)=>{
+                $("#postSignInBooksPageViewBookEditBook").click((event) => {
                     let name = $(event.target).attr("name");
                     showEditBookPage();
                     loadBookOnEditBookPage(name, bookData.name, bookData.isbn, bookData.year, bookData.description);
                 });
 
-                $("#postSignInBooksPageViewBookAddComment").click((event)=>{
+                $("#postSignInBooksPageViewBookAddComment").click((event) => {
                     let name = $(event.target).attr("name");
-                     showAddCommentPage(name);
+                    showAddCommentPage(name);
                 });
 
-                $("#postSignInBooksPageViewBookShowComments").click((event)=>{
+                $("#postSignInBooksPageViewBookShowComments").click((event) => {
                     let name = $(event.target).attr("name");
                     loadComments(name);
                 });
@@ -634,16 +597,16 @@ $(document).ready(() => {
         });
     }
 
-    function loadBookOnEditBookPage(nameAttr, bookName, bookISBN, bookYear, bookDescription){
+    function loadBookOnEditBookPage(nameAttr, bookName, bookISBN, bookYear, bookDescription) {
         $(".backToMyBooksViewProfilePageButtons").unbind("click");
         $(".backToMyBooksViewProfilePageButtons").text("Back to book");
-        $(".backToMyBooksViewProfilePageButtons").click(()=>{
+        $(".backToMyBooksViewProfilePageButtons").click(() => {
             showPostSignInBooksViewBook();
             loadBookOnViewBookPage(nameAttr);
         });
 
         $("#postSignInBooksPageEditBookButtonFinalEdit").unbind("click");
-        $("#postSignInBooksPageEditBookButtonFinalEdit").click(()=>{
+        $("#postSignInBooksPageEditBookButtonFinalEdit").click(() => {
             editBook(nameAttr);
         });
 
@@ -653,21 +616,21 @@ $(document).ready(() => {
         $("#postSignInBooksPageEditBookPageDescription").val(bookDescription);
     }
 
-    function loadCommentOnEditCommentPage(nameAttr){
+    function loadCommentOnEditCommentPage(nameAttr) {
         $("#editCommentButtonFinal").unbind();
 
-        db.collection("comments").doc(nameAttr).get().catch((error)=>{
+        db.collection("comments").doc(nameAttr).get().catch((error) => {
             let errorMessage = error.message;
             showErrorMessage(errorMessage, 5000)
         }).then((snapshot) => {
-            if(snapshot !== undefined){
+            if (snapshot !== undefined) {
                 let snapshotData = snapshot.data();
                 let bookComment = snapshotData.comment;
                 let bookId = snapshotData.book;
                 $("#postSignInEditCommentPageText").val(bookComment);
 
                 $("#editCommentButtonFinal").attr("name", nameAttr);
-                $("#editCommentButtonFinal").click(()=>{
+                $("#editCommentButtonFinal").click(() => {
                     editComment(nameAttr, bookId);
                 });
             }
@@ -717,22 +680,22 @@ $(document).ready(() => {
         //TODO load my favourite books on 'favourites' page
     }
 
-    function loadComments(nameAttr, isAfterDelete){
+    function loadComments(nameAttr, isAfterDelete) {
         $(".deleteCommentText").unbind();
         $(".editCommentText").unbind();
 
-        db.collection("comments").where("book", "==", nameAttr).get().catch((error)=>{
+        db.collection("comments").where("book", "==", nameAttr).get().catch((error) => {
             let errorMessage = error.message;
             showErrorMessage(errorMessage, 5000);
         }).then((snapshot) => {
-            if(snapshot !== undefined){
+            if (snapshot !== undefined) {
                 let bookComments = snapshot.docs;
 
-                if(bookComments.length !== 0){
+                if (bookComments.length !== 0) {
                     $("#postSignInBooksPageViewBookShowComments").hide();
                     $("#postSignInBooksPageViewBookHideComments").show();
 
-                    for(bookComment in bookComments){
+                    for (bookComment in bookComments) {
                         let commentData = bookComments[bookComment].data().comment;
                         let commentCreator = bookComments[bookComment].data().creator;
                         let userUid = auth.getUid();
@@ -740,12 +703,12 @@ $(document).ready(() => {
 
                         let paragraphElement;
 
-                        if(userUid === commentCreator){
-                        //     paragraphElement = `
-                        //     <hr>
-                        //     <p>${commentData}</p>
-                        //     <u class="underlinedText deleteCommentText" name="${commentId}">delete</u> | <u class="underlinedText editCommentText" name="${commentId}">edit</u>
-                        // `;
+                        if (userUid === commentCreator) {
+                            //     paragraphElement = `
+                            //     <hr>
+                            //     <p>${commentData}</p>
+                            //     <u class="underlinedText deleteCommentText" name="${commentId}">delete</u> | <u class="underlinedText editCommentText" name="${commentId}">edit</u>
+                            // `;
 
                             paragraphElement = `
                                 <div class="row">
@@ -753,8 +716,7 @@ $(document).ready(() => {
                                     <u class="underlinedText deleteCommentText" name="${commentId}">delete</u> | <u class="underlinedText editCommentText" name="${commentId}">edit</u>
                                 </div>
                             `;
-                        }
-                        else {
+                        } else {
                             paragraphElement = `
                                 <div class="row">
                                     <p>${commentData}</p>
@@ -765,23 +727,21 @@ $(document).ready(() => {
                         $("#commentBucket").append(paragraphElement);
                     }
 
-                    $(".deleteCommentText").click((event)=>{
+                    $(".deleteCommentText").click((event) => {
                         let name = $(event.target).attr("name");
                         deleteComment(name);
                         $("#commentBucket").empty();
                         loadComments(nameAttr, true);
                     });
-                    $(".editCommentText").click((event)=>{
+                    $(".editCommentText").click((event) => {
                         let name = $(event.target).attr("name");
                         showEditCommentPage(name);
                         loadCommentOnEditCommentPage(name);
                     });
-                }
-                else {
-                    if(!isAfterDelete){
+                } else {
+                    if (!isAfterDelete) {
                         showInfoMessage("This book doesn't have any comments", 3000);
-                    }
-                    else {
+                    } else {
                         hideComments();
                     }
                 }
@@ -789,26 +749,26 @@ $(document).ready(() => {
         });
     }
 
-    function hideComments(){
+    function hideComments() {
         $("#postSignInBooksPageViewBookShowComments").show();
         $("#postSignInBooksPageViewBookHideComments").hide();
 
         $("#commentBucket").empty();
     }
 
-    function deleteComment(nameAttr){
-        db.collection("comments").doc(nameAttr).delete().catch((error)=>{
+    function deleteComment(nameAttr) {
+        db.collection("comments").doc(nameAttr).delete().catch((error) => {
             let errorMessage = error.message;
             showErrorMessage(errorMessage, 5000);
-        }).then(()=>{
+        }).then(() => {
             showSuccessMessage("Comment deleted successfully.", 3000);
         });
     }
 
-    function addComment(nameAttr){
+    function addComment(nameAttr) {
         let bookComment = $("#postSignInAddCommentPageText").val();
 
-        if(validateBookComment(bookComment)){
+        if (validateBookComment(bookComment)) {
             let userUid = auth.getUid();
 
             db.collection("comments").add({
@@ -819,7 +779,7 @@ $(document).ready(() => {
                 let errorMessage = error.message;
                 showErrorMessage(errorMessage, 5000);
             }).then((snapshot) => {
-                if(snapshot !== undefined){
+                if (snapshot !== undefined) {
                     showSuccessMessage("Comment added successfully.", 3000);
                     clearAddCommentTextArea();
                     clearBookViewBookPageText();
@@ -830,11 +790,11 @@ $(document).ready(() => {
         }
     }
 
-    function editComment(nameAttr, bookId){
+    function editComment(nameAttr, bookId) {
         let bookComment = $("#postSignInEditCommentPageText").val();
         let userUid = auth.getUid();
 
-        if(validateBookComment(bookComment)){
+        if (validateBookComment(bookComment)) {
             db.collection("comments").doc(nameAttr).set({
                 book: bookId,
                 comment: bookComment,
@@ -991,7 +951,7 @@ $(document).ready(() => {
         let bookYear = $("#postSignInBooksPageCreateBookPageYear").val();
         let bookDescription = $("#postSignInBooksPageCreateBookPageDescription").val();
 
-        if(validateBookCompletely(bookName, bookISBN, bookYear, bookDescription)){
+        if (validateBookCompletely(bookName, bookISBN, bookYear, bookDescription)) {
             let userUid = auth.getUid();
 
             db.collection("books").add({
@@ -1004,7 +964,7 @@ $(document).ready(() => {
                 let errorMessage = error.message;
                 showErrorMessage(errorMessage, 5000);
             }).then((snapshot) => {
-                if(snapshot !== undefined){
+                if (snapshot !== undefined) {
                     showSuccessMessage("Book created successfully.", 3000);
                     clearMyBookCreateBookPageText();
                     showPostSignInMyBooksPage();
@@ -1013,29 +973,28 @@ $(document).ready(() => {
         }
     }
 
-    function deleteBook(nameAttr){
-        db.collection("books").doc(nameAttr).delete().catch((error)=>{
+    function deleteBook(nameAttr) {
+        db.collection("books").doc(nameAttr).delete().catch((error) => {
             let errorMessage = error.message;
             showErrorMessage(errorMessage, 5000);
-        }).then(()=>{
+        }).then(() => {
             showSuccessMessage("Book deleted successfully.", 3000);
 
-            if(isOnBooksPage){
+            if (isOnBooksPage) {
                 showPostSignInBooksPage();
-            }
-            else {
+            } else {
                 showPostSignInMyBooksPage();
             }
         });
     }
 
-    function editBook(nameAttr){
+    function editBook(nameAttr) {
         let bookName = $("#postSignInBooksPageEditBookPageName").val();
         let bookISBN = $("#postSignInBooksPageEditBookPageISBN").val();
         let bookYear = $("#postSignInBooksPageEditBookPageYear").val();
         let bookDescription = $("#postSignInBooksPageEditBookPageDescription").val();
 
-        if(validateBookCompletely(bookName, bookISBN, bookYear, bookDescription)){
+        if (validateBookCompletely(bookName, bookISBN, bookYear, bookDescription)) {
             let userUid = auth.getUid();
 
             db.collection("books").doc(nameAttr).set({
@@ -1061,7 +1020,7 @@ $(document).ready(() => {
         $(document).prop("title", name);
     }
 
-    function unbindBookCrudButtons(){
+    function unbindBookCrudButtons() {
         $(".viewBookText").unbind("click");
         $(".deleteBookText").unbind("click");
     }
@@ -1234,32 +1193,32 @@ $(document).ready(() => {
         $("#postSignInMyProfilePageEditProfileRepeatNewPassword").val("");
     }
 
-    function clearMyBookCreateBookPageText(){
+    function clearMyBookCreateBookPageText() {
         $("#postSignInBooksPageCreateBookPageName").val("");
         $("#postSignInBooksPageCreateBookPageISBN").val("");
         $("#postSignInBooksPageCreateBookPageYear").val("");
         $("#postSignInBooksPageCreateBookPageDescription").val("");
     }
 
-    function clearBookViewBookPageText(){
+    function clearBookViewBookPageText() {
         $("#postSignInBooksPageViewBookPageName").text("");
         $("#postSignInBooksPageViewBookPageISBN").text("");
         $("#postSignInBooksPageViewBookPageYear").text("");
         $("#postSignInBooksPageViewBookPageDescription").text("");
     }
 
-    function clearEditBookPageText(){
+    function clearEditBookPageText() {
         $("#postSignInBooksPageEditBookPageName").val("");
         $("#postSignInBooksPageEditBookPageISBN").val("");
         $("#postSignInBooksPageEditBookPageYear").val("");
         $("#postSignInBooksPageEditBookPageDescription").val("");
     }
 
-    function clearAddCommentTextArea(){
+    function clearAddCommentTextArea() {
         $("#postSignInAddCommentPageText").val("");
     }
 
-    function clearEditCommentTextArea(){
+    function clearEditCommentTextArea() {
         $("#postSignInEditCommentPageText").val("");
     }
 
@@ -1281,7 +1240,7 @@ $(document).ready(() => {
         return password.length >= 6;
     }
 
-    function validateBookCompletely(bookName, bookISBN, bookYear, bookDescription){
+    function validateBookCompletely(bookName, bookISBN, bookYear, bookDescription) {
         if (bookName.length === 0) {
             showInfoMessage("Please enter the book's name.", 3000);
             return false;
@@ -1349,12 +1308,12 @@ $(document).ready(() => {
         return description.length >= 16 && description.length <= 1500;
     }
 
-    function validateBookComment(bookComment){
-        if(bookComment.length === 0){
+    function validateBookComment(bookComment) {
+        if (bookComment.length === 0) {
             showInfoMessage("The comment's length cannot be zero.", 3000);
             return false;
         }
-        if(bookComment.length > 350){
+        if (bookComment.length > 350) {
             showInfoMessage("The comment cannot be longer than 350 characters.", 4000);
             return false;
         }
