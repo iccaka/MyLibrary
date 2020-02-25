@@ -136,10 +136,10 @@ $(document).ready(() => {
     }
 
     function showAllPreSignInNavigationPages() {
-        $("#navigationPageHome").show();
-        $("#navigationPageSignIn").show();
-        $("#navigationPageRegister").show();
-        $("#navigationPageAbout").show();
+        $("#preSignInNavigationHome").show();
+        $("#preSignInNavigationSignIn").show();
+        $("#preSignInNavigationRegister").show();
+        $("#preSignInNavigationAbout").show();
 
         $("#preSignInNavigationPage").show();
     }
@@ -218,7 +218,6 @@ $(document).ready(() => {
         $("#postSignInIndexPage").show();
 
         showAllPostSignInNavigationPages();
-        $("#postSignInNavigationHome").hide()
     }
 
     function showPostSignInBooksPage() {
@@ -237,7 +236,6 @@ $(document).ready(() => {
         $("#postSignInBooksPage").show().empty();
 
         showAllPostSignInNavigationPages();
-        $("#postSignInNavigationBooks").hide();
 
         loadBooksOnBooksPage();
     }
@@ -260,7 +258,6 @@ $(document).ready(() => {
         $("#postSignInMyBooksPageCreateBookButton").show();
 
         showAllPostSignInNavigationPages();
-        $("#postSignInNavigationMyBooks").hide();
 
         loadBooksOnMyBooksPage();
     }
@@ -379,7 +376,6 @@ $(document).ready(() => {
         $("#postSignInMyProfilePageViewProfile").show();
 
         showAllPostSignInNavigationPages();
-        $("#postSignInNavigationMyProfile").hide();
 
         loadProfileOnMyProfileViewPage();
     }
@@ -438,7 +434,6 @@ $(document).ready(() => {
         $("#postSignInFavouritesPage").show();
 
         showAllPostSignInNavigationPages();
-        $("#postSignInNavigationFavourites").hide();
 
         loadBooksOnFavouritesPage();
     }
@@ -458,19 +453,27 @@ $(document).ready(() => {
                         hasMyBooks = true;
 
                         let element = `
-                            <h3>${bookData.name}</h3>
-                            <u class="underlinedText viewBookText" name="${book.id}">view</u> | <u class="underlinedText deleteBookText" name="${book.id}">delete</u>
+                            <div class="row justify-content-center text-center">
+                                <h4 class="col-12 col-sm-12 col-md-8 col-lg-8">${bookData.name}</h4>
+                            </div>
+                            <div class="row justify-content-center text-center">
+                                <u class="underlinedText viewBookText" name="${book.id}">view</u>&nbspor&nbsp<u class="underlinedText deleteBookText" name="${book.id}">delete</u>
+                            </div>
                             <hr>
-                        `;
+                         `;
 
                         $("#postSignInBooksPage").append(element);
                     }
                     else {
                         let element = `
-                            <h3>${bookData.name}</h3>
-                            <u class="underlinedText viewBookText" name="${book.id}">view</u>
+                            <div class="row justify-content-center text-center">
+                                <h4 class="col-12 col-sm-12 col-md-8 col-lg-8">${bookData.name}</h4>
+                            </div>
+                            <div class="row justify-content-center text-center">
+                                <u class="underlinedText viewBookText" name="${book.id}">view</u>
+                            </div>
                             <hr>
-                        `;
+                         `;
 
                         $("#postSignInBooksPage").append(element);
                     }
@@ -506,8 +509,12 @@ $(document).ready(() => {
                     let bookData = book.data();
 
                     let element = `
-                        <h3>${bookData.name}</h3>
-                        <u class="underlinedText viewBookText" name="${book.id}">view</u> | <u class="underlinedText deleteBookText" name="${book.id}">delete</u>
+                        <div class="row justify-content-center text-center">
+                            <h4 class="col-12 col-sm-12 col-md-8 col-lg-8">${bookData.name}</h4>
+                        </div>
+                        <div class="row justify-content-center text-center">
+                            <u class="underlinedText viewBookText" name="${book.id}">view</u>&nbspor&nbsp<u class="underlinedText deleteBookText" name="${book.id}">delete</u>
+                        </div>
                         <hr>
                     `;
 
@@ -1131,14 +1138,17 @@ $(document).ready(() => {
     }
 
     function clearSignInPageFields() {
-        $("#signInPageEmail").val("");
-        $("#signInPagePassword").val("");
+        $("#preSignInPageEmail").val("");
+        $("#preSignInPagePassword").val("");
     }
 
     function clearRegisterPageFields() {
-        $("#registerPageEmail").val("");
-        $("#registerPagePassword").val("");
-        $("#registerPageRepeatPassword").val("");
+        $("#preSignInRegisterPageFirstName").val("");
+        $("#preSignInRegisterPageLastName").val("");
+        $("#preSignInRegisterPageUsername").val("");
+        $("#preSignInRegisterPageEmail").val("");
+        $("#preSignInRegisterPagePassword").val("");
+        $("#preSignInRegisterPageRepeatPassword").val("");
     }
 
     function clearMyProfileViewProfilePageText() {

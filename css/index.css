@@ -18,6 +18,10 @@
     background-color: #3b7fed;
 }
 
+.responseMessages {
+    cursor: default;
+}
+
 .backToMyBooksViewProfilePageButtons, #backToMyBooksPageFromCreateBookPage, #backToAnyOfTheTwoBookPages {
     color: black;
     background-color: #04bfcc;

@@ -9,28 +9,28 @@
 </head>
 <body class="bg-light">
 <div id="header" class="container">
-    <div id="headingPage" class="row justify-content-center text-center">
-        <h1 id="headingPageHeading" class="col">My Library</h1>
+    <div class="row justify-content-center text-center">
+        <h1 id="headingPageHeading" class="col-8 col-sm-8 col-md-4 col-lg-4">My Library</h1>
     </div>
     <div id="responseMessagesContainer" class="container">
-        <div id="errorMessage" class="row justify-content-center"></div>
-        <div id="successMessage" class="row justify-content-center"></div>
-        <div id="infoMessage" class="row justify-content-center"></div>
+        <div id="errorMessage" class="row justify-content-center text-center bg-danger responseMessages"></div>
+        <div id="successMessage" class="row justify-content-center text-center bg-success responseMessages"></div>
+        <div id="infoMessage" class="row justify-content-center text-center bg-info responseMessages"></div>
     </div>
     <hr>
     <div id="preSignInNavigationPage" class="row justify-content-center text-center">
-        <div id="preSignInNavigationHome" class="col-3 navItem">Home</div>
-        <div id="preSignInNavigationSignIn" class="col-3 navItem">Sign in</div>
-        <div id="preSignInNavigationRegister" class="col-3 navItem">Register</div>
-        <div id="preSignInNavigationAbout" class="col-3 navItem">About</div>
+        <div id="preSignInNavigationHome" class="col-6 col-sm-6 col-md-3 col-lg-3 navItem">Home</div>
+        <div id="preSignInNavigationSignIn" class="col-6 col-sm-6 col-md-3 col-lg-3 navItem">Sign in</div>
+        <div id="preSignInNavigationRegister" class="col-6 col-sm-6 col-md-3 col-lg-3 navItem">Register</div>
+        <div id="preSignInNavigationAbout" class="col-6 col-sm-6 col-md-3 col-lg-3 navItem">About</div>
     </div>
     <div id="postSignInNavigationPage" class="row justify-content-center text-center">
-        <div id="postSignInNavigationHome" class="col-2 navItem">Home</div>
-        <div id="postSignInNavigationBooks" class="col-2 navItem">Books</div>
-        <div id="postSignInNavigationMyBooks" class="col-2 navItem">My books</div>
-        <div id="postSignInNavigationFavourites" class="col-2 navItem">Favourites</div>
-        <div id="postSignInNavigationMyProfile" class="col-2 navItem">My profile</div>
-        <div id="postSignInNavigationSignOut" class="col-2 navItem">Sign out</div>
+        <div id="postSignInNavigationHome" class="col-4 col-sm-8 col-md-2 col-lg-2 navItem">Home</div>
+        <div id="postSignInNavigationBooks" class="col-4 col-sm-8 col-md-2 col-lg-2 navItem">Books</div>
+        <div id="postSignInNavigationMyBooks" class="col-4 col-sm-8 col-md-2 col-lg-2 navItem">My books</div>
+        <div id="postSignInNavigationFavourites" class="col-4 col-sm-8 col-md-2 col-lg-2 navItem">Favourites</div>
+        <div id="postSignInNavigationMyProfile" class="col-4 col-sm-8 col-md-2 col-lg-2 navItem">My profile</div>
+        <div id="postSignInNavigationSignOut" class="col-4 col-sm-8 col-md-2 col-lg-2 navItem">Sign out</div>
     </div>
     <hr>
 </div>
@@ -38,19 +38,39 @@
     <div id="preSignInIndexPage" class="row text-center">
         <h4 class="col">Welcome! Use the navigation bar on top to <u id="indexPageSignInButton" class="underlinedText">sign in</u> into an existing account, or <u id="indexPageRegisterButton" class="underlinedText">register</u> yourself. You can also check out the <u id="indexPageAboutButton" class="underlinedText">about</u> section.</h4>
     </div>
-    <div id="preSignInSignInPage" class="row justify-content-center">
-        <input id="preSignInPageEmail" class="col-7" type="text" placeholder="Email...">
-        <input id="preSignInPagePassword" class="col-7" type="password" placeholder="Password...">
-        <button id="preSignInPageSignInButton" class="col-7 crudButtons">Sign In</button>
+    <div id="preSignInSignInPage" class="container">
+        <div class="row justify-content-center">
+            <input id="preSignInPageEmail" class="col-8 col-sm-8 col-md-4 col-lg-4" type="text" placeholder="Email...">
+        </div>
+        <div class="row justify-content-center">
+            <input id="preSignInPagePassword" class="col-8 col-sm-8 col-md-4 col-lg-4" type="password" placeholder="Password...">
+        </div>
+        <div class="row justify-content-center">
+            <button id="preSignInPageSignInButton" class="col-8 col-sm-8 col-md-4 col-lg-4 crudButtons">Sign In</button>
+        </div>
     </div>
-    <div id="preSignInRegisterPage" class="row justify-content-center">
-        <input id="preSignInRegisterPageFirstName" class="col-7" type="text" placeholder="First name...(optional)">
-        <input id="preSignInRegisterPageLastName" class="col-7" type="text" placeholder="Last name...(optional)">
-        <input id="preSignInRegisterPageUsername" class="col-7" type="text" placeholder="Username...(optional)">
-        <input id="preSignInRegisterPageEmail" class="col-7" type="text" placeholder="Email...">
-        <input id="preSignInRegisterPagePassword" class="col-7" type="password" placeholder="Password...">
-        <input id="preSignInRegisterPageRepeatPassword" class="col-7" type="password" placeholder="Repeat password...">
-        <button id="preSignInRegisterPageButton" class="col-7 crudButtons">Register</button>
+    <div id="preSignInRegisterPage" class="container">
+        <div class="row justify-content-center">
+            <input id="preSignInRegisterPageFirstName" class="col-8 col-sm-8 col-md-4 col-lg-4" type="text" placeholder="First name...(optional)">
+        </div>
+        <div class="row justify-content-center">
+            <input id="preSignInRegisterPageLastName" class="col-8 col-sm-8 col-md-4 col-lg-4" type="text" placeholder="Last name...(optional)">
+        </div>
+        <div class="row justify-content-center">
+            <input id="preSignInRegisterPageUsername" class="col-8 col-sm-8 col-md-4 col-lg-4" type="text" placeholder="Username...(optional)">
+        </div>
+        <div class="row justify-content-center">
+            <input id="preSignInRegisterPageEmail" class="col-8 col-sm-8 col-md-4 col-lg-4" type="text" placeholder="Email...">
+        </div>
+        <div class="row justify-content-center">
+            <input id="preSignInRegisterPagePassword" class="col-8 col-sm-8 col-md-4 col-lg-4" type="password" placeholder="Password...">
+        </div>
+        <div class="row justify-content-center">
+            <input id="preSignInRegisterPageRepeatPassword" class="col-8 col-sm-8 col-md-4 col-lg-4" type="password" placeholder="Repeat password...">
+        </div>
+        <div class="row justify-content-center">
+            <button id="preSignInRegisterPageButton" class="col-8 col-sm-8 col-md-4 col-lg-4 crudButtons">Register</button>
+        </div>
     </div>
     <div id="preSignInAboutPage" class="container">
         <div class="row text-center">
@@ -69,25 +89,40 @@
     <hr>
 </div>
 <div id="postSignInContentPage" class="container">
-    <div id="postSignInIndexPage" class="row">
-        <h4 class="col-12">Use the navigation bar on the left to see <u id="postSignInIndexPageBooks" class="underlinedText">all books</u>, <u id="postSignInIndexPageMyBooks" class="underlinedText"> your books</u>, <u id="postSignInIndexPageFavourites" class="underlinedText"> your favourites</u> or<u id="postSignInIndexPageMyProfile" class="underlinedText"> your profile</u>.</h4>
+    <div id="postSignInIndexPage" class="row text-center">
+        <h4 class="col">Use the navigation bar on the left to see <u id="postSignInIndexPageBooks" class="underlinedText">all books</u>, <u id="postSignInIndexPageMyBooks" class="underlinedText"> your books</u>, <u id="postSignInIndexPageFavourites" class="underlinedText"> your favourites</u> or<u id="postSignInIndexPageMyProfile" class="underlinedText"> your profile</u>.</h4>
     </div>
-    <div id="postSignInBooksPage" class="row">
+    <div id="postSignInBooksPage" class="container">
 
     </div>
-    <div id="postSignInMyBooksPage" class="row">
-        <button id="postSignInMyBooksPageCreateBookButton" class="col-12 crudButtons">Create a book</button>
-        <div id="postSignInMyBooksPageList" class="row">
+    <div id="postSignInMyBooksPage" class="container">
+        <div class="row justify-content-center">
+            <button id="postSignInMyBooksPageCreateBookButton" class="col-8 col-sm-8 col-md-6 col-lg-6 crudButtons">Create a book</button>
+        </div>
+        <br>
+        <div id="postSignInMyBooksPageList" class="container">
 
         </div>
     </div>
-    <div id="postSignInBooksPageCreateBookPage" class="row">
-        <button id="backToMyBooksPageFromCreateBookPage" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 crudButtons">Back to my books page</button>
-        <input id="postSignInBooksPageCreateBookPageName" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" type="text" placeholder="Name...">
-        <input id="postSignInBooksPageCreateBookPageISBN" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" type="text" placeholder="ISBN...">
-        <input id="postSignInBooksPageCreateBookPageYear" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" type="text" placeholder="Year...">
-        <textarea id="postSignInBooksPageCreateBookPageDescription" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" placeholder="Description...(optional)"></textarea>
-        <button id="postSignInBooksPageCreateBookButtonFinalCreate" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 crudButtons">Create</button>
+    <div id="postSignInBooksPageCreateBookPage" class="container">
+        <div class="row justify-content-center">
+            <button id="backToMyBooksPageFromCreateBookPage" class="col-8 col-sm-8 col-md-4 col-lg-4 crudButtons">Back to my books page</button>
+        </div>
+        <div class="row justify-content-center">
+            <input id="postSignInBooksPageCreateBookPageName" class="col-8 col-sm-8 col-md-4 col-lg-4" type="text" placeholder="Name...">
+        </div>
+        <div class="row justify-content-center">
+            <input id="postSignInBooksPageCreateBookPageISBN" class="col-8 col-sm-8 col-md-4 col-lg-4" type="text" placeholder="ISBN...">
+        </div>
+        <div class="row justify-content-center">
+            <input id="postSignInBooksPageCreateBookPageYear" class="col-8 col-sm-8 col-md-4 col-lg-4" type="text" placeholder="Year...">
+        </div>
+        <div class="row justify-content-center">
+            <textarea id="postSignInBooksPageCreateBookPageDescription" class="col-8 col-sm-8 col-md-4 col-lg-4" placeholder="Description...(optional)"></textarea>
+        </div>
+        <div class="row justify-content-center">
+            <button id="postSignInBooksPageCreateBookButtonFinalCreate" class="col-8 col-sm-8 col-md-4 col-lg-4 crudButtons">Create</button>
+        </div>
     </div>
     <div id="postSignInBooksPageEditBookPage" class="row">
         <button class="col-lg-12 col-md-12 col-sm-12 col-xs-12 backToMyBooksViewProfilePageButtons"></button>
