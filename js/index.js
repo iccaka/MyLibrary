@@ -446,36 +446,87 @@ $(document).ready(() => {
 
         db.collection("books").get().then((snapshot) => {
             if(snapshot.length !== 0){
+                let counter = 1;
+
                 snapshot.docs.forEach((book) => {
                     let bookData = book.data();
 
-                    if(bookData.creator === userUid){
-                        hasMyBooks = true;
+                    if(counter % 2 === 0){
+                        if(bookData.creator === userUid){
+                            hasMyBooks = true;
 
-                        let element = `
-                            <div class="row justify-content-center text-center">
-                                <h4 class="col-12 col-sm-12 col-md-8 col-lg-8">${bookData.name}</h4>
+                            let element = `
+                            <div class="secondOnList">
+                                <br>
+                                <div class="row justify-content-center text-center">
+                                    <h4 class="col-12 col-sm-12 col-md-8 col-lg-8">${bookData.name}</h4>
+                                </div>
+                                <div class="row justify-content-center text-center">
+                                    <u class="underlinedText viewBookText" name="${book.id}">view</u>&nbspor&nbsp<u class="underlinedText deleteBookText" name="${book.id}">delete</u>
+                                </div>                            
+                                <br>
                             </div>
-                            <div class="row justify-content-center text-center">
-                                <u class="underlinedText viewBookText" name="${book.id}">view</u>&nbspor&nbsp<u class="underlinedText deleteBookText" name="${book.id}">delete</u>
-                            </div>
-                            <hr>
-                         `;
+                            `;
 
-                        $("#postSignInBooksPage").append(element);
+                            $("#postSignInBooksPage").append(element);
+                        }
+                        else {
+                            let element = `
+                            <div class="secondOnList">
+                                <br>
+                                <div class="row justify-content-center text-center">
+                                    <h4 class="col-12 col-sm-12 col-md-8 col-lg-8">${bookData.name}</h4>
+                                </div>
+                                <div class="row justify-content-center text-center">
+                                    <u class="underlinedText viewBookText" name="${book.id}">view</u>
+                                </div>
+                                <br>
+                            </div>
+                            `;
+
+                            $("#postSignInBooksPage").append(element);
+                        }
+
+                        counter++;
                     }
                     else {
-                        let element = `
-                            <div class="row justify-content-center text-center">
-                                <h4 class="col-12 col-sm-12 col-md-8 col-lg-8">${bookData.name}</h4>
-                            </div>
-                            <div class="row justify-content-center text-center">
-                                <u class="underlinedText viewBookText" name="${book.id}">view</u>
-                            </div>
-                            <hr>
-                         `;
+                        if(bookData.creator === userUid){
+                            hasMyBooks = true;
 
-                        $("#postSignInBooksPage").append(element);
+                            let element = `
+                            <div>
+                                <br>
+                                <div class="row justify-content-center text-center">
+                                    <h4 class="col-12 col-sm-12 col-md-8 col-lg-8">${bookData.name}</h4>
+                                </div>
+                                <div class="row justify-content-center text-center">
+                                    <u class="underlinedText viewBookText" name="${book.id}">view</u>&nbspor&nbsp<u class="underlinedText deleteBookText" name="${book.id}">delete</u>
+                                </div>
+                                <br>
+                            </div>
+                            `;
+
+                            $("#postSignInBooksPage").append(element);
+                        }
+                        else {
+                            let element = `
+                            <div>
+                                <br>
+                                <div class="row justify-content-center text-center">
+                                    <h4 class="col-12 col-sm-12 col-md-8 col-lg-8">${bookData.name}</h4>
+                                </div>
+                                <div class="row justify-content-center text-center">
+                                    <u class="underlinedText viewBookText" name="${book.id}">view</u>
+                                </div>
+                                <br>
+                            </div>
+
+                            `;
+
+                            $("#postSignInBooksPage").append(element);
+                        }
+
+                        counter++;
                     }
                 });
 

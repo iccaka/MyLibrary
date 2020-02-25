@@ -7,7 +7,6 @@
     color: #8acaf2;
 }
 
-
 .underlinedText:hover {
     cursor: pointer;
     color: black;
@@ -21,6 +20,10 @@
 
 .responseMessages {
     cursor: default;
+}
+
+.secondOnList {
+    background-color: #E8E8E8;
 }
 
 .backToMyBooksViewProfilePageButtons, #backToMyBooksPageFromCreateBookPage, #backToAnyOfTheTwoBookPages {
