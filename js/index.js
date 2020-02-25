@@ -695,7 +695,10 @@ $(document).ready(() => {
                     $("#postSignInBooksPageViewBookShowComments").hide();
                     $("#postSignInBooksPageViewBookHideComments").show();
 
-                    for (bookComment in bookComments) {
+                    let counter = 1;
+                    let className = "";
+
+                    for (let bookComment in bookComments) {
                         let commentData = bookComments[bookComment].data().comment;
                         let commentCreator = bookComments[bookComment].data().creator;
                         let userUid = auth.getUid();
@@ -703,28 +706,38 @@ $(document).ready(() => {
 
                         let paragraphElement;
 
-                        if (userUid === commentCreator) {
-                            //     paragraphElement = `
-                            //     <hr>
-                            //     <p>${commentData}</p>
-                            //     <u class="underlinedText deleteCommentText" name="${commentId}">delete</u> | <u class="underlinedText editCommentText" name="${commentId}">edit</u>
-                            // `;
+                        if(counter % 2 === 0){
+                            className = "secondOnList";
+                        }
+                        else {
+                            className = "";
+                        }
 
+                        if (userUid === commentCreator) {
                             paragraphElement = `
-                                <div class="row">
+                            <div class="${className}">
+                                <br>
+                                <div class="row justify-content-center text-center">
                                     <p>${commentData}</p>
-                                    <u class="underlinedText deleteCommentText" name="${commentId}">delete</u> | <u class="underlinedText editCommentText" name="${commentId}">edit</u>
+                                    <u class="underlinedText deleteCommentText" name="${commentId}">delete</u>&nbspor&nbsp<u class="underlinedText editCommentText" name="${commentId}">edit</u>
                                 </div>
+                                <br>
+                            </div>
                             `;
                         } else {
                             paragraphElement = `
-                                <div class="row">
+                            <div class="${className}">
+                                <br>
+                                <div class="row justify-content-center text-center">
                                     <p>${commentData}</p>
                                 </div>
+                                <br>
+                            </div>
                             `;
                         }
 
                         $("#commentBucket").append(paragraphElement);
+                        counter++;
                     }
 
                     $(".deleteCommentText").click((event) => {
