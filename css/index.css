@@ -18,15 +18,36 @@
     background-color: #3b7fed;
 }
 
+.crudButtons:hover {
+    background-color: #2a6ad1;
+}
+
 .responseMessages {
     cursor: default;
+    padding: 10px;
 }
 
 .secondOnList {
     background-color: #e8e8e8;
 }
 
-.backToMyBooksViewProfilePageButtons, #backToMyBooksPageFromCreateBookPage, #backToAnyOfTheTwoBookPages {
+
+.backButtons {
     color: black;
     background-color: #04bfcc;
+}
+
+.backButtons:hover {
+    background-color: #04aeba;
+}
+
+#postSignInBooksPageEditBookPage > div {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#postSignInBooksPageViewBookPageCrudButtons > button {
+    margin-top: 3px;
+    margin-bottom: 3px;
+    padding: 3px;
 }

@@ -450,7 +450,7 @@ $(document).ready(() => {
                 snapshot.docs.forEach((book) => {
                     let bookData = book.data();
 
-                    if (counter % 2 === 0) {
+                    if (counter % 2 !== 0) {
                         className = "secondOnList";
                     } else {
                         className = "";
@@ -518,21 +518,34 @@ $(document).ready(() => {
         db.collection("books").where("creator", "==", userUid).get().then((snapshot) => {
             if (snapshot.length !== 0) {
                 hasMyBooks = true;
+                let counter = 1;
+                let className = "";
 
                 snapshot.docs.forEach((book) => {
                     let bookData = book.data();
 
+                    if (counter % 2 !== 0) {
+                        className = "secondOnList";
+                    } else {
+                        className = "";
+                    }
+
                     let element = `
-                        <div class="row justify-content-center text-center">
-                            <h4 class="col-12 col-sm-12 col-md-8 col-lg-8">${bookData.name}</h4>
+                        <div class="${className}">
+                            <br>
+                            <div class="row justify-content-center text-center">
+                                <h4 class="col-12 col-sm-12 col-md-8 col-lg-8">${bookData.name}</h4>
+                            </div>
+                            <div class="row justify-content-center text-center">
+                                <u class="underlinedText viewBookText" name="${book.id}">view</u>&nbspor&nbsp<u class="underlinedText deleteBookText" name="${book.id}">delete</u>
+                            </div>
+                            <br>
                         </div>
-                        <div class="row justify-content-center text-center">
-                            <u class="underlinedText viewBookText" name="${book.id}">view</u>&nbspor&nbsp<u class="underlinedText deleteBookText" name="${book.id}">delete</u>
-                        </div>
-                        <hr>
                     `;
 
                     $("#postSignInMyBooksPageList").append(element);
+
+                    counter++;
                 });
 
                 $(".viewBookText").click((event) => {
@@ -568,6 +581,15 @@ $(document).ready(() => {
                 if (userUid === bookData.creator) {
                     $("#postSignInBooksPageViewBookEditBook").show();
                     $("#postSignInBooksPageViewBookEditBook").attr("name", nameAttr);
+                    $("#postSignInBooksPageViewBookEditBook").attr("class", "col-8 col-sm-8 col-md-3 col-lg-3 crudButtons");
+                    $("#postSignInBooksPageViewBookAddComment").attr("class", "col-8 col-sm-8 col-md-3 col-lg-3 crudButtons");
+                    $("#postSignInBooksPageViewBookShowComments").attr("class", "col-8 col-sm-8 col-md-3 col-lg-3 crudButtons");
+                    $("#postSignInBooksPageViewBookHideComments").attr("class", "col-8 col-sm-8 col-md-3 col-lg-3 crudButtons");
+                }
+                else {
+                    $("#postSignInBooksPageViewBookAddComment").attr("class", "col-8 col-sm-8 col-md-4 col-lg-4 crudButtons");
+                    $("#postSignInBooksPageViewBookShowComments").attr("class", "col-8 col-sm-8 col-md-4 col-lg-4 crudButtons");
+                    $("#postSignInBooksPageViewBookHideComments").attr("class", "col-8 col-sm-8 col-md-4 col-lg-4 crudButtons");
                 }
 
                 $("#postSignInBooksPageViewBookShowComments").attr("name", nameAttr);
@@ -706,7 +728,7 @@ $(document).ready(() => {
 
                         let paragraphElement;
 
-                        if(counter % 2 === 0){
+                        if(counter % 2 !== 0){
                             className = "secondOnList";
                         }
                         else {
@@ -715,7 +737,7 @@ $(document).ready(() => {
 
                         if (userUid === commentCreator) {
                             paragraphElement = `
-                            <div class="${className}">
+                            <div class="container ${className}">
                                 <br>
                                 <div class="row justify-content-center text-center">
                                     <p>${commentData}</p>
@@ -726,7 +748,7 @@ $(document).ready(() => {
                             `;
                         } else {
                             paragraphElement = `
-                            <div class="${className}">
+                            <div class="container ${className}">
                                 <br>
                                 <div class="row justify-content-center text-center">
                                     <p>${commentData}</p>
