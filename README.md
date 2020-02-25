@@ -1,6 +1,6 @@
 # MyLibrary
 
-*A simple 'library' single-page application written in JavaScript, that uses Firebase.*
+*A simple 'library' single-page application written in JavaScript, that uses Firebase as a database and Bootstrap for styling.*
 
 ## Built With
 
