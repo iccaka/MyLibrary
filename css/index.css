@@ -1,16 +1,15 @@
-#preSignInSignInPage {
-    width: 50%;
-    margin:0 auto;
+.navItem:hover {
+    cursor: pointer;
+    background-color: #8acaf2;
 }
 
-#preSignInRegisterPage {
-    width: 50%;
-    margin:0 auto;
+.underlinedText {
+    color: #8acaf2;
 }
 
-#postSignInBooksPageCreateBookPage, #postSignInBooksPageEditBookPage, #postSignInBooksPageViewBookPage {
-    width: 50%;
-    margin:0 auto;
+.underlinedText:hover {
+    cursor: pointer;
+    color: black;
 }
 
 .crudButtons {

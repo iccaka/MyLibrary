@@ -38,10 +38,10 @@ $(document).ready(() => {
         $(".responseMessages").click(hideResponseMessages);
 
         // the 4 'pre sign in' navigation tabs
-        $("#navigationPageHome").click(showIndexPage);
-        $("#navigationPageSignIn").click(showSignInPage);
-        $("#navigationPageRegister").click(showRegisterPage);
-        $("#navigationPageAbout").click(showAboutPage);
+        $("#preSignInNavigationHome").click(showIndexPage);
+        $("#preSignInNavigationSignIn").click(showSignInPage);
+        $("#preSignInNavigationRegister").click(showRegisterPage);
+        $("#preSignInNavigationAbout").click(showAboutPage);
 
         // the 3 little text buttons inside of the 'pre sign in' index page
         $("#indexPageSignInButton").click(showSignInPage);
@@ -91,8 +91,8 @@ $(document).ready(() => {
     function hideAllPreSignInPages() {
         $("#preSignInIndexPage").hide();
         $("#preSignInSignInPage").hide();
-        $("#registerPage").hide();
-        $("#aboutPage").hide();
+        $("#preSignInRegisterPage").hide();
+        $("#preSignInAboutPage").hide();
 
         $("#preSignInContentPage").hide();
     }
@@ -116,10 +116,10 @@ $(document).ready(() => {
     }
 
     function hideAllPreSignInNavigationPages() {
-        $("#navigationPageHome").hide();
-        $("#navigationPageSignIn").hide();
-        $("#navigationPageRegister").hide();
-        $("#navigationPageAbout").hide();
+        $("#preSignInNavigationHome").hide();
+        $("#preSignInNavigationSignIn").hide();
+        $("#preSignInNavigationRegister").hide();
+        $("#preSignInNavigationAbout").hide();
 
         $("#preSignInNavigationPage").hide();
     }
@@ -156,7 +156,7 @@ $(document).ready(() => {
     }
 
     function showIndexPage() {
-        changePageTitle("My Library");
+        changePageTitle("Home");
 
         hideAllPostSignInNavigationPages();
         hideAllPostSignInPages();
@@ -166,11 +166,10 @@ $(document).ready(() => {
         $("#preSignInIndexPage").show();
 
         showAllPreSignInNavigationPages();
-        $("#navigationPageHome").hide();
     }
 
     function showSignInPage() {
-        changePageTitle("My Library - Sign in");
+        changePageTitle("Sign in");
 
         hideAllPostSignInNavigationPages();
         hideAllPostSignInPages();
@@ -180,35 +179,32 @@ $(document).ready(() => {
         $("#preSignInSignInPage").show();
 
         showAllPreSignInNavigationPages();
-        $("#navigationPageSignIn").hide();
     }
 
     function showRegisterPage() {
-        changePageTitle("My Library - Register");
+        changePageTitle("Register");
 
         hideAllPostSignInNavigationPages();
         hideAllPostSignInPages();
         hideAllPreSignInPages();
 
         $("#preSignInContentPage").show();
-        $("#registerPage").show();
+        $("#preSignInRegisterPage").show();
 
         showAllPreSignInNavigationPages();
-        $("#navigationPageRegister").hide()
     }
 
     function showAboutPage() {
-        changePageTitle("My Library - About");
+        changePageTitle("About");
 
         hideAllPostSignInNavigationPages();
         hideAllPostSignInPages();
         hideAllPreSignInPages();
 
         $("#preSignInContentPage").show();
-        $("#aboutPage").show();
+        $("#preSignInAboutPage").show();
 
         showAllPreSignInNavigationPages();
-        $("#navigationPageAbout").hide()
     }
 
     function showPostSignInIndexPage() {
@@ -1005,12 +1001,12 @@ $(document).ready(() => {
     }
 
     function register() {
-        let firstName = $("#registerPageFirstName").val();
-        let lastName = $("#registerPageLastName").val();
-        let username = $("#registerPageUsername").val();
-        let email = $("#registerPageEmail").val();
-        let password = $("#registerPagePassword").val();
-        let repeatPassword = $("#registerPageRepeatPassword").val();
+        let firstName = $("#preSignInRegisterPageFirstName").val();
+        let lastName = $("#preSignInRegisterPageLastName").val();
+        let username = $("#preSignInRegisterPageUsername").val();
+        let email = $("#preSignInRegisterPageEmail").val();
+        let password = $("#preSignInRegisterPagePassword").val();
+        let repeatPassword = $("#preSignInRegisterPageRepeatPassword").val();
 
         let willSetFirstName = false;
         let willSetLastName = false;
@@ -1081,8 +1077,8 @@ $(document).ready(() => {
     }
 
     function signIn() {
-        let email = $("#signInPageEmail").val();
-        let password = $("#signInPagePassword").val();
+        let email = $("#preSignInPageEmail").val();
+        let password = $("#preSignInPagePassword").val();
 
         if (password.length === 0) {
             showInfoMessage("Please enter your password.", 3000);
