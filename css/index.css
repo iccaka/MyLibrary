@@ -1,6 +1,6 @@
 .navItem:hover {
     cursor: pointer;
-    background-color: #8acaf2;
+    background-color: #e8e8e8;
 }
 
 .underlinedText, .descText {
@@ -23,7 +23,7 @@
 }
 
 .secondOnList {
-    background-color: #E8E8E8;
+    background-color: #e8e8e8;
 }
 
 .backToMyBooksViewProfilePageButtons, #backToMyBooksPageFromCreateBookPage, #backToAnyOfTheTwoBookPages {
