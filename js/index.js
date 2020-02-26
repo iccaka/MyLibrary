@@ -576,7 +576,7 @@ $(document).ready(() => {
             if (snapshot !== undefined) {
                 let bookData = snapshot.data();
 
-                changePageTitle(bookData.name);
+                changePageTitle("\"" + bookData.name + "\"");
 
                 if (userUid === bookData.creator) {
                     $("#postSignInBooksPageViewBookEditBook").show();
@@ -595,7 +595,7 @@ $(document).ready(() => {
                 $("#postSignInBooksPageViewBookShowComments").attr("name", nameAttr);
                 $("#postSignInBooksPageViewBookAddComment").attr("name", nameAttr);
 
-                $("#postSignInBooksPageViewBookPageName").text(bookData.name);
+                $("#postSignInBooksPageViewBookPageName").text("\"" + bookData.name + "\"");
                 $("#postSignInBooksPageViewBookPageISBN").text(bookData.isbn);
                 $("#postSignInBooksPageViewBookPageYear").text(bookData.year);
                 $("#postSignInBooksPageViewBookPageDescription").text(bookData.description);
