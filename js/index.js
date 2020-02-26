@@ -379,7 +379,7 @@ $(document).ready(() => {
     }
 
     function showPostSignInMyProfileEditPage() {
-        changePageTitle("My Profile - Edit information");
+        changePageTitle("Edit information");
 
         hideAllPreSignInNavigationPages();
         hideAllPreSignInPages();
@@ -394,7 +394,7 @@ $(document).ready(() => {
     }
 
     function showPostSignInMyProfileEditEmail() {
-        changePageTitle("My Profile - Edit email");
+        changePageTitle("Edit email");
 
         hideAllPreSignInNavigationPages();
         hideAllPreSignInPages();
@@ -409,7 +409,7 @@ $(document).ready(() => {
     }
 
     function showPostSignInMyProfileEditPassword() {
-        changePageTitle("My Profile - Edit password");
+        changePageTitle("Edit password");
 
         hideAllPreSignInNavigationPages();
         hideAllPreSignInPages();
