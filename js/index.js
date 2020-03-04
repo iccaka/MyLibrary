@@ -273,11 +273,10 @@ $(document).ready(() => {
     }
 
     function showPostSignInBooksViewBook() {
-        changePageTitle("Book");
-
         hideAllPreSignInNavigationPages();
         hideAllPreSignInPages();
         hideAllPostSignInPages();
+        clearEditCommentTextArea();
 
         $("#postSignInContentPage").show();
         $("#postSignInBooksPageViewBookPage").show();
@@ -295,7 +294,7 @@ $(document).ready(() => {
     }
 
     function showCreateBookPage() {
-        changePageTitle("My books - Create book");
+        changePageTitle("Create Book");
 
         hideAllPreSignInNavigationPages();
         hideAllPreSignInPages();
@@ -308,7 +307,7 @@ $(document).ready(() => {
     }
 
     function showEditBookPage() {
-        changePageTitle("My books - Edit book");
+        changePageTitle("Edit book");
 
         hideAllPreSignInNavigationPages();
         hideAllPreSignInPages();
@@ -321,6 +320,8 @@ $(document).ready(() => {
     }
 
     function showAddCommentPage(nameAttr) {
+        changePageTitle("Add comment");
+
         $("#backToBookFromAddCommentPage").unbind();
         $("#backToBookFromAddCommentPage").click(() => {
             showPostSignInBooksViewBook();
@@ -331,8 +332,6 @@ $(document).ready(() => {
         $("#addCommentButtonFinal").click(() => {
             addComment(nameAttr);
         });
-
-        changePageTitle("Add comment");
 
         hideAllPreSignInNavigationPages();
         hideAllPreSignInPages();
@@ -345,13 +344,13 @@ $(document).ready(() => {
     }
 
     function showEditCommentPage(nameAttr) {
+        changePageTitle("Edit Comment");
+
         $("#backToBookFromEditCommentPage").unbind();
         $("#backToBookFromEditCommentPage").click(() => {
             showPostSignInBooksViewBook();
             loadBookOnViewBookPage(nameAttr);
         });
-
-        changePageTitle("Edit comment");
 
         hideAllPreSignInNavigationPages();
         hideAllPreSignInPages();
@@ -379,7 +378,7 @@ $(document).ready(() => {
     }
 
     function showPostSignInMyProfileEditPage() {
-        changePageTitle("Edit information");
+        changePageTitle("Edit Information");
 
         hideAllPreSignInNavigationPages();
         hideAllPreSignInPages();
@@ -394,7 +393,7 @@ $(document).ready(() => {
     }
 
     function showPostSignInMyProfileEditEmail() {
-        changePageTitle("Edit email");
+        changePageTitle("Edit Email");
 
         hideAllPreSignInNavigationPages();
         hideAllPreSignInPages();
@@ -409,7 +408,7 @@ $(document).ready(() => {
     }
 
     function showPostSignInMyProfileEditPassword() {
-        changePageTitle("Edit password");
+        changePageTitle("Edit Password");
 
         hideAllPreSignInNavigationPages();
         hideAllPreSignInPages();
@@ -564,6 +563,8 @@ $(document).ready(() => {
 
     function loadBookOnViewBookPage(nameAttr) {
         let userUid = auth.getUid();
+
+        console.log(nameAttr);
 
         hideComments();
 
@@ -770,7 +771,7 @@ $(document).ready(() => {
                     });
                     $(".editCommentText").click((event) => {
                         let name = $(event.target).attr("name");
-                        showEditCommentPage(name);
+                        showEditCommentPage(nameAttr);
                         loadCommentOnEditCommentPage(name);
                     });
                 } else {
