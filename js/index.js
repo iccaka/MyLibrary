@@ -564,8 +564,6 @@ $(document).ready(() => {
     function loadBookOnViewBookPage(nameAttr) {
         let userUid = auth.getUid();
 
-        console.log(nameAttr);
-
         hideComments();
 
         $("#postSignInBooksPageViewBookEditBook").unbind();
