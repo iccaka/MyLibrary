@@ -584,8 +584,7 @@ $(document).ready(() => {
                     $("#postSignInBooksPageViewBookAddComment").attr("class", "col-8 col-sm-8 col-md-3 col-lg-3 crudButtons");
                     $("#postSignInBooksPageViewBookShowComments").attr("class", "col-8 col-sm-8 col-md-3 col-lg-3 crudButtons");
                     $("#postSignInBooksPageViewBookHideComments").attr("class", "col-8 col-sm-8 col-md-3 col-lg-3 crudButtons");
-                }
-                else {
+                } else {
                     $("#postSignInBooksPageViewBookAddComment").attr("class", "col-8 col-sm-8 col-md-4 col-lg-4 crudButtons");
                     $("#postSignInBooksPageViewBookShowComments").attr("class", "col-8 col-sm-8 col-md-4 col-lg-4 crudButtons");
                     $("#postSignInBooksPageViewBookHideComments").attr("class", "col-8 col-sm-8 col-md-4 col-lg-4 crudButtons");
@@ -727,10 +726,9 @@ $(document).ready(() => {
 
                         let paragraphElement;
 
-                        if(counter % 2 !== 0){
+                        if (counter % 2 !== 0) {
                             className = "secondOnList";
-                        }
-                        else {
+                        } else {
                             className = "";
                         }
 
@@ -984,26 +982,59 @@ $(document).ready(() => {
         let bookISBN = $("#postSignInBooksPageCreateBookPageISBN").val();
         let bookYear = $("#postSignInBooksPageCreateBookPageYear").val();
         let bookDescription = $("#postSignInBooksPageCreateBookPageDescription").val();
+        let bookCover = $("#postSignInBooksPageCreateBookPageCover")[0].files[0];
 
-        if (validateBookCompletely(bookName, bookISBN, bookYear, bookDescription)) {
+        if (validateBookCompletely(bookName, bookISBN, bookYear, bookDescription, bookCover)) {
             let userUid = auth.getUid();
 
-            db.collection("books").add({
-                name: bookName,
-                isbn: bookISBN,
-                year: parseInt(bookYear),
-                description: bookDescription,
-                creator: userUid
-            }).catch((error) => {
-                let errorMessage = error.message;
-                showErrorMessage(errorMessage, 5000);
-            }).then((snapshot) => {
-                if (snapshot !== undefined) {
-                    showSuccessMessage("Book created successfully.", 3000);
-                    clearMyBookCreateBookPageText();
-                    showPostSignInMyBooksPage();
-                }
-            });
+            if(bookCover !== undefined){
+                let storageRef = storage.ref();
+                let bookCoverRef = storageRef.child("bookCovers/" + bookCover.name);
+
+                bookCoverRef.put(bookCover).catch((error)=>{
+                    let errorMessage = error.message;
+                    showErrorMessage(errorMessage, 5000);
+                }).then((snapshot)=>{
+                    let coverPath = snapshot.metadata.fullPath;
+
+                    db.collection("books").add({
+                        name: bookName,
+                        isbn: bookISBN,
+                        year: parseInt(bookYear),
+                        description: bookDescription,
+                        creator: userUid,
+                        cover: coverPath
+                    }).catch((error) => {
+                        let errorMessage = error.message;
+                        showErrorMessage(errorMessage, 5000);
+                    }).then((snapshot) => {
+                        if (snapshot !== undefined) {
+                            showSuccessMessage("Book created successfully.", 3000);
+                            clearMyBookCreateBookPageText();
+                            showPostSignInMyBooksPage();
+                        }
+                    });
+                });
+            }
+            else {
+                db.collection("books").add({
+                    name: bookName,
+                    isbn: bookISBN,
+                    year: parseInt(bookYear),
+                    description: bookDescription,
+                    creator: userUid,
+                    cover: ""
+                }).catch((error) => {
+                    let errorMessage = error.message;
+                    showErrorMessage(errorMessage, 5000);
+                }).then((snapshot) => {
+                    if (snapshot !== undefined) {
+                        showSuccessMessage("Book created successfully.", 3000);
+                        clearMyBookCreateBookPageText();
+                        showPostSignInMyBooksPage();
+                    }
+                });
+            }
         }
     }
 
@@ -1274,7 +1305,7 @@ $(document).ready(() => {
         return password.length >= 6;
     }
 
-    function validateBookCompletely(bookName, bookISBN, bookYear, bookDescription) {
+    function validateBookCompletely(bookName, bookISBN, bookYear, bookDescription, bookCover) {
         if (bookName.length === 0) {
             showInfoMessage("Please enter the book's name.", 3000);
             return false;
@@ -1307,7 +1338,14 @@ $(document).ready(() => {
 
         if (bookDescription.length !== 0) {
             if (!validateBookDescription(bookDescription)) {
-                showErrorMessage("The book's description has to have between 16 and 1500 characters.", 3000);
+                showErrorMessage("The book's description must have 16 to 1500 characters.", 3000);
+                return false;
+            }
+        }
+
+        if (bookCover !== undefined) {
+            if (!validateBookCover(bookCover)) {
+                showErrorMessage("The book's cover must be an image(either 'png' or 'jpg/jpeg'.", 3000);
                 return false;
             }
         }
@@ -1340,6 +1378,12 @@ $(document).ready(() => {
 
     function validateBookDescription(description) {
         return description.length >= 16 && description.length <= 1500;
+    }
+
+    function validateBookCover(bookCover) {
+        let bookCoverType = bookCover.type;
+
+        return bookCoverType === "image/png" || bookCoverType === "image/jpeg";
     }
 
     function validateBookComment(bookComment) {
