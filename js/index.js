@@ -1263,6 +1263,7 @@ $(document).ready(() => {
         $("#postSignInBooksPageCreateBookPageISBN").val("");
         $("#postSignInBooksPageCreateBookPageYear").val("");
         $("#postSignInBooksPageCreateBookPageDescription").val("");
+        $("#postSignInBooksPageCreateBookPageCover").val("");
     }
 
     function clearBookViewBookPageText() {
