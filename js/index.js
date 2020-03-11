@@ -86,6 +86,10 @@ $(document).ready(() => {
         $(".backToMyBooksViewProfilePageButtons").click(showPostSignInMyBooksPage);
         $("#backToMyBooksPageFromCreateBookPage").click(showPostSignInMyBooksPage);
         $("#backToAnyOfTheTwoBookPages").click(showBooksOrMyBooksPage);
+
+        $("#postSignInBooksPageEditBookPageCover").change(()=>{
+            previewEditBookCover(this);
+        });
     }
 
     function hideAllPreSignInPages() {
@@ -433,6 +437,10 @@ $(document).ready(() => {
         showAllPostSignInNavigationPages();
 
         loadBooksOnFavouritesPage();
+    }
+
+    function previewEditBookCover(input){
+        $("#postSignInBooksPageEditBookPageImage").attr("src", URL.createObjectURL(event.target.files[0]));
     }
 
     function loadBooksOnBooksPage() {
